@@ -1,0 +1,881 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="TISS program repositories 的活躍度儀表板">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <title>TISS codebase pulse</title>
+  <style>
+    :root {
+      --ink: #162522;
+      --muted: #63706c;
+      --line: #d9ded8;
+      --paper: #f5f4ee;
+      --surface: #fcfbf6;
+      --green: #14715f;
+      --green-soft: #dff1e9;
+      --amber: #b46b16;
+      --amber-soft: #f8ead3;
+      --gray-soft: #e8e9e4;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background:
+        linear-gradient(rgba(22, 37, 34, .035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(22, 37, 34, .035) 1px, transparent 1px),
+        var(--paper);
+      background-size: 32px 32px;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", sans-serif;
+    }
+
+    a { color: inherit; }
+
+    main {
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto;
+      padding-bottom: 48px;
+    }
+
+    .topbar {
+      min-height: 74px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      color: var(--ink);
+      font-size: .86rem;
+      font-weight: 750;
+      letter-spacing: .02em;
+      text-decoration: none;
+    }
+
+    .brand-mark {
+      display: grid;
+      width: 30px;
+      height: 30px;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--ink);
+      color: var(--surface);
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+
+    .source-label,
+    .mono {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+
+    .source-label {
+      color: var(--muted);
+      font-size: .72rem;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 40px;
+      align-items: end;
+      padding: 74px 0 52px;
+    }
+
+    .eyebrow,
+    .section-kicker {
+      margin: 0 0 14px;
+      color: var(--green);
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: .72rem;
+      font-weight: 750;
+      letter-spacing: .15em;
+    }
+
+    h1 {
+      max-width: 760px;
+      margin: 0;
+      font-size: clamp(3rem, 7vw, 6.2rem);
+      font-weight: 650;
+      letter-spacing: -.065em;
+      line-height: .95;
+    }
+
+    .hero-description {
+      max-width: 680px;
+      margin: 28px 0 0;
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.8;
+    }
+
+    .as-of {
+      width: 158px;
+      padding: 17px;
+      border: 1px solid var(--ink);
+      background: var(--surface);
+      box-shadow: 6px 6px 0 var(--ink);
+    }
+
+    .as-of span,
+    .as-of small {
+      display: block;
+      color: var(--muted);
+      font-size: .7rem;
+    }
+
+    .as-of strong {
+      display: block;
+      margin: 6px 0;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 1.12rem;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border: 1px solid var(--ink);
+      background: var(--surface);
+    }
+
+    .summary-card {
+      min-height: 146px;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-right: 1px solid var(--ink);
+    }
+
+    .summary-card:last-child { border-right: 0; }
+
+    .summary-card.featured {
+      background: var(--ink);
+      color: var(--surface);
+    }
+
+    .summary-label {
+      color: var(--muted);
+      font-size: .78rem;
+      font-weight: 700;
+    }
+
+    .featured .summary-label,
+    .featured .summary-unit { color: #aebbb6; }
+
+    .summary-card strong {
+      margin-top: 12px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 2.7rem;
+      font-weight: 600;
+      letter-spacing: -.06em;
+      line-height: 1;
+    }
+
+    .summary-card strong.summary-date { font-size: 2rem; }
+
+    .summary-unit {
+      color: var(--muted);
+      font-size: .72rem;
+    }
+
+    .section-block { padding-top: 80px; }
+
+    .section-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 32px;
+      margin-bottom: 24px;
+    }
+
+    .section-kicker { margin-bottom: 8px; }
+
+    h2 {
+      margin: 0;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 650;
+      letter-spacing: -.045em;
+    }
+
+    .section-heading > p {
+      margin: 0 0 5px;
+      color: var(--muted);
+      font-size: .78rem;
+    }
+
+    .active-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      border-top: 1px solid var(--ink);
+      border-left: 1px solid var(--ink);
+    }
+
+    .repo-card {
+      min-width: 0;
+      padding: 28px;
+      border-right: 1px solid var(--ink);
+      border-bottom: 1px solid var(--ink);
+      background: rgba(252, 251, 246, .88);
+    }
+
+    .repo-card-topline,
+    .repo-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .rank {
+      color: #a1aaa5;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: .72rem;
+    }
+
+    .status {
+      display: inline-flex;
+      width: fit-content;
+      align-items: center;
+      gap: 7px;
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: .68rem;
+      font-weight: 750;
+      white-space: nowrap;
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    .status-active { background: var(--green-soft); color: var(--green); }
+    .status-quiet { background: var(--amber-soft); color: var(--amber); }
+    .status-inactive { background: var(--gray-soft); color: #6e7471; }
+
+    .repo-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 26px;
+      color: var(--ink);
+      font-size: clamp(1.3rem, 2.3vw, 1.9rem);
+      font-weight: 700;
+      letter-spacing: -.035em;
+      text-decoration: none;
+    }
+
+    .repo-link .arrow {
+      color: var(--green);
+      font-size: .8em;
+      transition: transform 160ms ease;
+    }
+
+    .repo-link:hover .arrow,
+    .repo-link:focus-visible .arrow { transform: translate(2px, -2px); }
+
+    .repo-link:focus-visible {
+      outline: 2px solid var(--green);
+      outline-offset: 4px;
+    }
+
+    .repo-note {
+      min-height: 48px;
+      margin: 9px 0 26px;
+      color: var(--muted);
+      font-size: .82rem;
+      line-height: 1.65;
+    }
+
+    .metric-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .metric-row div {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .metric-row strong {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 1.4rem;
+      font-weight: 600;
+    }
+
+    .metric-row span {
+      color: var(--muted);
+      font-size: .68rem;
+    }
+
+    .activity-meter {
+      height: 5px;
+      overflow: hidden;
+      background: #e1e4de;
+    }
+
+    .activity-meter span {
+      display: block;
+      width: var(--meter-width);
+      height: 100%;
+      background: var(--green);
+    }
+
+    .repo-meta {
+      margin-top: 13px;
+      color: var(--muted);
+      font-size: .68rem;
+    }
+
+    .recent-commits {
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+    }
+
+    .commit-section-title,
+    .commit-topline,
+    .commit-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .commit-section-title > span {
+      font-size: .76rem;
+      font-weight: 750;
+    }
+
+    .commit-section-title small {
+      color: var(--muted);
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: .62rem;
+    }
+
+    .commit-list {
+      margin: 13px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .commit-item {
+      padding: 14px 0;
+      border-top: 1px solid #e4e6e0;
+    }
+
+    .commit-item:first-child { border-top: 0; }
+
+    .commit-topline time {
+      color: var(--muted);
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: .62rem;
+      white-space: nowrap;
+    }
+
+    .commit-item > p {
+      margin: 9px 0 11px;
+      font-size: .76rem;
+      font-weight: 620;
+      line-height: 1.55;
+      overflow-wrap: anywhere;
+    }
+
+    .commit-meta {
+      align-items: flex-start;
+      color: var(--muted);
+      font-size: .65rem;
+    }
+
+    .commit-meta > span {
+      display: flex;
+      min-width: 0;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .commit-meta b {
+      color: #8a948f;
+      font-size: .58rem;
+      font-weight: 650;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    .commit-meta code {
+      max-width: 180px;
+    }
+
+    .commit-empty {
+      padding: 18px 0 4px;
+      color: var(--muted);
+      font-size: .72rem;
+    }
+
+    code {
+      max-width: 190px;
+      overflow: hidden;
+      padding: 4px 7px;
+      border-radius: 3px;
+      background: #e9ebe5;
+      color: #48534f;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: .66rem;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .quieter { padding-top: 92px; }
+    .table-wrap { overflow-x: auto; border-top: 1px solid var(--ink); }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: rgba(252, 251, 246, .76);
+      text-align: left;
+    }
+
+    th,
+    td {
+      padding: 18px 16px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: middle;
+    }
+
+    th {
+      color: var(--muted);
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: .65rem;
+      font-weight: 650;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    td {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: .76rem;
+    }
+
+    td:first-child {
+      width: 34%;
+      font-family: inherit;
+    }
+
+    td .repo-link { margin: 0; font-size: .96rem; }
+
+    td small {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: .68rem;
+      line-height: 1.45;
+    }
+
+    footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+      margin-top: 72px;
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: .68rem;
+      line-height: 1.6;
+    }
+
+    footer p { max-width: 680px; margin: 0; }
+    footer span { text-align: right; }
+
+    @media (max-width: 820px) {
+      main { width: min(100% - 28px, 700px); }
+      .source-label { display: none; }
+      .hero { grid-template-columns: 1fr; padding-top: 52px; }
+      .as-of {
+        width: 100%;
+        display: grid;
+        grid-template-columns: auto auto 1fr;
+        align-items: center;
+        gap: 12px;
+        box-shadow: 4px 4px 0 var(--ink);
+      }
+      .as-of strong { margin: 0; }
+      .as-of small { text-align: right; }
+      .summary-grid { grid-template-columns: repeat(2, 1fr); }
+      .summary-card:nth-child(2) { border-right: 0; }
+      .summary-card:nth-child(-n + 2) { border-bottom: 1px solid var(--ink); }
+      .active-grid { grid-template-columns: 1fr; }
+      .section-heading { align-items: start; flex-direction: column; gap: 8px; }
+      .section-heading > p { margin: 0; }
+      table, tbody, tr, td { display: block; }
+      thead { display: none; }
+      tr {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px;
+        padding: 22px 0;
+        border-bottom: 1px solid var(--line);
+      }
+      td, td:first-child { width: auto; padding: 0 16px; border: 0; }
+      td:first-child, td:nth-child(2) { grid-column: 1 / -1; }
+      td[data-label]::before {
+        display: block;
+        margin-bottom: 5px;
+        color: var(--muted);
+        content: attr(data-label);
+        font-family: inherit;
+        font-size: .62rem;
+      }
+    }
+
+    @media (max-width: 520px) {
+      h1 { font-size: 3rem; }
+      .summary-grid { grid-template-columns: 1fr; }
+      .summary-card,
+      .summary-card:nth-child(2) {
+        min-height: 120px;
+        border-right: 0;
+        border-bottom: 1px solid var(--ink);
+      }
+      .summary-card:last-child { border-bottom: 0; }
+      .repo-card { padding: 22px; }
+      footer { flex-direction: column; }
+      footer span { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header class="topbar">
+      <a class="brand" href="#top" aria-label="回到頁首">
+        <span class="brand-mark">T</span>
+        <span>TISS codebase pulse</span>
+      </a>
+      <span class="source-label">GitLab · PGPD / TISS / program</span>
+    </header>
+
+    <section class="hero" id="top">
+      <div>
+        <p class="eyebrow">REPOSITORY ACTIVITY</p>
+        <h1>專案活躍度一覽</h1>
+        <p class="hero-description">依據所有 remote branches 的提交紀錄，快速辨識目前持續開發、近期降溫與長期未更新的專案。</p>
+      </div>
+      <div class="as-of">
+        <span>資料截至</span>
+        <!-- AUTO:AS_OF --><strong>2026.08.14</strong><!-- /AUTO:AS_OF -->
+        <small>Asia / Taipei</small>
+      </div>
+    </section>
+
+    <section class="summary-grid" aria-label="活躍度摘要">
+      <article class="summary-card featured">
+        <span class="summary-label">目前活躍</span>
+        <!-- AUTO:SUMMARY_ACTIVE --><strong>4</strong><!-- /AUTO:SUMMARY_ACTIVE -->
+        <span class="summary-unit">/ 8 repos</span>
+      </article>
+      <article class="summary-card">
+        <span class="summary-label">近 30 天</span>
+        <!-- AUTO:SUMMARY_30 --><strong>178</strong><!-- /AUTO:SUMMARY_30 -->
+        <span class="summary-unit">commits</span>
+      </article>
+      <article class="summary-card">
+        <span class="summary-label">近 90 天</span>
+        <!-- AUTO:SUMMARY_90 --><strong>503</strong><!-- /AUTO:SUMMARY_90 -->
+        <span class="summary-unit">commits</span>
+      </article>
+      <article class="summary-card">
+        <span class="summary-label">最近活動</span>
+        <!-- AUTO:LATEST_DATE --><strong class="summary-date">08.14</strong><!-- /AUTO:LATEST_DATE -->
+        <!-- AUTO:LATEST_REPOS --><span class="summary-unit">OfficialSite</span><!-- /AUTO:LATEST_REPOS -->
+      </article>
+    </section>
+
+    <section class="section-block" aria-labelledby="active-heading">
+      <div class="section-heading">
+        <div>
+          <p class="section-kicker">ACTIVE NOW</p>
+          <h2 id="active-heading">目前活躍</h2>
+        </div>
+        <p>近 30 天仍有 commit 的 repository</p>
+      </div>
+
+      <div class="active-grid">
+        <!-- AUTO:ACTIVE_CARDS -->
+        <article class="repo-card">
+          <div class="repo-card-topline">
+            <span class="rank">01</span>
+            <span class="status status-active"><span class="status-dot"></span>活躍</span>
+          </div>
+          <a class="repo-link" href="https://gitlab.pilotgaea.com.tw/pgpd/tiss/program/officialsite" target="_blank" rel="noreferrer">OfficialSite <span class="arrow" aria-hidden="true">↗</span></a>
+          <p class="repo-note">近期提交密集，持續快速推進。</p>
+          <div class="metric-row">
+            <div><strong>110</strong><span>30 天</span></div>
+            <div><strong>169</strong><span>90 天</span></div>
+            <div><strong>8</strong><span>貢獻者</span></div>
+          </div>
+          <div class="activity-meter" aria-label="近 90 天 169 次提交"><span style="--meter-width:100%"></span></div>
+          <div class="repo-meta"><span>最近 2026-08-14</span><code>main</code></div>
+          <section class="recent-commits" aria-label="OfficialSite 最新三個 commits">
+            <div class="commit-section-title"><span>最新 3 個 commits</span><small>Remote branches</small></div>
+            <ol class="commit-list">
+              <li class="commit-item">
+                <div class="commit-topline">
+                  <code>6ac3753</code>
+                  <time datetime="2026-08-14T10:41:24+08:00">2026-08-14 10:41</time>
+                </div>
+                <p>Merge branch &#x27;develop&#x27; into &#x27;main&#x27;</p>
+                <div class="commit-meta">
+                  <span><b>作者</b>古明仕</span>
+                  <span><b>Branch</b><code>main</code></span>
+                </div>
+              </li>
+              <li class="commit-item">
+                <div class="commit-topline">
+                  <code>dbeb0a8</code>
+                  <time datetime="2026-08-14T10:37:51+08:00">2026-08-14 10:37</time>
+                </div>
+                <p>style: fix predict offset rwd</p>
+                <div class="commit-meta">
+                  <span><b>作者</b>Rein</span>
+                  <span><b>Branch</b><code>develop</code></span>
+                </div>
+              </li>
+              <li class="commit-item">
+                <div class="commit-topline">
+                  <code>5294832</code>
+                  <time datetime="2026-08-14T09:24:54+08:00">2026-08-14 09:24</time>
+                </div>
+                <p>add tie page</p>
+                <div class="commit-meta">
+                  <span><b>作者</b>Rein</span>
+                  <span><b>Branch</b><code>develop · main</code></span>
+                </div>
+              </li>
+            </ol>
+          </section>
+        </article>
+        <article class="repo-card">
+          <div class="repo-card-topline">
+            <span class="rank">02</span>
+            <span class="status status-active"><span class="status-dot"></span>活躍</span>
+          </div>
+          <a class="repo-link" href="https://gitlab.pilotgaea.com.tw/pgpd/tiss/program/informedsaas" target="_blank" rel="noreferrer">InformedSaaS <span class="arrow" aria-hidden="true">↗</span></a>
+          <p class="repo-note">近 90 天持續有高頻率更新。</p>
+          <div class="metric-row">
+            <div><strong>32</strong><span>30 天</span></div>
+            <div><strong>144</strong><span>90 天</span></div>
+            <div><strong>4</strong><span>貢獻者</span></div>
+          </div>
+          <div class="activity-meter" aria-label="近 90 天 144 次提交"><span style="--meter-width:85%"></span></div>
+          <div class="repo-meta"><span>最近 2026-08-11</span><code>doc/SaaS服務平台工項規劃</code></div>
+          <section class="recent-commits" aria-label="InformedSaaS 最新三個 commits">
+            <div class="commit-section-title"><span>最新 3 個 commits</span><small>Remote branches</small></div>
+            <ol class="commit-list">
+              <li class="commit-item">
+                <div class="commit-topline">
+                  <code>a77ec13</code>
+                  <time datetime="2026-08-11T17:15:07+08:00">2026-08-11 17:15</time>
+                </div>
+                <p>deploy(SaaSPlatform): 平台服務容器化基線，一個多階段映像同時承載後端與前端產物</p>
+                <div class="commit-meta">
+                  <span><b>作者</b>mark.gu</span>
+                  <span><b>Branch</b><code>doc/SaaS服務平台工項規劃</code></span>
+                </div>
+              </li>
+              <li class="commit-item">
+                <div class="commit-topline">
+                  <code>fd9449e</code>
+                  <time datetime="2026-08-11T17:14:28+08:00">2026-08-11 17:14</time>
+                </div>
+                <p>test(SaaSPlatform): 登入代理 15 項、掛載 fallback 4 項、未登記身分的授權表面列舉，並改寫六處編碼舊判定依據者</p>
+                <div class="commit-meta">
+                  <span><b>作者</b>mark.gu</span>
+                  <span><b>Branch</b><code>doc/SaaS服務平台工項規劃</code></span>
+                </div>
+              </li>
+              <li class="commit-item">
+                <div class="commit-topline">
+                  <code>48c2a7a</code>
+                  <time datetime="2026-08-11T17:12:45+08:00">2026-08-11 17:12</time>
+                </div>
+                <p>code(SaaSPlatform): 後端代理登入、Vue 3 前端重建、授權改查名冊，並補上錯誤信封漏掉的兩種來源</p>
+                <div class="commit-meta">
+                  <span><b>作者</b>mark.gu</span>
+                  <span><b>Branch</b><code>doc/SaaS服務平台工項規劃</code></span>
+                </div>
+              </li>
+            </ol>
+          </section>
+        </article>
+        <article class="repo-card">
+          <div class="repo-card-topline">
+            <span class="rank">03</span>
+            <span class="status status-active"><span class="status-dot"></span>活躍</span>
+          </div>
+          <a class="repo-link" href="https://gitlab.pilotgaea.com.tw/pgpd/tiss/program/informedsite" target="_blank" rel="noreferrer">InformedSite <span class="arrow" aria-hidden="true">↗</span></a>
+          <p class="repo-note">近 90 天持續有高頻率更新。</p>
+          <div class="metric-row">
+            <div><strong>25</strong><span>30 天</span></div>
+            <div><strong>151</strong><span>90 天</span></div>
+            <div><strong>5</strong><span>貢獻者</span></div>
+          </div>
+          <div class="activity-meter" aria-label="近 90 天 151 次提交"><span style="--meter-width:89%"></span></div>
+          <div class="repo-meta"><span>最近 2026-08-12</span><code>#fix_錯誤訊息非客製化結果而夾帶太多技術訊息</code></div>
+          <section class="recent-commits" aria-label="InformedSite 最新三個 commits">
+            <div class="commit-section-title"><span>最新 3 個 commits</span><small>Remote branches</small></div>
+            <ol class="commit-list">
+              <li class="commit-item">
+                <div class="commit-topline">
+                  <code>6c13b71</code>
+                  <time datetime="2026-08-12T15:56:05+08:00">2026-08-12 15:56</time>
+                </div>
+                <p>新增兩個統一處理錯誤顯示，改測試環境顯示錯誤訊息</p>
+                <div class="commit-meta">
+                  <span><b>作者</b>ChiYan.Hung</span>
+                  <span><b>Branch</b><code>#fix_錯誤訊息非客製化結果而夾帶太多技術訊息</code></span>
+                </div>
+              </li>
+              <li class="commit-item">
+                <div class="commit-topline">
+                  <code>d7514b0</code>
+                  <time datetime="2026-08-11T17:48:46+08:00">2026-08-11 17:48</time>
+                </div>
+                <p>修正機敏資訊</p>
+                <div class="commit-meta">
+                  <span><b>作者</b>ChiYan.Hung</span>
+                  <span><b>Branch</b><code>#fix_錯誤訊息非客製化結果而夾帶太多技術訊息</code></span>
+                </div>
+              </li>
+              <li class="commit-item">
+                <div class="commit-topline">
+                  <code>d22924f</code>
+                  <time datetime="2026-08-04T10:58:06+08:00">2026-08-04 10:58</time>
+                </div>
+                <p>Merge branch &#x27;#12後台搜尋欄位連動修正&#x27; into &#x27;develop&#x27;</p>
+                <div class="commit-meta">
+                  <span><b>作者</b>古明仕</span>
+                  <span><b>Branch</b><code>develop</code></span>
+                </div>
+              </li>
+            </ol>
+          </section>
+        </article>
+        <article class="repo-card">
+          <div class="repo-card-topline">
+            <span class="rank">04</span>
+            <span class="status status-active"><span class="status-dot"></span>活躍</span>
+          </div>
+          <a class="repo-link" href="https://gitlab.pilotgaea.com.tw/pgpd/tiss/program/middleplatform" target="_blank" rel="noreferrer">MiddlePlatform <span class="arrow" aria-hidden="true">↗</span></a>
+          <p class="repo-note">近 30 天仍有穩定提交。</p>
+          <div class="metric-row">
+            <div><strong>11</strong><span>30 天</span></div>
+            <div><strong>25</strong><span>90 天</span></div>
+            <div><strong>5</strong><span>貢獻者</span></div>
+          </div>
+          <div class="activity-meter" aria-label="近 90 天 25 次提交"><span style="--meter-width:15%"></span></div>
+          <div class="repo-meta"><span>最近 2026-07-27</span><code>main</code></div>
+          <section class="recent-commits" aria-label="MiddlePlatform 最新三個 commits">
+            <div class="commit-section-title"><span>最新 3 個 commits</span><small>Remote branches</small></div>
+            <ol class="commit-list">
+              <li class="commit-item">
+                <div class="commit-topline">
+                  <code>cdbe42f</code>
+                  <time datetime="2026-07-27T17:21:37+08:00">2026-07-27 17:21</time>
+                </div>
+                <p>Merge branch &#x27;dev&#x27; into &#x27;main&#x27;</p>
+                <div class="commit-meta">
+                  <span><b>作者</b>古明仕</span>
+                  <span><b>Branch</b><code>main</code></span>
+                </div>
+              </li>
+              <li class="commit-item">
+                <div class="commit-topline">
+                  <code>e3373d3</code>
+                  <time datetime="2026-07-27T17:20:29+08:00">2026-07-27 17:20</time>
+                </div>
+                <p>數據指標比較_飛行距離、總距離改抓landingDistribution</p>
+                <div class="commit-meta">
+                  <span><b>作者</b>ChiYan.Hung</span>
+                  <span><b>Branch</b><code>dev</code></span>
+                </div>
+              </li>
+              <li class="commit-item">
+                <div class="commit-topline">
+                  <code>8a083cb</code>
+                  <time datetime="2026-07-27T13:50:07+08:00">2026-07-27 13:50</time>
+                </div>
+                <p>Merge branch &#x27;dev&#x27; into &#x27;main&#x27;</p>
+                <div class="commit-meta">
+                  <span><b>作者</b>古明仕</span>
+                  <span><b>Branch</b><code>main</code></span>
+                </div>
+              </li>
+            </ol>
+          </section>
+        </article>
+        <!-- /AUTO:ACTIVE_CARDS -->
+      </div>
+    </section>
+
+    <section class="section-block quieter" aria-labelledby="quieter-heading">
+      <div class="section-heading">
+        <div>
+          <p class="section-kicker">WATCH LIST</p>
+          <h2 id="quieter-heading">近期偏安靜與不活躍</h2>
+        </div>
+        <p>近 30 天沒有新的 commit</p>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Repository</th><th>狀態</th><th>30 天</th><th>90 天</th><th>最近活動</th><th>最新分支</th></tr>
+          </thead>
+          <tbody>
+            <!-- AUTO:WATCH_ROWS -->
+            <tr>
+              <td><a class="repo-link" href="https://gitlab.pilotgaea.com.tw/pgpd/tiss/program/middle-bigdata" target="_blank" rel="noreferrer">Middle-Bigdata <span class="arrow" aria-hidden="true">↗</span></a><small>90 天內仍有更新，但近 30 天無提交。</small></td>
+              <td><span class="status status-quiet"><span class="status-dot"></span>近期偏安靜</span></td>
+              <td data-label="30 天">0</td><td data-label="90 天">12</td><td data-label="最近活動">2026-06-29</td><td data-label="最新分支"><code>dev-local</code></td>
+            </tr>
+            <tr>
+              <td><a class="repo-link" href="https://gitlab.pilotgaea.com.tw/pgpd/tiss/program/mos-bigdata" target="_blank" rel="noreferrer">mos-bigdata <span class="arrow" aria-hidden="true">↗</span></a><small>90 天內仍有更新，但近 30 天無提交。</small></td>
+              <td><span class="status status-quiet"><span class="status-dot"></span>近期偏安靜</span></td>
+              <td data-label="30 天">0</td><td data-label="90 天">2</td><td data-label="最近活動">2026-06-02</td><td data-label="最新分支"><code>deploy_local</code></td>
+            </tr>
+            <tr>
+              <td><a class="repo-link" href="https://gitlab.pilotgaea.com.tw/pgpd/tiss/program/devdocs" target="_blank" rel="noreferrer">DevDocs <span class="arrow" aria-hidden="true">↗</span></a><small>近 90 天沒有新的 repository 活動。</small></td>
+              <td><span class="status status-inactive"><span class="status-dot"></span>不活躍</span></td>
+              <td data-label="30 天">0</td><td data-label="90 天">0</td><td data-label="最近活動">2025-10-07</td><td data-label="最新分支"><code>API參數與名稱修改</code></td>
+            </tr>
+            <tr>
+              <td><a class="repo-link" href="https://gitlab.pilotgaea.com.tw/pgpd/tiss/program/demowebsite" target="_blank" rel="noreferrer">DemoWebSite <span class="arrow" aria-hidden="true">↗</span></a><small>近 90 天沒有新的 repository 活動。</small></td>
+              <td><span class="status status-inactive"><span class="status-dot"></span>不活躍</span></td>
+              <td data-label="30 天">0</td><td data-label="90 天">0</td><td data-label="最近活動">2025-05-15</td><td data-label="最新分支"><code>main</code></td>
+            </tr>
+            <!-- /AUTO:WATCH_ROWS -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <footer>
+      <p>判定方式：近 30 天有提交為「活躍」；近 90 天有提交為「近期偏安靜」；其餘為「不活躍」。</p>
+      <!-- AUTO:SOURCE --><span>最後更新：2026-08-14 14:02 CST · 來源：本機所有 remote refs</span><!-- /AUTO:SOURCE -->
+    </footer>
+  </main>
+</body>
+</html>
