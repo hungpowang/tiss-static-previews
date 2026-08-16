@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>PLCO 生態系資料流全景圖｜TISS</title>
+<style>
+  :root{
+    --ink:#1B2733; --ink2:#5A6572; --line:#D8DEE5; --bg:#F7F9FB; --card:#FFFFFF;
+    --src:#4A7C8C; --srcbg:#E9F2F5;
+    --cap:#4A6FA5; --capbg:#EAF0FA;
+    --core:#6B5B95; --corebg:#F2EEF8;
+    --out:#4F7A4A; --outbg:#EDF5EC;
+    --act:#A9762F; --actbg:#FBF1E3;
+    --flag:#B3453C; --flagbg:#FCECEA;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    line-height:1.7;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1240px;margin:0 auto;padding:40px 24px 72px}
+  header{margin-bottom:28px}
+  h1{font-size:26px;margin:0 0 8px;letter-spacing:.01em}
+  .sub{color:var(--ink2);font-size:14px;margin:0}
+  .badge{display:inline-block;background:#E9EDF2;color:var(--ink2);font-size:12px;
+    padding:3px 10px;border-radius:20px;margin-right:6px;margin-top:10px}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:12px;
+    padding:20px;margin:22px 0;box-shadow:0 1px 2px rgba(27,39,51,.04)}
+  .figure{padding:14px 10px}
+  svg{width:100%;height:auto;display:block}
+  h2{font-size:18px;margin:34px 0 12px;padding-bottom:8px;border-bottom:2px solid var(--line)}
+  h3{font-size:15px;margin:20px 0 6px}
+  p{margin:8px 0}
+  ul{margin:8px 0 8px 20px;padding:0}
+  li{margin:5px 0}
+  table{width:100%;border-collapse:collapse;font-size:14px;margin:12px 0}
+  th,td{border:1px solid var(--line);padding:9px 11px;text-align:left;vertical-align:top}
+  th{background:#EFF3F7;font-weight:600;font-size:13px}
+  code{background:#EDF1F5;padding:1px 6px;border-radius:4px;font-size:.9em}
+  .legend{display:flex;flex-wrap:wrap;gap:14px;margin:4px 0 0}
+  .lg{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink2)}
+  .sw{width:14px;height:14px;border-radius:4px;border:1.5px solid}
+  .flagnote{background:var(--flagbg);border-left:4px solid var(--flag);
+    padding:12px 16px;border-radius:0 8px 8px 0;margin:14px 0;font-size:14px}
+  footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--line);
+    color:var(--ink2);font-size:12.5px}
+  .scroll{overflow-x:auto}
+  .scroll svg{min-width:980px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>PLCO 生態系資料流全景圖</h1>
+  <p class="sub">從選手與各項資料來源，經 App 與平台核心，到產出物與現場決策的完整俯瞰視圖</p>
+  <div>
+    <span class="badge">TISS 內部參考</span>
+    <span class="badge">2026-08-14</span>
+    <span class="badge">依公開資料整理，含廠商宣稱</span>
+  </div>
+</header>
+
+<div class="panel figure scroll">
+<svg viewBox="0 0 1400 810" role="img" aria-label="PLCO 資料流全景圖">
+  <defs>
+    <marker id="ah" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+      <path d="M0,0.5 L8.5,4.5 L0,8.5 z" fill="#8A97A5"/>
+    </marker>
+    <marker id="ahL" markerWidth="11" markerHeight="11" refX="10" refY="5.5" orient="auto">
+      <path d="M0,0.5 L10.5,5.5 L0,10.5 z" fill="#6B5B95"/>
+    </marker>
+    <marker id="ahD" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+      <path d="M0,0.5 L8.5,4.5 L0,8.5 z" fill="#B3453C"/>
+    </marker>
+    <marker id="ahF" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <path d="M0,0.5 L9.5,5 L0,9.5 z" fill="#A9762F"/>
+    </marker>
+    <style>
+      .t{font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif}
+      .h{font-size:13px;font-weight:700;letter-spacing:.08em}
+      .bt{font-size:14.5px;font-weight:700;fill:#1B2733}
+      .bd{font-size:11.5px;fill:#5A6572}
+      .lbl{font-size:12px;fill:#7A8895}
+      .flow{stroke:#8A97A5;stroke-width:1.4;fill:none}
+      .bus{stroke:#8A97A5;stroke-width:1.8;fill:none}
+    </style>
+  </defs>
+
+  <!-- ================= COLUMN HEADERS ================= -->
+  <g class="t h">
+    <rect x="70"   y="24" width="200" height="30" rx="7" fill="#E9F2F5"/>
+    <text x="170"  y="44" text-anchor="middle" fill="#2E5A68">① 資料來源</text>
+
+    <rect x="320"  y="24" width="190" height="30" rx="7" fill="#EAF0FA"/>
+    <text x="415"  y="44" text-anchor="middle" fill="#2F4E7A">② 輸入通道</text>
+
+    <rect x="560"  y="24" width="240" height="30" rx="7" fill="#F2EEF8"/>
+    <text x="680"  y="44" text-anchor="middle" fill="#4E4173">③ 平台核心</text>
+
+    <rect x="850"  y="24" width="210" height="30" rx="7" fill="#EDF5EC"/>
+    <text x="955"  y="44" text-anchor="middle" fill="#35592F">④ 產出物</text>
+
+    <rect x="1110" y="24" width="200" height="30" rx="7" fill="#FBF1E3"/>
+    <text x="1210" y="44" text-anchor="middle" fill="#7E5518">⑤ 決策與行動</text>
+  </g>
+
+  <!-- ================= COL A : 資料來源 ================= -->
+  <g class="t">
+    <rect x="70" y="80"  width="200" height="74" rx="9" fill="#E9F2F5" stroke="#4A7C8C" stroke-width="1.4"/>
+    <text class="bt" x="84" y="106">選手自陳</text>
+    <text class="bd" x="84" y="126">疲勞・壓力・睡眠・痠痛</text>
+    <text class="bd" x="84" y="143">主觀強度 RPE・心情</text>
+
+    <rect x="70" y="168" width="200" height="74" rx="9" fill="#E9F2F5" stroke="#4A7C8C" stroke-width="1.4"/>
+    <text class="bt" x="84" y="194">穿戴裝置與 GPS</text>
+    <text class="bd" x="84" y="214">心率・距離・加速度</text>
+    <text class="bd" x="84" y="231">外部負荷・移動軌跡</text>
+
+    <rect x="70" y="256" width="200" height="74" rx="9" fill="#E9F2F5" stroke="#4A7C8C" stroke-width="1.4"/>
+    <text class="bt" x="84" y="282">醫療與防護</text>
+    <text class="bd" x="84" y="302">疼痛部位・傷病診斷</text>
+    <text class="bd" x="84" y="319">治療紀錄・復健進度</text>
+
+    <rect x="70" y="344" width="200" height="74" rx="9" fill="#E9F2F5" stroke="#4A7C8C" stroke-width="1.4"/>
+    <text class="bt" x="84" y="370">體能檢測</text>
+    <text class="bd" x="84" y="390">體能測驗・身體組成</text>
+    <text class="bd" x="84" y="407">肌力・速度・跳躍</text>
+
+    <rect x="70" y="432" width="200" height="74" rx="9" fill="#E9F2F5" stroke="#4A7C8C" stroke-width="1.4"/>
+    <text class="bt" x="84" y="458">訓練與賽事排程</text>
+    <text class="bd" x="84" y="478">課表・出賽・分鐘數</text>
+    <text class="bd" x="84" y="495">賽程密度・移動行程</text>
+
+    <rect x="70" y="520" width="200" height="74" rx="9" fill="#E9F2F5" stroke="#4A7C8C" stroke-width="1.4"/>
+    <text class="bt" x="84" y="546">比賽與影像</text>
+    <text class="bd" x="84" y="566">比賽事件・技術統計</text>
+    <text class="bd" x="84" y="583">影片・球探紀錄</text>
+  </g>
+
+  <!-- ================= COL B : 輸入通道 ================= -->
+  <g class="t">
+    <rect x="320" y="124" width="190" height="84" rx="9" fill="#EAF0FA" stroke="#4A6FA5" stroke-width="1.4"/>
+    <text class="bt" x="334" y="152">PLCO Player</text>
+    <text class="bd" x="334" y="173">選手端 App</text>
+    <text class="bd" x="334" y="190">每日填報・個人回饋</text>
+
+    <rect x="320" y="236" width="190" height="84" rx="9" fill="#EAF0FA" stroke="#4A6FA5" stroke-width="1.4"/>
+    <text class="bt" x="334" y="264">PLCO Coach</text>
+    <text class="bd" x="334" y="285">教練端 App／後台</text>
+    <text class="bd" x="334" y="302">課表輸入・現場觀察</text>
+
+    <rect x="320" y="348" width="190" height="84" rx="9" fill="#EAF0FA" stroke="#4A6FA5" stroke-width="1.4"/>
+    <text class="bt" x="334" y="376">團隊工作台</text>
+    <text class="bd" x="334" y="397">醫療／體能／管理端</text>
+    <text class="bd" x="334" y="414">紀錄輸入・權限設定</text>
+
+    <rect x="320" y="460" width="190" height="84" rx="9" fill="#EAF0FA" stroke="#4A6FA5" stroke-width="1.4"/>
+    <circle cx="497" cy="473" r="9" fill="#B3453C"/><text class="t" x="497" y="477.5" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">!</text>
+    <text class="bt" x="334" y="488">裝置與系統整合</text>
+    <text class="bd" x="334" y="509">Connector・API</text>
+    <text class="bd" x="334" y="526">批次匯入・第三方系統</text>
+  </g>
+
+  <!-- ================= COL C : 平台核心 ================= -->
+  <g class="t">
+    <rect x="560" y="106" width="240" height="470" rx="12" fill="#F2EEF8" stroke="#6B5B95" stroke-width="2"/>
+    <text class="t" x="680" y="134" text-anchor="middle" font-size="14.5" font-weight="700" fill="#4E4173">PLCO 平台</text>
+
+    <rect x="575" y="150" width="210" height="68" rx="8" fill="#fff" stroke="#B7ADD1" stroke-width="1.2"/>
+    <text class="bt" x="587" y="175">資料整合與標準化</text>
+    <text class="bd" x="587" y="195">選手 ID 對齊・單位統一</text>
+    <text class="bd" x="587" y="210">時間軸校正・缺失處理</text>
+
+    <rect x="575" y="230" width="210" height="68" rx="8" fill="#fff" stroke="#B7ADD1" stroke-width="1.2"/>
+    <text class="bt" x="587" y="255">指標計算</text>
+    <text class="bd" x="587" y="275">訓練負荷・負荷變化率</text>
+    <text class="bd" x="587" y="290">可用率・出賽量・趨勢</text>
+
+    <rect x="575" y="310" width="210" height="68" rx="8" fill="#fff" stroke="#B7ADD1" stroke-width="1.2"/>
+    <circle cx="772" cy="322" r="9" fill="#B3453C"/><text class="t" x="772" y="326.5" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">!</text>
+    <text class="bt" x="587" y="335">模型與風險判讀</text>
+    <text class="bd" x="587" y="355">準備度・疲勞・傷病風險</text>
+    <text class="bd" x="587" y="370">異常偵測・分數化</text>
+
+    <rect x="575" y="390" width="210" height="68" rx="8" fill="#fff" stroke="#B7ADD1" stroke-width="1.2"/>
+    <circle cx="772" cy="402" r="9" fill="#B3453C"/><text class="t" x="772" y="406.5" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">!</text>
+    <text class="bt" x="587" y="415">治理層</text>
+    <text class="bd" x="587" y="435">角色權限・同意・未成年</text>
+    <text class="bd" x="587" y="450">保存期限・稽核・託管地</text>
+
+    <rect x="575" y="470" width="210" height="68" rx="8" fill="#fff" stroke="#B7ADD1" stroke-width="1.2"/>
+    <text class="bt" x="587" y="495">PLCO PASS</text>
+    <text class="bd" x="587" y="515">選手身分與資料串接</text>
+    <text class="bd" x="587" y="530">跨隊／跨層級延續性</text>
+  </g>
+
+  <!-- ================= COL D : 產出物 ================= -->
+  <g class="t">
+    <rect x="850" y="80"  width="210" height="74" rx="9" fill="#EDF5EC" stroke="#4F7A4A" stroke-width="1.4"/>
+    <text class="bt" x="864" y="106">教練儀表板</text>
+    <text class="bd" x="864" y="126">隊伍準備度・負荷分布</text>
+    <text class="bd" x="864" y="143">需關注名單</text>
+
+    <rect x="850" y="168" width="210" height="74" rx="9" fill="#EDF5EC" stroke="#4F7A4A" stroke-width="1.4"/>
+    <text class="bt" x="864" y="194">風險提示與建議</text>
+    <text class="bd" x="864" y="214">高風險選手警示</text>
+    <text class="bd" x="864" y="231">訓練調整建議</text>
+
+    <rect x="850" y="256" width="210" height="74" rx="9" fill="#EDF5EC" stroke="#4F7A4A" stroke-width="1.4"/>
+    <text class="bt" x="864" y="282">選手個人回饋</text>
+    <text class="bd" x="864" y="302">App 內狀態與趨勢</text>
+    <text class="bd" x="864" y="319">恢復與自我管理提醒</text>
+
+    <rect x="850" y="344" width="210" height="74" rx="9" fill="#EDF5EC" stroke="#4F7A4A" stroke-width="1.4"/>
+    <text class="bt" x="864" y="370">醫療與復健紀錄</text>
+    <text class="bd" x="864" y="390">傷病歷程・處置紀錄</text>
+    <text class="bd" x="864" y="407">歸隊評估依據</text>
+
+    <rect x="850" y="432" width="210" height="74" rx="9" fill="#EDF5EC" stroke="#4F7A4A" stroke-width="1.4"/>
+    <text class="bt" x="864" y="458">週期與管理報表</text>
+    <text class="bd" x="864" y="478">週報月報・可用率</text>
+    <text class="bd" x="864" y="495">出賽統計・球探報告</text>
+
+    <rect x="850" y="520" width="210" height="74" rx="9" fill="#EDF5EC" stroke="#4F7A4A" stroke-width="1.4"/>
+    <circle cx="1047" cy="533" r="9" fill="#B3453C"/><text class="t" x="1047" y="537.5" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">!</text>
+    <text class="bt" x="864" y="546">匯出與 API</text>
+    <text class="bd" x="864" y="566">原始資料・資料字典</text>
+    <text class="bd" x="864" y="583">衍生指標・模型輸出</text>
+  </g>
+
+  <!-- ================= COL E : 決策與行動 ================= -->
+  <g class="t">
+    <rect x="1110" y="98"  width="200" height="78" rx="9" fill="#FBF1E3" stroke="#A9762F" stroke-width="1.4"/>
+    <text class="bt" x="1124" y="125">教練</text>
+    <text class="bd" x="1124" y="145">調整當日／當週處方</text>
+    <text class="bd" x="1124" y="162">先發與輪替決策</text>
+
+    <rect x="1110" y="198" width="200" height="78" rx="9" fill="#FBF1E3" stroke="#A9762F" stroke-width="1.4"/>
+    <text class="bt" x="1124" y="225">體能教練</text>
+    <text class="bd" x="1124" y="245">負荷分配・強度調整</text>
+    <text class="bd" x="1124" y="262">恢復與再生安排</text>
+
+    <rect x="1110" y="298" width="200" height="78" rx="9" fill="#FBF1E3" stroke="#A9762F" stroke-width="1.4"/>
+    <text class="bt" x="1124" y="325">醫療與防護人員</text>
+    <text class="bd" x="1124" y="345">介入・治療・限制</text>
+    <text class="bd" x="1124" y="362">歸隊時機判斷</text>
+
+    <rect x="1110" y="398" width="200" height="78" rx="9" fill="#FBF1E3" stroke="#A9762F" stroke-width="1.4"/>
+    <text class="bt" x="1124" y="425">管理層／技術總監</text>
+    <text class="bd" x="1124" y="445">資源配置・人員規劃</text>
+    <text class="bd" x="1124" y="462">跨隊與青訓銜接</text>
+
+    <rect x="1110" y="498" width="200" height="78" rx="9" fill="#FBF1E3" stroke="#A9762F" stroke-width="1.4"/>
+    <text class="bt" x="1124" y="525">選手本人</text>
+    <text class="bd" x="1124" y="545">睡眠・營養・恢復行為</text>
+    <text class="bd" x="1124" y="562">自我覺察與溝通</text>
+  </g>
+
+  <!-- ================= FLOWS A -> B ================= -->
+  <g>
+    <path class="bus" d="M295,117 L295,557"/>
+    <path class="flow" d="M270,117 L295,117"/>
+    <path class="flow" d="M270,205 L295,205"/>
+    <path class="flow" d="M270,293 L295,293"/>
+    <path class="flow" d="M270,381 L295,381"/>
+    <path class="flow" d="M270,469 L295,469"/>
+    <path class="flow" d="M270,557 L295,557"/>
+    <path class="flow" d="M295,166 L318,166" marker-end="url(#ah)"/>
+    <path class="flow" d="M295,278 L318,278" marker-end="url(#ah)"/>
+    <path class="flow" d="M295,390 L318,390" marker-end="url(#ah)"/>
+    <path class="flow" d="M295,502 L318,502" marker-end="url(#ah)"/>
+  </g>
+
+  <!-- ================= FLOWS B -> C ================= -->
+  <g>
+    <path class="bus" d="M535,166 L535,502"/>
+    <path class="flow" d="M510,166 L535,166"/>
+    <path class="flow" d="M510,278 L535,278"/>
+    <path class="flow" d="M510,390 L535,390"/>
+    <path class="flow" d="M510,502 L535,502"/>
+    <path d="M535,334 L556,334" stroke="#6B5B95" stroke-width="3" fill="none" marker-end="url(#ahL)"/>
+  </g>
+
+  <!-- ================= FLOWS C -> D ================= -->
+  <g>
+    <path d="M802,334 L823,334" stroke="#6B5B95" stroke-width="3" fill="none" marker-end="url(#ahL)"/>
+    <path class="bus" d="M825,117 L825,557"/>
+    <path class="flow" d="M825,117 L848,117" marker-end="url(#ah)"/>
+    <path class="flow" d="M825,205 L848,205" marker-end="url(#ah)"/>
+    <path class="flow" d="M825,293 L848,293" marker-end="url(#ah)"/>
+    <path class="flow" d="M825,381 L848,381" marker-end="url(#ah)"/>
+    <path class="flow" d="M825,469 L848,469" marker-end="url(#ah)"/>
+    <path class="flow" d="M825,557 L848,557" marker-end="url(#ah)"/>
+  </g>
+
+  <!-- ================= FLOWS D -> E ================= -->
+  <g>
+    <path class="bus" d="M1085,117 L1085,557"/>
+    <path class="flow" d="M1060,117 L1085,117"/>
+    <path class="flow" d="M1060,205 L1085,205"/>
+    <path class="flow" d="M1060,293 L1085,293"/>
+    <path class="flow" d="M1060,381 L1085,381"/>
+    <path class="flow" d="M1060,469 L1085,469"/>
+    <path class="flow" d="M1060,557 L1085,557"/>
+    <path class="flow" d="M1085,137 L1108,137" marker-end="url(#ah)"/>
+    <path class="flow" d="M1085,237 L1108,237" marker-end="url(#ah)"/>
+    <path class="flow" d="M1085,337 L1108,337" marker-end="url(#ah)"/>
+    <path class="flow" d="M1085,437 L1108,437" marker-end="url(#ah)"/>
+    <path class="flow" d="M1085,537 L1108,537" marker-end="url(#ah)"/>
+  </g>
+
+  <!-- ================= 顧問與導入服務 BAND ================= -->
+  <g class="t">
+    <rect x="320" y="606" width="480" height="52" rx="9" fill="#F4F1EC" stroke="#B9AE9C" stroke-width="1.4" stroke-dasharray="6 4"/>
+    <text class="bt" x="336" y="630" fill="#6B6152">QMIT 顧問與導入服務</text>
+    <text class="bd" x="336" y="648">資料整合・操作訓練・報告產製・球隊流程協作（軟體之外的落地層）</text>
+  </g>
+
+  <!-- ================= TISS 自有平台 (虛線 / 待驗證) ================= -->
+  <g class="t">
+    <path d="M955,596 L955,634" stroke="#B3453C" stroke-width="2" fill="none" stroke-dasharray="6 4" marker-end="url(#ahD)"/>
+    <rect x="850" y="640" width="210" height="66" rx="9" fill="#FCECEA" stroke="#B3453C" stroke-width="1.6" stroke-dasharray="6 4"/>
+    <text class="bt" x="864" y="665" fill="#8E332C">TISS 自有資料平台</text>
+    <text class="bd" x="864" y="684" fill="#8E332C">能否完整回收原始資料</text>
+    <text class="bd" x="864" y="699" fill="#8E332C">為本次會議核心待驗證項</text>
+  </g>
+
+  <!-- ================= 回饋迴路 ================= -->
+  <g class="t">
+    <path d="M1310,640 L1350,640 L1350,760 L100,760 L100,337 L108,337"
+          stroke="#A9762F" stroke-width="2" fill="none" stroke-dasharray="7 5" marker-end="url(#ahF)"/>
+    <path d="M1210,580 L1210,640 L1310,640" stroke="#A9762F" stroke-width="2" fill="none" stroke-dasharray="7 5"/>
+    <rect x="520" y="742" width="420" height="34" rx="8" fill="#FBF1E3" stroke="#A9762F" stroke-width="1.2"/>
+    <text class="t" x="730" y="764" text-anchor="middle" font-size="12.5" font-weight="600" fill="#7E5518">
+      回饋迴路：行動改變訓練與身體狀態，隔日產生新一輪資料
+    </text>
+  </g>
+</svg>
+</div>
+
+<div class="panel">
+  <div class="legend">
+    <div class="lg"><span class="sw" style="background:var(--srcbg);border-color:var(--src)"></span>資料來源</div>
+    <div class="lg"><span class="sw" style="background:var(--capbg);border-color:var(--cap)"></span>輸入通道</div>
+    <div class="lg"><span class="sw" style="background:var(--corebg);border-color:var(--core)"></span>平台核心</div>
+    <div class="lg"><span class="sw" style="background:var(--outbg);border-color:var(--out)"></span>產出物</div>
+    <div class="lg"><span class="sw" style="background:var(--actbg);border-color:var(--act)"></span>決策與行動</div>
+    <div class="lg"><span class="sw" style="background:var(--flagbg);border-color:var(--flag)"></span>TISS 查核缺口（!）</div>
+    <div class="lg"><svg width="34" height="12"><line x1="0" y1="6" x2="34" y2="6" stroke="#A9762F" stroke-width="2" stroke-dasharray="7 5"/></svg>回饋迴路／待驗證連結</div>
+  </div>
+</div>
+
+<h2>一、五個環節怎麼串起來</h2>
+
+<h3>① 資料來源 — 誰在產生資料</h3>
+<p>資料分成兩類性質完全不同的來源，這個區分在會議中很重要：<strong>主觀資料</strong>（選手每日自陳的疲勞、壓力、睡眠、痠痛、RPE）與<strong>客觀資料</strong>（穿戴裝置、GPS、體能檢測、醫療診斷、比賽統計）。PLCO 的產品敘事核心，正是把這兩類合併後一起判讀。</p>
+<p>值得注意的是，主觀資料的量最大、頻率最高，也最便宜，但同時最脆弱——依從性一掉，整個系統的輸出就失真。這是所有 AMS 導入最常見的失敗點。</p>
+
+<h3>② 輸入通道 — 資料怎麼進到系統</h3>
+<p>四條路徑：選手用 <code>PLCO Player</code> 自己填、教練用 <code>PLCO Coach</code> 輸入課表與觀察、醫療與體能人員在團隊後台記錄、以及透過 connector／API 從外部裝置和系統自動匯入。</p>
+<p>前三條是人工輸入，靠的是流程與文化；第四條是技術整合，靠的是 connector 覆蓋率。<strong>第四條打上紅旗</strong>，因為公開資料只說「可整合」，沒有完整支援清單與 API 文件。</p>
+
+<h3>③ 平台核心 — 資料在裡面被做了什麼</h3>
+<p>這一層是 PLCO 的價值主張，也是最不透明的一層。可拆成五塊：</p>
+<ul>
+  <li><strong>資料整合與標準化</strong>：不同來源的選手 ID、單位、時間軸要對齊，缺失值要處理。這塊做不好，後面全部無效。</li>
+  <li><strong>指標計算</strong>：訓練負荷、負荷變化率、可用率等——這是規則明確、可驗算的部分。</li>
+  <li><strong>模型與風險判讀</strong>：準備度、疲勞、傷病風險分數。這是統計／機器學習判斷，<strong>紅旗</strong>——目前沒有公開的驗證方法與表現指標。</li>
+  <li><strong>治理層</strong>：角色權限、同意、未成年處理、保存期限、稽核、資料託管地點。<strong>紅旗</strong>——政府與健康資料合作的前提。</li>
+  <li><strong>PLCO PASS</strong>：選手身分與資料的跨隊、跨層級延續（青訓 → 職業）。這在體系化的國家層級應用上其實很有價值。</li>
+</ul>
+
+<h3>④ 產出物 — 系統吐出什麼</h3>
+<p>六種產出對應六種使用情境。特別要區分兩件事：<strong>給人看的</strong>（儀表板、警示、報表、個人回饋）與<strong>給系統用的</strong>（匯出與 API）。前者決定日常好不好用，後者決定 TISS 能不能真正擁有自己的資料。<strong>匯出與 API 打上紅旗</strong>，因為公開資料看不出匯出格式、粒度與資料模型。</p>
+
+<h3>⑤ 決策與行動 — 誰因此改變了行為</h3>
+<p>這是整張圖真正的終點。系統本身不創造價值，<strong>只有當教練真的改了課表、防護員真的改了介入、選手真的改了睡眠行為時，價值才發生</strong>。PLCO 對外的定位也是「教練決策助手」而非取代教練，這與 TISS 的人機協作情境相容。</p>
+
+<h3>回饋迴路 — 為什麼這是一個循環而非直線</h3>
+<p>今天的決策改變了明天的訓練與身體狀態，明天的訓練又產生新一輪資料。這個迴路的<strong>轉一圈的時間</strong>決定了系統有沒有用：如果選手早上填報、教練當天下午才能看到判讀，那就來得及調整；如果要等一週，這套系統就只剩事後檢討的價值。<em>這是會議中值得問的一個實務問題。</em></p>
+
+<h2>二、圖上四個紅旗 vs. 會議題目</h2>
+
+<table>
+  <thead>
+    <tr><th style="width:22%">紅旗位置</th><th style="width:38%">為什麼是缺口</th><th style="width:20%">對應會議題號</th><th style="width:20%">要索取的文件</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>② 裝置與系統整合</td>
+      <td>只有「可整合」的宣稱，沒有具體 connector 清單、API 文件、速率限制或測試環境</td>
+      <td>Q4（Tier A3）</td>
+      <td>支援裝置清單、API 文件、sandbox 說明</td>
+    </tr>
+    <tr>
+      <td>③ 模型與風險判讀</td>
+      <td>案例中的傷病下降數字缺少研究設計、定義、對照組與統計方法；未見依運動／年齡／性別分層的驗證</td>
+      <td>Q3（Tier A2）</td>
+      <td>模型驗證報告或方法說明文件</td>
+    </tr>
+    <tr>
+      <td>③ 治理層</td>
+      <td>Google Play 資料安全欄位出現互相矛盾的揭露；資料託管地點與跨境傳輸條件未公開；未見具體資安認證</td>
+      <td>Q6（Tier A4）＋ R2</td>
+      <td>資安認證、DPA 範本、跨境條款</td>
+    </tr>
+    <tr>
+      <td>④ 匯出與 API</td>
+      <td>匯出格式、資料粒度與資料模型不明；牽涉 TISS 能否保有原始資料、避免供應商鎖定</td>
+      <td>Q4、Q10（Tier A3／A5）</td>
+      <td>資料字典、去識別化匯出樣本</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="flagnote">
+  <strong>圖右下角那個虛線框是整件事的關鍵。</strong>TISS 的目標是建立<em>自己的</em>運動資料分析與追蹤平台。因此「PLCO 產出的資料能否以原始粒度、附資料字典、無額外費用地完整回流到 TISS 自有平台」，比任何單一功能是否好用都更重要。若這條虛線接不通，PLCO 就只能是流程學習與 PoC 的對象，不能是平台底座。
+</div>
+
+<h2>三、用這張圖問問題的三個切法</h2>
+<ol>
+  <li><strong>順著走：</strong>請對方拿一位真實選手（去識別化），從他早上打開 App 開始，一路走到教練當天下午做了什麼決定。走得順不順，比任何簡報都誠實。</li>
+  <li><strong>逆著走：</strong>指著「風險提示與建議」問——這個提示背後用了哪些欄位？哪些是主觀、哪些是客觀？缺一項會怎樣？這能快速測出模型的透明度。</li>
+  <li><strong>橫著切：</strong>問同一份資料在教練、防護員、選手、管理層四種角色下，各自看到什麼、看不到什麼。這同時測出權限治理與產品成熟度。</li>
+</ol>
+
+<footer>
+  本圖依 <code>context.md</code>（2026-08-14）之公開資料研究繪製。圖中「平台核心」各功能區塊多屬 PLCO／QMIT 官網與媒體報導的<strong>廠商宣稱</strong>，未經獨立驗證；標示 <strong>!</strong> 者為 TISS 尚未取得證據的查核缺口。本圖用於形成會議提問與 PoC 假設，不應引用為已證實的產品能力描述。
+</footer>
+
+</div>
+</body>
+</html>

@@ -7,6 +7,8 @@
 - `/recruiting/project-manager/`
 - `/recruiting/product-manager/`
 - `/recruiting/qa-engineer/`
+- `/PLCO/dataflow-map/`
+- `/PLCO/company-brief/`
 
 ## 新增預覽頁
 

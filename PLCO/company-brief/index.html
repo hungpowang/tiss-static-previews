@@ -1,0 +1,650 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="從國家運動科學中心角度整理的韓國 QMIT／PLCO 公司、產品與運動數據應用說明。">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <title>PLCO／QMIT 公司與產品說明｜TISS 會前版</title>
+  <style>
+    :root {
+      --ink: #12222a;
+      --muted: #5f7078;
+      --navy: #082f3d;
+      --navy-2: #0d4653;
+      --aqua: #48d6c5;
+      --lime: #d8f36a;
+      --paper: #f5f7f2;
+      --card: #ffffff;
+      --line: #dbe3dd;
+      --warn: #fff1c7;
+      --warn-ink: #6d4f00;
+      --shadow: 0 16px 42px rgba(8, 47, 61, .10);
+      --radius: 20px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 90% 2%, rgba(72,214,197,.18), transparent 28rem),
+        var(--paper);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+      line-height: 1.68;
+    }
+
+    a { color: #056c74; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+    a:hover { color: #034c53; }
+    .wrap { width: min(1160px, calc(100% - 40px)); margin: 0 auto; }
+
+    .hero {
+      color: #fff;
+      background:
+        linear-gradient(120deg, rgba(8,47,61,.98), rgba(13,70,83,.94)),
+        var(--navy);
+      padding: 28px 0 76px;
+      overflow: hidden;
+      position: relative;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 420px;
+      height: 420px;
+      right: -120px;
+      bottom: -240px;
+      border: 70px solid rgba(216,243,106,.12);
+      border-radius: 50%;
+    }
+    .topbar { display: flex; justify-content: space-between; gap: 24px; align-items: center; }
+    .brand { font-weight: 800; letter-spacing: .08em; }
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--lime);
+      border: 1px solid rgba(216,243,106,.45);
+      border-radius: 999px;
+      padding: 5px 11px;
+      font-size: .82rem;
+      font-weight: 700;
+    }
+    .hero-grid { display: grid; grid-template-columns: 1.45fr .8fr; gap: 54px; align-items: end; margin-top: 70px; }
+    .eyebrow { color: var(--aqua); font-weight: 800; letter-spacing: .14em; text-transform: uppercase; font-size: .78rem; }
+    h1 { margin: 10px 0 18px; max-width: 820px; font-size: clamp(2.6rem, 6vw, 5.5rem); line-height: .98; letter-spacing: -.055em; }
+    .lead { max-width: 760px; color: #dceced; font-size: clamp(1.05rem, 2vw, 1.32rem); }
+    .hero-note {
+      position: relative;
+      z-index: 1;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: var(--radius);
+      padding: 22px;
+      backdrop-filter: blur(7px);
+    }
+    .hero-note strong { color: var(--lime); }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(245,247,242,.94);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav-inner { display: flex; gap: 22px; overflow-x: auto; padding: 13px 0; scrollbar-width: none; }
+    .nav a { color: var(--muted); font-weight: 700; font-size: .88rem; white-space: nowrap; text-decoration: none; }
+    .nav a:hover { color: var(--navy); }
+
+    main { padding: 60px 0 90px; }
+    section { scroll-margin-top: 70px; margin: 0 0 76px; }
+    .section-head { display: grid; grid-template-columns: 190px 1fr; gap: 28px; align-items: start; margin-bottom: 28px; }
+    .section-no { color: #1a7d80; font-weight: 900; letter-spacing: .12em; font-size: .78rem; }
+    h2 { margin: 0; color: var(--navy); font-size: clamp(1.8rem, 3.6vw, 3.1rem); line-height: 1.12; letter-spacing: -.035em; }
+    h3 { margin: 0 0 10px; color: var(--navy); font-size: 1.08rem; line-height: 1.35; }
+    p { margin: 0 0 12px; }
+    .muted { color: var(--muted); }
+    .small { font-size: .86rem; }
+
+    .thirty {
+      background: var(--card);
+      border-radius: 28px;
+      padding: clamp(28px, 5vw, 54px);
+      box-shadow: var(--shadow);
+      display: grid;
+      grid-template-columns: 1.45fr .8fr;
+      gap: 36px;
+      align-items: center;
+    }
+    .thirty .statement { font-size: clamp(1.35rem, 2.6vw, 2.2rem); line-height: 1.35; font-weight: 780; color: var(--navy); }
+    .thirty .statement em { color: #087b7e; font-style: normal; }
+    .facts { display: grid; gap: 10px; }
+    .fact { border-left: 4px solid var(--aqua); padding: 4px 0 4px 14px; }
+    .fact b { display: block; color: var(--navy); }
+
+    .metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 22px; }
+    .metric { background: var(--navy); color: #fff; border-radius: 16px; padding: 19px; }
+    .metric span { display: block; color: var(--aqua); font-size: .8rem; font-weight: 700; }
+    .metric b { display: block; margin: 4px 0 2px; font-size: 1.65rem; }
+
+    .flow { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; align-items: stretch; }
+    .flow-card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 26px; position: relative; }
+    .flow-card:not(:last-child)::after {
+      content: "→";
+      position: absolute;
+      right: -18px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--lime);
+      color: var(--navy);
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      z-index: 2;
+    }
+    .flow-card .chip { display: inline-block; background: #e7f7f3; color: #116e6d; border-radius: 999px; padding: 4px 10px; font-size: .78rem; font-weight: 800; margin-bottom: 12px; }
+    ul { padding-left: 1.18rem; margin: 10px 0 0; }
+    li { margin: 6px 0; }
+
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 25px; }
+    .card .kicker { color: #0d7c7d; font-weight: 850; font-size: .76rem; letter-spacing: .09em; text-transform: uppercase; }
+    .card h3 { margin-top: 8px; }
+    .card.wide { grid-column: span 2; }
+    .card.dark { background: var(--navy); border-color: var(--navy); color: #e7f1f1; }
+    .card.dark h3 { color: var(--lime); }
+    .card.dark .kicker { color: var(--aqua); }
+
+    .table-wrap { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); background: var(--card); }
+    table { width: 100%; border-collapse: collapse; min-width: 780px; }
+    th, td { padding: 15px 18px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
+    th { background: #eaf2ee; color: var(--navy); font-size: .82rem; letter-spacing: .04em; }
+    tr:last-child td { border-bottom: 0; }
+
+    .case-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+    .case { background: var(--card); border-radius: var(--radius); padding: 26px; border-top: 6px solid var(--aqua); }
+    .case strong { color: var(--navy); }
+
+    .callout { border-radius: var(--radius); padding: 26px 28px; background: var(--warn); color: var(--warn-ink); }
+    .callout h3 { color: #5b4300; }
+    .callout ul { margin-bottom: 0; }
+
+    .tiss-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .tiss-panel { border-radius: var(--radius); padding: 28px; }
+    .tiss-panel.fit { background: #dff5ef; }
+    .tiss-panel.verify { background: #e7edf6; }
+    .tiss-panel h3 { font-size: 1.3rem; }
+
+    details { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 0 18px; margin: 10px 0; }
+    summary { cursor: pointer; padding: 15px 0; font-weight: 800; color: var(--navy); }
+    details div { padding: 0 0 18px; color: var(--muted); }
+
+    .sources { counter-reset: source; display: grid; gap: 10px; }
+    .source { display: grid; grid-template-columns: 38px 1fr; gap: 12px; align-items: start; }
+    .source::before { counter-increment: source; content: counter(source); width: 30px; height: 30px; display: grid; place-items: center; border-radius: 50%; background: var(--navy); color: #fff; font-weight: 800; font-size: .8rem; }
+
+    footer { background: var(--navy); color: #dceaea; padding: 30px 0; }
+    footer .wrap { display: flex; justify-content: space-between; gap: 30px; align-items: center; }
+
+    @media (max-width: 860px) {
+      .hero-grid, .thirty, .section-head, .tiss-grid { grid-template-columns: 1fr; }
+      .hero-grid { margin-top: 48px; gap: 28px; }
+      .metrics, .grid { grid-template-columns: repeat(2, 1fr); }
+      .flow { grid-template-columns: 1fr; }
+      .flow-card:not(:last-child)::after { content: "↓"; right: 24px; top: auto; bottom: -18px; transform: none; }
+      .case-grid { grid-template-columns: 1fr; }
+      .section-head { gap: 8px; }
+    }
+    @media (max-width: 560px) {
+      .wrap { width: min(100% - 24px, 1160px); }
+      .hero { padding-bottom: 48px; }
+      .topbar { align-items: flex-start; }
+      .metrics, .grid { grid-template-columns: 1fr; }
+      .card.wide { grid-column: auto; }
+      footer .wrap { display: block; }
+    }
+
+    @media print {
+      body { background: #fff; font-size: 10.5pt; }
+      .nav { display: none; }
+      .hero { padding: 24px 0; }
+      .hero-grid { margin-top: 26px; }
+      main { padding: 28px 0; }
+      section { margin-bottom: 36px; break-inside: avoid; }
+      .card, .case, .flow-card, .thirty { box-shadow: none; break-inside: avoid; }
+      a { color: inherit; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="wrap">
+      <div class="topbar">
+        <div class="brand">TISS × PLCO</div>
+        <div class="tag">會前研究版 · 2026.08.14</div>
+      </div>
+      <div class="hero-grid">
+        <div>
+          <div class="eyebrow">Company &amp; Product Brief</div>
+          <h1>PLCO 到底在做什麼？</h1>
+          <p class="lead">一份給國家運動科學中心的快速導覽：從韓國 QMIT 的公司背景、PLCO 產品生態系，到運動員資料如何成為教練與組織的決策工具。</p>
+        </div>
+        <aside class="hero-note">
+          <strong>一句話定位</strong>
+          <p>PLCO 是以運動員管理系統（AMS）為核心的「運動智慧平台」：把選手日常狀態、訓練負荷、傷病、量測與比賽資料整合到同一套工作流程。</p>
+        </aside>
+      </div>
+    </div>
+  </header>
+
+  <nav class="nav" aria-label="頁內導覽">
+    <div class="wrap nav-inner">
+      <a href="#snapshot">30 秒理解</a>
+      <a href="#company">公司背景</a>
+      <a href="#flow">資料流程</a>
+      <a href="#products">產品服務</a>
+      <a href="#functions">主要功能</a>
+      <a href="#cases">應用案例</a>
+      <a href="#external">外部觀察</a>
+      <a href="#tiss">TISS 視角</a>
+      <a href="#sources">來源</a>
+    </div>
+  </nav>
+
+  <main class="wrap">
+    <section id="snapshot">
+      <div class="thirty">
+        <div>
+          <div class="eyebrow">30-second view</div>
+          <p class="statement">PLCO 不是一個單純的「選手填問卷 App」，而是從 <em>資料蒐集 → 整合分析 → 風險提示 → 訓練與組織決策</em> 的完整生態系。</p>
+          <p class="muted">核心使用者包括選手、教練、體能／醫療團隊、球探、管理層與家長；主要客群從個人與青少年隊伍延伸到職業俱樂部。</p>
+        </div>
+        <div class="facts">
+          <div class="fact"><b>公司</b>QMIT Inc.（韓國首爾）</div>
+          <div class="fact"><b>品牌</b>PLCO（플코）</div>
+          <div class="fact"><b>核心類型</b>AMS + 團隊營運 + 運動科學服務</div>
+          <div class="fact"><b>主要價值</b>傷病預防、可用性、表現與組織知識留存</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="company">
+      <div class="section-head">
+        <div class="section-no">01 / COMPANY</div>
+        <div>
+          <h2>公司背景與發展脈絡</h2>
+          <p class="muted">QMIT 將創辦人的職業足球與傷病經驗，轉化為以資料整合管理運動員生命週期的產品。</p>
+        </div>
+      </div>
+
+      <div class="grid">
+        <article class="card wide">
+          <div class="kicker">Origin</div>
+          <h3>從職業運動現場的痛點出發</h3>
+          <p>QMIT 於 2018 年成立，代表為李相基（Lee Sang-gi／이상기）。NAVER D2SF 的公司介紹指出，他曾有八年職業足球經歷，傷病結束球員生涯後，開始用資料整合解決選手管理過度依賴直覺、資料隨人員流失等問題。</p>
+        </article>
+        <article class="card dark">
+          <div class="kicker">Mission</div>
+          <h3>Winning the Right Way</h3>
+          <p>官方品牌主張是讓選手、教練與團隊「健康地贏」；重點不只在單場表現，也包括長期成長、傷病風險與組織標準化。</p>
+        </article>
+        <article class="card">
+          <div class="kicker">Growth</div>
+          <h3>從軟體走向服務生態系</h3>
+          <p>2020 年推出 Player、2021 年推出 Coach；之後擴展到實體訓練中心、營養品牌、個人／團隊／俱樂部會員，以及球探、技術分析與顧問服務。</p>
+        </article>
+        <article class="card">
+          <div class="kicker">Capital</div>
+          <h3>2026 年完成 Pre-Series B</h3>
+          <p>PLCO 官方於 2026 年 6 月宣布取得 40 億韓元 Pre-Series B，累計融資約 110 億韓元，資金用途包含產品與海外市場擴張。</p>
+        </article>
+        <article class="card">
+          <div class="kicker">Market</div>
+          <h3>由韓國職業運動向海外延伸</h3>
+          <p>公開案例涵蓋足球、棒球、籃球、排球、田徑等；NAVER D2SF 提到越南國家隊 PoC，以及日本、歐洲與東南亞等市場方向。</p>
+        </article>
+      </div>
+
+      <div class="metrics" aria-label="PLCO 官方 Coach 網站公開使用規模">
+        <div class="metric"><span>官方 Coach 頁面</span><b>1,180+</b>隊伍</div>
+        <div class="metric"><span>官方 Coach 頁面</span><b>2,088+</b>教練</div>
+        <div class="metric"><span>官方 Coach 頁面</span><b>17,532+</b>選手</div>
+        <div class="metric"><span>公開商店</span><b>10K+</b>Player Android 下載</div>
+      </div>
+      <p class="small muted">注意：PLCO 官方首頁同時顯示 917 隊、1,708 名教練、15,276 名選手；Club Membership 頁則顯示截至 2026.06 的累計 12,000+ 選手與 1,500+ 教練。可能是更新時間或統計範圍不同，宜在會議中確認口徑。</p>
+    </section>
+
+    <section id="flow">
+      <div class="section-head">
+        <div class="section-no">02 / DATA FLOW</div>
+        <div>
+          <h2>它如何把資料變成行動</h2>
+          <p class="muted">PLCO 的本質是把分散在選手、教練、醫療、量測設備與比賽分析中的資訊，放進同一個持續運作的回饋循環。</p>
+        </div>
+      </div>
+
+      <div class="flow">
+        <article class="flow-card">
+          <div class="chip">01 · 蒐集 Collect</div>
+          <h3>日常與專業資料輸入</h3>
+          <ul>
+            <li>每日狀態：疲勞、壓力、睡眠、心理與準備度</li>
+            <li>訓練／比賽：主觀運動強度、負荷、參與與備註</li>
+            <li>疼痛自陳、醫療與傷病歷史</li>
+            <li>GPS／穿戴裝置等外部負荷</li>
+            <li>體能量測、比賽事件／影片、球探紀錄</li>
+          </ul>
+        </article>
+        <article class="flow-card">
+          <div class="chip">02 · 分析 Analyze</div>
+          <h3>整合、比較與風險提示</h3>
+          <ul>
+            <li>建立個人長期資料與團隊單一資料樞紐</li>
+            <li>追蹤狀態、負荷、疲勞與疼痛變化</li>
+            <li>依位置、年齡與群組比較</li>
+            <li>注意名單、傷病風險與即時偵測</li>
+            <li>自動產生訓練／比賽報告與摘要</li>
+          </ul>
+        </article>
+        <article class="flow-card">
+          <div class="chip">03 · 行動 Act</div>
+          <h3>把資訊放進工作流程</h3>
+          <ul>
+            <li>調整個人或群組訓練強度與訓練量</li>
+            <li>提早介入疼痛、疲勞與恢復問題</li>
+            <li>由教練回覆選手、維持雙向溝通</li>
+            <li>安排賽訓、休息、公告與出席</li>
+            <li>支援管理層、技術團隊與球探決策</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="products">
+      <div class="section-head">
+        <div class="section-no">03 / PORTFOLIO</div>
+        <div>
+          <h2>產品與服務生態系</h2>
+          <p class="muted">軟體是核心，但 QMIT 也將量測、訓練、顧問與營養納入商業模式。</p>
+        </div>
+      </div>
+
+      <div class="grid">
+        <article class="card">
+          <div class="kicker">Athlete app</div>
+          <h3>PLCO Player</h3>
+          <p>供選手每日自我管理：狀態、運動負荷、疲勞、疼痛／傷病、行程與通知；也可取得依身心狀態與訓練內容提供的回饋。</p>
+        </article>
+        <article class="card">
+          <div class="kicker">Coach web + app</div>
+          <h3>PLCO Coach</h3>
+          <p>團隊層級監控、注意名單、負荷與傷病分析、日程／公告／出席、選手回饋、報表、成員與權限管理。完整功能以網頁版為主。</p>
+        </article>
+        <article class="card dark">
+          <div class="kicker">Professional clubs</div>
+          <h3>Club Membership</h3>
+          <p>把職業隊、一軍、青訓與管理層整合成俱樂部級系統，分成五大模組：</p>
+          <ul>
+            <li>俱樂部整合儀表板</li>
+            <li>選手管理系統</li>
+            <li>技術系統</li>
+            <li>球探系統</li>
+            <li>客製專業顧問系統</li>
+          </ul>
+        </article>
+        <article class="card wide">
+          <div class="kicker">Youth &amp; elite teams</div>
+          <h3>Team Membership</h3>
+          <p>為青少年／菁英團隊重新打包職業級流程：11 項體能測量、個人與團隊報告、團體訓練、AMS／日程、傷病與恢復、量測儀表板、教練簡報與個人訓練影片。部分方案再結合營養品與合作醫療／用品資源。</p>
+        </article>
+        <article class="card">
+          <div class="kicker">Individual service</div>
+          <h3>PLCO PASS／個人會員</h3>
+          <p>月訂閱式遠距照護與訓練：由教練團依選手狀態設計個人化訓練，結合一對一回饋、休息與營養支持。</p>
+        </article>
+        <article class="card">
+          <div class="kicker">Physical service</div>
+          <h3>PLCO Gym</h3>
+          <p>運動員專業訓練中心，以 VALD、Freelap 等設備進行力量、爆發力、敏捷與速度量測，輸出報告並提供體能、技能與線上／線下整合照護。</p>
+        </article>
+        <article class="card">
+          <div class="kicker">Nutrition</div>
+          <h3>PLCO UP／Nutrition</h3>
+          <p>運動營養產品與電商服務，現有蛋白飲、電解質飲與能量膠等；作為選手恢復與表現維持的消費端延伸。</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="functions">
+      <div class="section-head">
+        <div class="section-no">04 / FUNCTIONS</div>
+        <div>
+          <h2>功能拆解：誰用、做什麼</h2>
+          <p class="muted">以下整合官方網站、官方 App 商店說明與官方案例；實際方案可用功能仍應以合約與產品展示為準。</p>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>功能層</th><th>公開功能</th><th>主要使用者</th><th>實務目的</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>主觀健康監測</strong></td><td>每日狀態、疲勞、壓力、睡眠、準備度、運動後感受</td><td>選手、教練、體能團隊</td><td>察覺趨勢與異常，調整當日／週期負荷</td></tr>
+            <tr><td><strong>負荷與表現</strong></td><td>訓練與比賽負荷、內外部負荷、體能量測、群組比較</td><td>教練、S&amp;C、分析師</td><td>週期化、個別化、避免過度／不足訓練</td></tr>
+            <tr><td><strong>疼痛與傷病</strong></td><td>身體部位疼痛自陳、醫療／傷病紀錄、風險提示與恢復歷程</td><td>選手、醫療／防護、教練</td><td>早期回報、加速介入、留存復健脈絡</td></tr>
+            <tr><td><strong>團隊營運</strong></td><td>訓練／比賽／休息日程、出席、公告、推播、備註</td><td>教練、行政、選手</td><td>減少重複工作，讓資料蒐集嵌入日常</td></tr>
+            <tr><td><strong>回饋與溝通</strong></td><td>選手訓練備註、主動詢問、教練回覆與通知</td><td>選手、教練</td><td>降低溝通落差、建立自主管理習慣</td></tr>
+            <tr><td><strong>報表與治理</strong></td><td>自動訓練／比賽報告、角色儀表板、長期紀錄、季度／季末簡報</td><td>教練團、管理層、研究者</td><td>快速決策、ROI 追蹤、組織知識留存</td></tr>
+            <tr><td><strong>技術與球探</strong></td><td>比賽事件、影片、體能與醫療資料整合；位置模型、定性＋定量球探</td><td>技術總監、分析師、球探</td><td>建立關鍵指標、支持戰術與招募的一致決策</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="cases">
+      <div class="section-head">
+        <div class="section-no">05 / USE CASES</div>
+        <div>
+          <h2>公開應用案例</h2>
+          <p class="muted">這些案例可說明產品的使用情境；因多數為官方案例或合作方敘述，不能直接視為獨立臨床／科研驗證。</p>
+        </div>
+      </div>
+
+      <div class="case-grid">
+        <article class="case">
+          <h3>全北現代汽車｜條件與負荷管理</h3>
+          <p><strong>用法：</strong>即時監測球員狀態與傷病風險，依資料調整訓練強度、訓練量與恢復；疼痛可快速分享給教練團。</p>
+        </article>
+        <article class="case">
+          <h3>水原三星藍翼｜IDP 與組織記憶</h3>
+          <p><strong>用法：</strong>累積訓練／比賽影片與回饋，設計個人發展計畫（IDP），並讓資料留在球團系統而非跟著個別教練離開。</p>
+        </article>
+        <article class="case">
+          <h3>SSG Landers｜球探資料樞紐</h3>
+          <p><strong>用法：</strong>集中分散的招募候選人、量測與球探資料，將定性觀察與量化資料結合，支援整季人力與戰力決策。</p>
+        </article>
+        <article class="case">
+          <h3>K League 青訓｜規模化管理</h3>
+          <p><strong>用法：</strong>2023 年公開合作涵蓋 25 家俱樂部、75 支 U12／U15／U18 隊、約 2,500 名球員，目標為狀態與傷病管理、成長追蹤及共同研究。</p>
+        </article>
+      </div>
+
+      <div class="callout" style="margin-top: 20px;">
+        <h3>對成效數字應保持的判讀方式</h3>
+        <p>PLCO 的 Club Membership 頁公布某些 K League 導入隊伍在一季後出現傷病率下降、比賽可用率提升等結果，但隊名匿名、定義與分析方法未完整公開。這些數字適合視為「值得追問的實務成果」，不宜在缺乏設計、基準與混雜因子資訊時解讀為平台造成的因果效果。</p>
+      </div>
+    </section>
+
+    <section id="external">
+      <div class="section-head">
+        <div class="section-no">06 / OUTSIDE VIEW</div>
+        <div>
+          <h2>官網以外的證據與市場觀察</h2>
+          <p class="muted">以下整合韓國聯盟公告、媒體採訪、投資報導、App 商店與同類國際 AMS 的公開資料。部分報導仍引用公司說法，因此「第三方刊載」不等於「獨立成效驗證」。</p>
+        </div>
+      </div>
+
+      <div class="grid">
+        <article class="card wide">
+          <div class="kicker">Institutional adoption</div>
+          <h3>K League 合作具有持續性與規模</h3>
+          <p>K League 官方資料確認雙方於 2021 年開始青訓合作，2023 年再延長至 2025 年，並由 U15／U18 擴及 U12，涵蓋 25 家俱樂部、75 支隊伍、約 2,500 名選手。這比單一球隊推薦更能說明 PLCO 具備聯盟層級的導入與支援經驗。</p>
+        </article>
+        <article class="card dark">
+          <div class="kicker">Repeat use</div>
+          <h3>續約比一次性簽約更有訊號</h3>
+          <p>K League 官方亦記錄首爾衣戀 FC 於 2024 年連續第二季採用 PLCO。它不能證明成效因果，但可視為至少一個職業隊願意重複使用的市場訊號。</p>
+        </article>
+        <article class="card">
+          <div class="kicker">Multi-sport</div>
+          <h3>已跨出足球單一垂直</h3>
+          <p>2023 年 MoneyToday 報導列出的客戶還包括女子／男子排球、女子籃球與橄欖球隊。這支持其多運動擴張敘事，但各運動的模型校準、工作流程與成效證據仍需分別檢驗。</p>
+        </article>
+        <article class="card">
+          <div class="kicker">Product philosophy</div>
+          <h3>公司將自己定位為決策輔助</h3>
+          <p>2025、2026 年 eDaily 採訪都強調 PLCO 不保證比賽成績，也不預測球員會進幾球；其角色是找出過負荷與恢復需求，協助教練提高選手可用性與決策品質。這個定位比「AI 自動取代教練」務實。</p>
+        </article>
+        <article class="card">
+          <div class="kicker">Global readiness</div>
+          <h3>語言與海外部署已有起點</h3>
+          <p>Apple App Store 顯示 Player 支援英文、日文、韓文與越南文；K League 公告亦曾提到 A-League、J-League 使用與海外案例。公開資訊尚未證明繁中、台灣法遵或在地託管已就緒。</p>
+        </article>
+        <article class="card wide">
+          <div class="kicker">Privacy signal</div>
+          <h3>商店隱私揭露存在需要釐清的口徑差異</h3>
+          <p>Apple 標示可能蒐集但「不與身分連結」的聯絡資料、使用者內容、識別碼、使用資料與診斷資料；Google Play 同時顯示「可能與第三方分享位置、個資等八類資料」與「未蒐集資料」。這些都是開發者自我申報，且表面上不容易與健康監測服務的實際資料流完全對上，TISS 應要求正式資料盤點、子處理者清單與跨境傳輸說明。</p>
+        </article>
+      </div>
+
+      <div class="section-head" style="margin-top: 44px;">
+        <div class="section-no">MARKET CHECK</div>
+        <div>
+          <h2 style="font-size: clamp(1.55rem, 3vw, 2.35rem);">和國際 AMS 公開能力相比</h2>
+          <p class="muted">這不是完整競品評比，而是用 Teamworks AMS 與 Kitman Labs 等成熟國際產品的公開能力，找出 TISS 應向 PLCO 追問的最低基準。</p>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>評估面向</th><th>PLCO 公開可見</th><th>成熟國際 AMS 公開基準</th><th>TISS 判讀</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>硬體與系統整合</strong></td><td>宣稱可整合穿戴、量測、醫療與比賽資料，但公開支援清單不完整。</td><td>Teamworks 公開 100+ 整合與 API／R 套件；Kitman Labs 公開 150+ 整合。</td><td>必須要求實際 connector 清單、API 文件、速率限制與匯出樣本。</td></tr>
+            <tr><td><strong>安全與合規</strong></td><td>Club 頁提到 NDA、資料生命週期、Technical Security、Cloud &amp; Compliance，未列具體認證。</td><td>Teamworks 公開 ISO 27001、SOC 2 Type II、HIPAA 等認證／遵循資訊。</td><td>對政府與健康資料情境，不能只接受原則文字，應要求證書、稽核與事件通報流程。</td></tr>
+            <tr><td><strong>客製與資料自主</strong></td><td>公開方案有角色儀表板與客製顧問，但自行配置欄位、計算、流程與資料倉儲同步能力不明。</td><td>國際 AMS 通常把 no-code 表單、流程、計算、儀表板與外部資料倉儲整合列為核心。</td><td>TISS 若要建立自己的國家級平台，資料可攜與自主管理比單一介面更重要。</td></tr>
+            <tr><td><strong>服務深度</strong></td><td>軟體之外還有 Gym、量測、遠距教練、營養與俱樂部顧問。</td><td>國際 AMS 多以企業軟體、醫療／績效模組與生態系整合為主。</td><td>PLCO 的韓國運動現場服務密度可能是差異化優勢，也可能提高跨國複製的交付成本。</td></tr>
+            <tr><td><strong>科學證據</strong></td><td>有聯盟／球隊案例與公司成效數字，但公開方法、同儕審查及模型效能有限。</td><td>同業也常以客戶案例為主；真正可比較仍需原始定義、樣本、驗證設計與可重現性。</td><td>把「採用證據」與「演算法有效性證據」分開評估。</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout" style="margin-top: 20px;">
+        <h3>綜合判讀</h3>
+        <p><strong>推論：</strong>PLCO 的強項看起來是韓國職業／青訓場域理解、聯盟級導入，以及軟體＋線下運動科學服務的一體化；目前最大的資訊缺口則是演算法獨立驗證、API／資料可攜、具體資安認證與跨境健康資料治理。對 TISS 而言，它較適合先被視為「值得深入技術盡調與小規模 PoC 的合作對象」，而不是僅憑品牌案例直接判定可作為國家級平台底座。</p>
+      </div>
+    </section>
+
+    <section id="tiss">
+      <div class="section-head">
+        <div class="section-no">07 / TISS LENS</div>
+        <div>
+          <h2>從國家運動科學中心角度看</h2>
+          <p class="muted">TISS 的價值不只可能是採購端，更可能是資料標準、跨運動治理、研究驗證與國家隊應用的合作方。</p>
+        </div>
+      </div>
+
+      <div class="tiss-grid">
+        <article class="tiss-panel fit">
+          <h3>高度相關的交流主題</h3>
+          <ul>
+            <li><strong>國家級長期資料：</strong>如何跨隊伍、跨屆次、跨教練保留選手生涯紀錄。</li>
+            <li><strong>研究落地：</strong>把運動科學量測與論文指標轉為教練可採取的提示與流程。</li>
+            <li><strong>多角色協作：</strong>選手、教練、體能、防護、醫療、分析與管理層的權限與溝通。</li>
+            <li><strong>跨運動標準：</strong>共通資料模型與各單項客製化之間的平衡。</li>
+            <li><strong>規模化導入：</strong>從小型 PoC 到聯盟／國家隊體系的培訓、支援與資料品質管理。</li>
+          </ul>
+        </article>
+        <article class="tiss-panel verify">
+          <h3>公開資料仍無法回答的問題</h3>
+          <ul>
+            <li>演算法、準備度／傷病風險分數的模型、閾值與驗證方法。</li>
+            <li>支援哪些 GPS、穿戴式與量測設備，以及 API／批次匯入匯出的完整度。</li>
+            <li>原始資料、衍生特徵與模型輸出的所有權、可攜性及跨境治理。</li>
+            <li>台灣在地部署、繁體中文、時區、法遵與未成年選手同意流程。</li>
+            <li>不同運動、性別、年齡與競技層級之間的校準與偏差控制。</li>
+            <li>企業／政府採購價格、服務層級、客製範圍與停止服務後的資料交付。</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="callout" style="margin-top: 20px;">
+        <h3>會議背景（依 TISS 郵件）</h3>
+        <ul>
+          <li>PLCO 希望先透過視訊會議了解 TISS 參訪目的與可能合作方向。</li>
+          <li>TISS 北部辦公室目前以運動數位平台為主，規劃自己的資料分析與追蹤平台，並希望把研究資料轉化為場上應用。</li>
+          <li>初步交流重點宜放在產品架構、跨資料整合、職業運動導入、學術合作與 PoC 可能性，而非只看介面功能。</li>
+        </ul>
+      </div>
+
+      <div style="margin-top: 24px;">
+        <details open>
+          <summary>最值得現場要求展示的 5 個畫面</summary>
+          <div>① 選手每日填報；② 教練注意名單與傷病風險；③ 個人長期趨勢與團隊比較；④ GPS／醫療／量測資料整合；⑤ 匯出、權限與稽核紀錄。</div>
+        </details>
+        <details>
+          <summary>適合 TISS 的小型 PoC 輪廓</summary>
+          <div>選 1–2 個運動、1 個完整訓練週期或賽季前期，先驗證填報依從性、資料完整率、教練採用率、風險提示可解釋性與決策改變，再談全中心擴張。</div>
+        </details>
+      </div>
+    </section>
+
+    <section id="sources">
+      <div class="section-head">
+        <div class="section-no">08 / SOURCES</div>
+        <div>
+          <h2>資料來源與查核界線</h2>
+          <p class="muted">研究日期：2026 年 8 月 14 日。資料包含公司官方、App 商店、投資方、聯盟公告、媒體採訪、商業資料庫與國際同業公開資訊；公司自述與媒體轉述成效均保留為「宣稱／案例」，不等同獨立科學驗證。</p>
+        </div>
+      </div>
+
+      <div class="sources">
+        <div class="source"><div><a href="https://plco.pro/" target="_blank" rel="noopener">PLCO 官方首頁</a> — 品牌定位、歷程、公開規模、產品生態系與客戶案例。</div></div>
+        <div class="source"><div><a href="https://coach.plco.pro/" target="_blank" rel="noopener">PLCO Coach 官方頁</a> — 團隊管理、監測、報表、溝通與公開使用規模。</div></div>
+        <div class="source"><div><a href="https://plco.pro/membership-club" target="_blank" rel="noopener">PLCO Club Membership</a> — 俱樂部五大系統、導入流程、服務與官方成效數字。</div></div>
+        <div class="source"><div><a href="https://plco.pro/membership-team" target="_blank" rel="noopener">PLCO Team Membership</a> — 青少年／菁英團隊方案、11 項量測、軟體、訓練與營養服務。</div></div>
+        <div class="source"><div><a href="https://plco.pro/gym" target="_blank" rel="noopener">PLCO Gym</a> — 體能量測、設備、報告、訓練與線上／線下照護。</div></div>
+        <div class="source"><div><a href="https://play.google.com/store/apps/details?id=com.qmit.plco" target="_blank" rel="noopener">PLCO Player（Google Play）</a> — 選手端功能與資料安全揭露。</div></div>
+        <div class="source"><div><a href="https://play.google.com/store/apps/details?id=com.qmit.plco.coach" target="_blank" rel="noopener">PLCO Coach（Google Play）</a> — 教練端 App 功能與網頁版關係。</div></div>
+        <div class="source"><div><a href="https://d2sf.naver.com/en/story/85" target="_blank" rel="noopener">NAVER D2SF：QMIT 公司故事</a> — 創辦背景、全生命週期 AMS、職業隊案例與全球化方向。</div></div>
+        <div class="source"><div><a href="https://blog.plco.pro/secure-investment-260625/" target="_blank" rel="noopener">PLCO 官方融資公告（2026）</a> — Pre-Series B 與累計融資。</div></div>
+        <div class="source"><div><a href="https://www.kleague.com/news_view.do?orderBy=seq&amp;page=9&amp;seq=8939&amp;viewOption=album" target="_blank" rel="noopener">K League 官方合作公告（2021）</a> — 青訓合作起點與跨 35 種運動的當時使用說明。</div></div>
+        <div class="source"><div><a href="https://www.kleague.com/news_view.do?orderBy=&amp;page=1&amp;seq=87379&amp;viewOption=album" target="_blank" rel="noopener">K League 官方續約公告（2023）</a> — 延長至 2025 年、75 隊與約 2,500 名選手的合作範圍。</div></div>
+        <div class="source"><div><a href="https://www.kleague.com/news_view.do?orderBy=seq&amp;seq=89846&amp;viewOption=album" target="_blank" rel="noopener">首爾衣戀 FC 續約公告（2024）</a> — 職業隊連續第二季採用案例。</div></div>
+        <div class="source"><div><a href="https://www.mt.co.kr/amp/future/2023/12/19/2023121915592665518" target="_blank" rel="noopener">MoneyToday 融資與客戶報導（2023）</a> — 31.5 億韓元投資、投資者與多運動客戶名單。</div></div>
+        <div class="source"><div><a href="https://www.edaily.co.kr/News/Read?mediaCodeNo=257&amp;newsId=01361206642074784" target="_blank" rel="noopener">eDaily 創辦人／產品採訪（2025）</a> — 資料輸入、AI 建議、採用規模與「不保證成績」的限制。</div></div>
+        <div class="source"><div><a href="https://m2.edaily.co.kr/News/Read?mediaCodeNo=257&amp;newsId=01095526645483688" target="_blank" rel="noopener">eDaily AI 應用報導（2026）</a> — 過負荷偵測、IDP 與決策輔助定位。</div></div>
+        <div class="source"><div><a href="https://apps.apple.com/mn/app/plco-player/id1495028144" target="_blank" rel="noopener">PLCO Player（Apple App Store）</a> — 支援語言、裝置需求與 iOS 隱私揭露。</div></div>
+        <div class="source"><div><a href="https://thevc.kr/qmit" target="_blank" rel="noopener">THE VC：QMIT 公司資料</a> — 投資階段、產業分類與新聞索引；資料庫本身註明不保證完整性。</div></div>
+        <div class="source"><div><a href="https://teamworks.com/ams/" target="_blank" rel="noopener">Teamworks AMS 官方頁</a> — 國際 AMS 的整合、API、客製與安全公開基準。</div></div>
+        <div class="source"><div><a href="https://www.kitmanlabs.com/platform/" target="_blank" rel="noopener">Kitman Labs 官方平台頁</a> — 國際 AMS／運動智慧平台的整合與組織級能力基準。</div></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div><strong>PLCO／QMIT 公司與產品說明</strong><br><span class="small">供國家運動科學中心內部會前理解使用</span></div>
+      <div class="small">資料截至 2026.08.14 · 單頁離線 HTML</div>
+    </div>
+  </footer>
+</body>
+</html>
