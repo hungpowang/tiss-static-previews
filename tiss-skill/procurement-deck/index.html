@@ -1,0 +1,601 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>procurement-deck — 使用說明</title>
+<style>
+:root{
+  --bg:#ffffff; --bg-soft:#f5f8fc; --bg-code:#f2f5f9;
+  --fg:#1a1f2e; --fg-body:#4a5268; --fg-muted:#8a90a2;
+  --border:#d8e3f0; --border-soft:#e6edf6;
+  --primary:#1c5fa5; --accent:#3b82c4; --amber:#d97706; --green:#2e8b57;
+  --shadow:0 1px 2px rgba(26,31,46,.05), 0 8px 24px rgba(26,31,46,.05);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#12161f; --bg-soft:#1a1f2b; --bg-code:#1c2230;
+    --fg:#eef2f8; --fg-body:#b6c0d0; --fg-muted:#7f8899;
+    --border:#2a3444; --border-soft:#222b39;
+    --primary:#7db2e8; --accent:#5ea3dd; --amber:#e8a44c; --green:#5fbf8c;
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#12161f; --bg-soft:#1a1f2b; --bg-code:#1c2230;
+  --fg:#eef2f8; --fg-body:#b6c0d0; --fg-muted:#7f8899;
+  --border:#2a3444; --border-soft:#222b39;
+  --primary:#7db2e8; --accent:#5ea3dd; --amber:#e8a44c; --green:#5fbf8c;
+  --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth; scroll-padding-top:1.5rem}
+body{
+  margin:0; background:var(--bg); color:var(--fg-body);
+  font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-size:15.5px; line-height:1.75; -webkit-font-smoothing:antialiased;
+}
+code,pre,.mono{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace}
+
+.wrap{max-width:1180px; margin:0 auto; padding:0 clamp(1rem,4vw,2.5rem) 6rem;
+      display:grid; grid-template-columns:220px minmax(0,1fr); gap:clamp(1.5rem,4vw,3.5rem)}
+@media (max-width:900px){ .wrap{grid-template-columns:1fr} nav.toc{position:static!important;height:auto!important;border:0!important;padding:0 0 1rem!important} }
+
+/* header */
+header.hero{border-bottom:1px solid var(--border); background:var(--bg-soft)}
+.hero-in{max-width:1180px; margin:0 auto; padding:clamp(2rem,5vw,3.2rem) clamp(1rem,4vw,2.5rem) 2rem}
+.eyebrow{font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--primary); font-weight:700; margin:0 0 .6rem}
+h1{margin:0; font-size:clamp(1.9rem,4.5vw,2.6rem); line-height:1.2; color:var(--fg); letter-spacing:-.01em}
+h1 .dim{color:var(--accent)}
+.lede{margin:.9rem 0 0; max-width:62ch; font-size:1.02rem}
+.facts{display:flex; flex-wrap:wrap; gap:.5rem; margin-top:1.4rem}
+.fact{background:var(--bg); border:1px solid var(--border); border-radius:7px; padding:.42rem .75rem; font-size:12.5px; color:var(--fg-muted)}
+.fact b{color:var(--fg); font-weight:600}
+
+/* toc */
+nav.toc{position:sticky; top:0; align-self:start; height:100vh; overflow-y:auto;
+        padding:2.2rem .8rem 2rem 0; border-right:1px solid var(--border-soft); font-size:13.5px}
+nav.toc a{display:block; color:var(--fg-muted); text-decoration:none; padding:.28rem 0; border-left:2px solid transparent; padding-left:.7rem}
+nav.toc a:hover{color:var(--primary); border-left-color:var(--accent)}
+nav.toc .grp{margin-top:1rem; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--fg-muted); font-weight:700; opacity:.7; padding-left:.7rem}
+
+main{padding-top:2.2rem; min-width:0}
+section{margin-bottom:3.2rem; scroll-margin-top:1.5rem}
+h2{font-size:1.35rem; color:var(--fg); margin:0 0 .3rem; letter-spacing:-.005em}
+h2::before{content:""; display:block; width:34px; height:3px; background:var(--accent); border-radius:2px; margin-bottom:.7rem}
+h3{font-size:1.03rem; color:var(--fg); margin:1.8rem 0 .5rem}
+p{margin:.6rem 0}
+a{color:var(--primary)}
+ul,ol{padding-left:1.25rem; margin:.6rem 0}
+li{margin:.28rem 0}
+hr{border:0; border-top:1px solid var(--border-soft); margin:2rem 0}
+
+code{background:var(--bg-code); border:1px solid var(--border-soft); border-radius:4px;
+     padding:.1em .38em; font-size:.87em; color:var(--fg)}
+pre{background:var(--bg-code); border:1px solid var(--border); border-radius:10px;
+    padding:1rem 1.1rem; overflow-x:auto; font-size:13px; line-height:1.65; margin:.9rem 0}
+pre code{background:none; border:0; padding:0; font-size:inherit; color:var(--fg-body)}
+.c-com{color:var(--fg-muted)}
+.c-str{color:var(--green)}
+.c-kw{color:var(--primary); font-weight:600}
+.c-fn{color:var(--amber)}
+
+.tablewrap{overflow-x:auto; border:1px solid var(--border); border-radius:10px; margin:1rem 0; box-shadow:var(--shadow)}
+table{border-collapse:collapse; width:100%; font-size:13.6px; min-width:520px}
+th,td{text-align:left; padding:.6rem .8rem; border-bottom:1px solid var(--border-soft); vertical-align:top}
+thead th{background:var(--bg-soft); color:var(--fg); font-weight:600; font-size:12.5px;
+         letter-spacing:.03em; border-bottom:1px solid var(--border); white-space:nowrap}
+tbody tr:last-child td{border-bottom:0}
+td.mono,th.mono{font-family:ui-monospace,Menlo,monospace; font-size:12.6px; white-space:nowrap}
+.num{text-align:center; color:var(--fg-muted); width:3rem}
+
+.steps{counter-reset:s; list-style:none; padding:0; margin:1.2rem 0}
+.steps>li{counter-increment:s; position:relative; padding-left:2.7rem; margin-bottom:1.4rem}
+.steps>li::before{content:counter(s); position:absolute; left:0; top:.1rem; width:1.85rem; height:1.85rem;
+  border-radius:50%; background:var(--primary); color:#fff; font-size:12.5px; font-weight:700;
+  display:flex; align-items:center; justify-content:center}
+.steps h3{margin:0 0 .25rem; font-size:1rem}
+.steps .gate{display:inline-block; margin-top:.45rem; font-size:12.4px; color:var(--fg-muted);
+  border-left:3px solid var(--green); padding:.1rem 0 .1rem .6rem}
+
+.note{border:1px solid var(--border); border-left:4px solid var(--amber); background:var(--bg-soft);
+      border-radius:0 8px 8px 0; padding:.85rem 1.1rem; margin:1.1rem 0; font-size:14px}
+.note b{color:var(--fg)}
+.note.blue{border-left-color:var(--primary)}
+.note.green{border-left-color:var(--green)}
+
+.swatches{display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:.6rem; margin:1rem 0}
+.sw{border:1px solid var(--border); border-radius:8px; overflow:hidden; background:var(--bg)}
+.sw .chipbar{height:34px}
+.sw .meta{padding:.45rem .6rem; font-size:12px; line-height:1.45}
+.sw .meta b{display:block; color:var(--fg); font-family:ui-monospace,Menlo,monospace; font-size:12px}
+.sw .meta span{color:var(--fg-muted)}
+
+.cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:.8rem; margin:1rem 0}
+.card{border:1px solid var(--border); border-radius:10px; padding:.85rem 1rem; background:var(--bg); box-shadow:var(--shadow)}
+.card h4{margin:0 0 .3rem; font-size:14px; color:var(--fg)}
+.card p{margin:0; font-size:13px; color:var(--fg-body)}
+
+.tree{font-size:13px; line-height:1.8}
+.tree .d{color:var(--primary); font-weight:600}
+.tree .cmt{color:var(--fg-muted)}
+
+footer{border-top:1px solid var(--border-soft); margin-top:2rem; padding-top:1.2rem; font-size:12.5px; color:var(--fg-muted)}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-in">
+    <p class="eyebrow">Claude Code Skill · 使用說明</p>
+    <h1>procurement-deck<span class="dim"> — 採購案一評簡報產生器</span></h1>
+    <p class="lede">
+      吃一份採購需求規範書，吐出一份給評選委員看的 PowerPoint。核心不是排版自動化，
+      而是<b>把規範書條文翻成委員能當場判斷的形狀</b>，並誠實指出規範書自己還沒講清楚的地方。
+    </p>
+    <div class="facts">
+      <span class="fact">位置 <b>~/.agents/skills/procurement-deck</b></span>
+      <span class="fact">呼叫 <b>/procurement-deck</b>（不自動觸發）</span>
+      <span class="fact">底層 <b>python-pptx + Pillow</b></span>
+      <span class="fact">版面 <b>10 × 5.625 in（16:9）</b></span>
+      <span class="fact">版型 <b>11 種</b></span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<nav class="toc">
+  <div class="grp">開始</div>
+  <a href="#what">這個 skill 做什麼</a>
+  <a href="#quickstart">快速開始</a>
+  <a href="#files">檔案結構</a>
+  <div class="grp">工作流程</div>
+  <a href="#workflow">六步流程</a>
+  <a href="#reconcile">對帳：六類常見落差</a>
+  <a href="#skeleton">17 頁標準骨架</a>
+  <div class="grp">API</div>
+  <a href="#layouts">版型函式</a>
+  <a href="#primitives">低階繪圖元件</a>
+  <a href="#tools">工具腳本</a>
+  <div class="grp">規範</div>
+  <a href="#design">設計系統</a>
+  <a href="#writing">寫作顆粒度</a>
+  <a href="#pitfalls">注意事項</a>
+</nav>
+
+<main>
+
+<section id="what">
+  <h2>這個 skill 做什麼</h2>
+  <p>
+    需求方在一評會議上要委員審的是<b>需求本身</b>：範圍夠不夠、期程撐不撐得住、規格會不會做不出來。
+    所以這個 skill 的產出不只是投影片，而是三件事：
+  </p>
+  <div class="cards">
+    <div class="card">
+      <h4>① 把規範書搬上投影片</h4>
+      <p>11 種預先設計好的版型，涵蓋封面、功能總覽、流程、期程、配分等一評必備頁面。</p>
+    </div>
+    <div class="card">
+      <h4>② 對帳找出文件落差</h4>
+      <p>交叉比對規範書內文、系統功能架構圖、各附件，找出彼此對不起來的地方。這是唯一超越「搬字」的一步。</p>
+    </div>
+    <div class="card">
+      <h4>③ 收斂成委員裁示題</h4>
+      <p>落差清單變成必出的「提請委員指導事項」頁，每題寫成委員可當場回答是或否的問句。</p>
+    </div>
+  </div>
+  <div class="note blue">
+    <b>frontmatter 設了 <code>disable-model-invocation: true</code></b> ——
+    模型不會自己判斷要不要用它，必須由你明確輸入 <code>/procurement-deck</code> 才會啟動。
+  </div>
+</section>
+
+<section id="quickstart">
+  <h2>快速開始</h2>
+
+  <h3>1. 建立環境（只需一次）</h3>
+  <pre><code>bash ~/.agents/skills/procurement-deck/scripts/setup.sh</code></pre>
+  <p>
+    會在 skill 目錄下建 <code>.venv</code> 並安裝 <code>python-pptx</code> 與 <code>Pillow</code>，
+    然後把 venv 的 python 路徑印到 stdout。已存在就直接回傳路徑、不重裝。
+    <b>後續所有指令都用這個 python 執行。</b>
+  </p>
+
+  <h3>2. 跑一次完整範例</h3>
+  <pre><code>PY=$(bash ~/.agents/skills/procurement-deck/scripts/setup.sh)
+$PY ~/.agents/skills/procurement-deck/examples/venue_booking.py out.pptx
+$PY ~/.agents/skills/procurement-deck/scripts/render.py out.pptx ./preview</code></pre>
+  <p>
+    <code>venue_booking.py</code> 是實際交付過的 17 頁簡報，涵蓋全部版型；
+    <code>render.py</code> 會輸出每頁 PNG 與溢版清單。
+  </p>
+
+  <h3>3. 寫自己的 build script</h3>
+  <pre><code><span class="c-kw">import</span> sys, os
+sys.path.insert(<span class="c-str">0</span>, os.path.expanduser(<span class="c-str">"~/.agents/skills/procurement-deck/scripts"</span>))
+<span class="c-kw">from</span> deck <span class="c-kw">import</span> Deck, text, shape, badge, card, note_strip, \
+                 PRIMARY, ACCENT, AMBER, GREEN, WHITE, MARGIN, BODY_TOP
+
+d = <span class="c-fn">Deck</span>()
+
+d.<span class="c-fn">cover</span>(
+    eyebrow=<span class="c-str">"○○機關　／　115 年度採購案（案號 115-XX-XXX）"</span>,
+    title_lines=[(<span class="c-str">"運動場地"</span>, WHITE), (<span class="c-str">"預約平台"</span>, ACCENT)],
+    subtitle=<span class="c-str">"建置案　需求規範書說明"</span>,
+    meta=[<span class="c-str">"一評審議會議　／　需求單位簡報"</span>],
+    facts=[(<span class="c-str">"預算經費"</span>, <span class="c-str">"XXX 萬元（含稅）"</span>),
+           (<span class="c-str">"履約期限"</span>, <span class="c-str">"決標日翌日起至 1XX/XX/XX"</span>)])
+
+d.<span class="c-fn">detail_list</span>(<span class="c-str">"03　／　Scope"</span>, <span class="c-str">"用戶端功能需求"</span>, [
+    (<span class="c-str">"場地搜尋"</span>, <span class="c-str">"依縣市、運動類型、日期與時段查詢可預約場地"</span>),
+    (<span class="c-str">"線上預約"</span>, <span class="c-str">"引導式流程完成時段選擇、設備租借與確認"</span>)])
+
+d.<span class="c-fn">save</span>(<span class="c-str">"out.pptx"</span>)</code></pre>
+  <p>每個版型函式都<b>回傳 slide 物件</b>，可以再用 <code>text()</code> / <code>shape()</code> 疊加內容。</p>
+</section>
+
+<section id="files">
+  <h2>檔案結構</h2>
+  <pre class="tree"><code><span class="d">procurement-deck/</span>
+├── SKILL.md                <span class="cmt">六步流程與版型索引（Claude 讀的主檔）</span>
+├── content-playbook.md     <span class="cmt">17 頁骨架、依案調整、寫作顆粒度、六類落差</span>
+├── design-system.md        <span class="cmt">色票、字級、版面基準線、新增版型的作法</span>
+├── <span class="d">scripts/</span>
+│   ├── setup.sh            <span class="cmt">建立 venv，印出 python 路徑</span>
+│   ├── deck.py             <span class="cmt">版型庫（508 行）— Deck 類別 + 低階繪圖函式</span>
+│   ├── render.py           <span class="cmt">驗版：pptx → 每頁 PNG + 溢版清單</span>
+│   └── dump_layout.py      <span class="cmt">拆解既有 pptx 的座標／字級／色碼</span>
+├── <span class="d">examples/</span>
+│   └── venue_booking.py    <span class="cmt">17 頁完整範例，涵蓋所有版型</span>
+└── <span class="d">assets/</span>
+    ├── 範例1_運動數據資料標準案_一評簡報.pptx   <span class="cmt">研究／標準制定案，14 頁</span>
+    └── 範例2_運動場地預約平台_一評簡報.pptx     <span class="cmt">系統建置案，17 頁</span></code></pre>
+</section>
+
+<section id="workflow">
+  <h2>六步流程</h2>
+  <p>SKILL.md 定義的工作程序。每一步都有<b>完成條件</b>，沒過不能進下一步。</p>
+
+  <ol class="steps">
+    <li>
+      <h3>收齊來源</h3>
+      <p>讀規範書全文，並在同一資料夾找齊四類文件：</p>
+      <ul>
+        <li><b>簽呈</b> — 案號、招標方式、預算核定狀態、是否召開一評</li>
+        <li><b>勞務明細表／規格表</b> — 採購性質、驗收方式、付款比例、擴充條款</li>
+        <li><b>廠商估價單</b> — 經費組成（第 15 頁的來源）</li>
+        <li><b>既有同類簡報</b> — 該機關辦過類似案的話，版型與用語照它走</li>
+      </ul>
+      <span class="gate">完成條件：四類各自標記為「已讀」或「不存在」。</span>
+    </li>
+
+    <li>
+      <h3>對帳</h3>
+      <p>把<b>規範書內文、系統功能架構圖、各附件</b>三者交叉比對，找出彼此對不起來的地方。這是整份簡報唯一超越「把文件搬進投影片」的一步，也是委員最想聽的內容。</p>
+      <span class="gate">完成條件：落差清單每項註明出處（頁碼或節次）。不足 3 項就逐節再走一次；仍不足則據實記錄——<b>捏造落差比漏掉落差更糟</b>。</span>
+    </li>
+
+    <li>
+      <h3>排頁</h3>
+      <p>依 17 頁骨架決定頁次，逐頁指定版型函式與內容來源。骨架沒有的頁，先用 <code>dump_layout.py</code> 拆 <code>assets/</code> 裡的既有簡報，找形狀相近的版面照座標重建。</p>
+      <span class="gate">完成條件：一份頁次表，每列有「頁次／版型函式／內容取材」。</span>
+    </li>
+
+    <li>
+      <h3>建置</h3>
+      <p>寫 build script，<code>sys.path</code> 加入 <code>scripts/</code> 後 <code>from deck import ...</code>。第 2 步的落差清單在此收斂成 <code>qgrid</code> 頁——<b>這頁必出</b>。金額、日期、數量、等級照抄規範書原文。</p>
+      <span class="gate">完成條件：script 執行成功並輸出 pptx。</span>
+    </li>
+
+    <li>
+      <h3>驗版</h3>
+      <pre><code>python scripts/render.py &lt;deck.pptx&gt; &lt;outdir&gt;</code></pre>
+      <p>逐頁看過 PNG，找四類問題：文字溢出容器或壓到邊界／卡片下半大量留白／左右欄高度失衡／元素重疊。修正後重跑。中文斷行寬度靠估算不準，這步每一輪都會抓到東西。</p>
+      <span class="gate">完成條件：溢版清單為空，且每一頁 PNG 都經檢視。<b>未通過此步不回報完成。</b></span>
+    </li>
+
+    <li>
+      <h3>交付</h3>
+      <p>pptx 存進專案資料夾，檔名含案名與用途。回報時逐項說明「提請委員指導事項」各題的依據，並標示哪些內容取自規範書原文、哪些是對帳推論。</p>
+      <span class="gate">完成條件：回報中每題議題都標明依據來源。</span>
+    </li>
+  </ol>
+
+  <div class="note">
+    <b>為什麼要區分原文與推論？</b>
+    委員會把簡報上的文字當成需求方的正式立場，推論被誤認成定案會出事。
+  </div>
+</section>
+
+<section id="reconcile">
+  <h2>對帳：六類常見落差</h2>
+  <p>「提請委員指導事項」頁的題目從這裡長出來。依過往兩案，落差集中在：</p>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th class="num">#</th><th>落差類型</th><th>典型徵狀</th></tr></thead>
+    <tbody>
+      <tr><td class="num">1</td><td>內文與架構圖不一致</td><td>架構圖有的模組，服務內容條列漏列（或反之）</td></tr>
+      <tr><td class="num">2</td><td>範圍邊界未言明</td><td>金流、電子發票、電子票證、簡訊費用由誰負擔、資料移轉</td></tr>
+      <tr><td class="num">3</td><td>規模參數無依據</td><td>會員數、並發數、資料量寫了數字但沒說怎麼估的</td></tr>
+      <tr><td class="num">4</td><td>期程與工作量不相稱</td><td>決標日推遲後，實際可用工作天是否還撐得住交付表</td></tr>
+      <tr><td class="num">5</td><td>外部相依的權責</td><td>要串接的既有系統，其規格文件、測試環境、支援窗口誰提供、何時到位</td></tr>
+      <tr><td class="num">6</td><td>驗收標準不可測</td><td>「功能正常運作」這類無法判定通過與否的條件</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section id="skeleton">
+  <h2>17 頁標準骨架</h2>
+  <p>預算 300–600 萬、單一系統建置案的預設頁次。<b>取材</b>欄找不到來源就是規範書的缺口，寫進對帳清單；<b>上限</b>超過就拆頁或砍內容，不要壓字級。</p>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th class="num">#</th><th class="mono">版型</th><th>目的</th><th>取材</th><th>上限</th></tr></thead>
+    <tbody>
+      <tr><td class="num">1</td><td class="mono">cover</td><td>案名、預算、期限、招標方式一眼看完</td><td>規範書「專案概述」＋簽呈</td><td>事實面板 4 格</td></tr>
+      <tr><td class="num">2</td><td class="mono">agenda</td><td>讓委員知道待會會被問到什麼</td><td>本簡報自身結構</td><td>6 張卡</td></tr>
+      <tr><td class="num">3</td><td class="mono">contrast</td><td>為什麼要做：痛點 → 解方</td><td>規範書「專案目的」，痛點多半需自行歸納</td><td>左右各 4 條、每條 ≤ 32 字</td></tr>
+      <tr><td class="num">4</td><td class="mono">section＋自繪</td><td>本案在既有系統版圖的位置、對外介接對象</td><td>規範書「架構說明」的系統功能架構圖</td><td>中央本案 + 左右各 1 既有系統</td></tr>
+      <tr><td class="num">5</td><td class="mono">columns</td><td>功能總量一頁看完，建立範圍共識</td><td>規範書「服務內容」逐條</td><td>3 欄 × ≤ 10 條、每條 ≤ 14 字</td></tr>
+      <tr><td class="num">6–8</td><td class="mono">detail_list</td><td>每項功能一句話講清楚做什麼</td><td>同上，逐條展開</td><td>每頁 8–10 項、說明 ≤ 30 字</td></tr>
+      <tr><td class="num">9</td><td class="mono">flow</td><td>使用者主流程與例外分支</td><td>規範書功能列表推導；例外分支常需自行補</td><td>5–7 步 + ≤ 3 分支</td></tr>
+      <tr><td class="num">10</td><td class="mono">section＋雙卡</td><td>系統規格、效能規模、資安責任</td><td>規範書「系統規格」「資通安全責任」</td><td>左卡 6 條、右卡 4 組數據</td></tr>
+      <tr><td class="num">11</td><td class="mono">timeline</td><td>分幾期交付、每期交什麼、付多少</td><td>規範書「履約期程及交付項目」表 1＋「付款條件」</td><td>2–3 期、每期 3 項交付</td></tr>
+      <tr><td class="num">12</td><td class="mono">section＋雙卡</td><td>保固範圍與教育訓練義務</td><td>規範書「保固服務」「教育訓練」＋保證金</td><td>左右各 4 項</td></tr>
+      <tr><td class="num">13</td><td class="mono">section＋雙卡</td><td>廠商門檻與人力底線</td><td>規範書「廠商履約規範」「服務建議書內容與規格」</td><td>左右各 4 條 + 底部人力列</td></tr>
+      <tr><td class="num">14</td><td class="mono">scorebar</td><td>配分權重是否合理</td><td>規範書「評選須知與評分標準」表 2</td><td>5–6 列，依配分由高到低</td></tr>
+      <tr><td class="num">15</td><td class="mono">section＋自繪</td><td>預算怎麼編出來的</td><td>廠商估價單＋勞務明細表</td><td>3 項組成</td></tr>
+      <tr><td class="num">16</td><td class="mono">qgrid</td><td><b>必要頁</b>：請委員裁示的待確認議題</td><td>對帳清單</td><td>6 題、每題 ≤ 60 字</td></tr>
+      <tr><td class="num">17</td><td class="mono">closing</td><td>收尾與聯絡窗口</td><td>規範書「聯絡方式」</td><td>2 行標語</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>依案子調整</h3>
+  <ul>
+    <li><b>預算 &lt; 200 萬或功能 &lt; 15 項</b>：6–8 頁合併成單一 <code>detail_list</code>，砍第 4、15 頁 → 約 11 頁</li>
+    <li><b>多期程或含擴充條款</b>：第 11 頁後補一頁 <code>columns</code> 呈現年度路線（範例 1 第 13 頁有現成版型）</li>
+    <li><b>純研究或標準制定案</b>（非系統建置）：5–8 頁改為 <code>columns</code> 工作項目總覽 + 每個工作包一頁（範例 1 的 WP 頁型）</li>
+  </ul>
+</section>
+
+<section id="layouts">
+  <h2>版型函式</h2>
+  <p>全部是 <code>Deck</code> 類別的方法，定義在 <code>scripts/deck.py</code>。座標單位為英吋，直接對應投影片位置。所有函式回傳 slide。</p>
+
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th class="mono">函式</th><th>用途</th><th>參數形狀</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="mono">cover</td><td>深底封面</td>
+        <td class="mono">(eyebrow, title_lines, subtitle=None, meta=(), facts=())<br>
+          title_lines=[(文字, 色碼)] · facts=[(標籤, 值)] 最多 4</td>
+      </tr>
+      <tr>
+        <td class="mono">closing</td><td>深底封底</td>
+        <td class="mono">(eyebrow, title_lines, kicker=None, contact=None)</td>
+      </tr>
+      <tr>
+        <td class="mono">agenda</td><td>大綱：2 欄編號卡</td>
+        <td class="mono">(eyebrow, title, items)<br>items=[(編號, 標題, 說明)] 建議 4–6</td>
+      </tr>
+      <tr>
+        <td class="mono">contrast</td><td>痛點 vs 解方（左橘右藍 + 箭頭）</td>
+        <td class="mono">(eyebrow, title, left, right, note=None)<br>left/right=(標頭, [條列]) · note=(標籤, 內文)</td>
+      </tr>
+      <tr>
+        <td class="mono">columns</td><td>2–3 欄分類總覽</td>
+        <td class="mono">(eyebrow, title, cols, right=None, height=3.90,<br>&nbsp;style="numbered", footnote=None)<br>
+          cols=[(標頭, 右側小字, 色碼, [條列])] · 條列可為 ("小標","內文")<br>style: numbered ｜ check ｜ plain</td>
+      </tr>
+      <tr>
+        <td class="mono">detail_list</td><td>雙欄編號明細（逐項說明）</td>
+        <td class="mono">(eyebrow, title, items, hue=PRIMARY, right=None, footnote=None)<br>items=[(項目名, 一句說明)] 8–10 項最佳</td>
+      </tr>
+      <tr>
+        <td class="mono">flow</td><td>橫向流程鏈 + 分支卡</td>
+        <td class="mono">(eyebrow, title, steps, branches=(), note=None)<br>
+          steps=[標籤] 5–7（首尾自動深色，可用 \n 斷行）<br>branches=[(小標, 名稱, 說明, 色碼)] 0–3</td>
+      </tr>
+      <tr>
+        <td class="mono">timeline</td><td>里程碑時程（2–3 期）</td>
+        <td class="mono">(eyebrow, title, milestones)<br>
+          milestones=[(代號, 時點, 卡片標題, [交付項目], 付款標題, 付款說明)]</td>
+      </tr>
+      <tr>
+        <td class="mono">scorebar</td><td>評選配分長條</td>
+        <td class="mono">(eyebrow, title, rows, right=None, footnote=None)<br>rows=[(項目, 配分, 色碼, 子項說明)] 依配分由高到低</td>
+      </tr>
+      <tr>
+        <td class="mono">qgrid</td><td>議題格（提請委員指導事項）</td>
+        <td class="mono">(eyebrow, title, topics, note=None, prefix="Q")<br>topics=[(議題名, 問句)] 建議 6 項（3×2）</td>
+      </tr>
+      <tr>
+        <td class="mono">section</td><td>只產生頁首的空白頁，內容自繪</td>
+        <td class="mono">(eyebrow, title, right=None) → slide</td>
+      </tr>
+      <tr>
+        <td class="mono">blank</td><td>純空白頁（所有版型的底座）</td>
+        <td class="mono">(dark=False) → slide</td>
+      </tr>
+      <tr>
+        <td class="mono">save</td><td>存檔</td>
+        <td class="mono">(path) → path</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="note green">
+    <b>版型不夠用時的順序：</b>
+    ① 用 <code>dump_layout.py</code> 拆 <code>assets/</code> 兩份簡報找形狀相近的頁 →
+    ② 照它的座標重建 →
+    ③ 都沒有才用 <code>section()</code> + <code>shape()</code>/<code>text()</code>/<code>card()</code> 自繪 →
+    ④ 同一形狀在一份簡報裡出現兩次以上，就抽成 <code>deck.py</code> 的函式。
+  </div>
+</section>
+
+<section id="primitives">
+  <h2>低階繪圖元件</h2>
+  <p>自繪版面時用。全部是 module-level 函式，第一個參數是 slide。</p>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th class="mono">函式</th><th>用途</th><th>簽章</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">text</td><td>單一樣式文字框（可含 \n）</td>
+        <td class="mono">(slide, x, y, w, h, s, size=11, color=BODY, bold=False,<br>&nbsp;align, anchor, ls=1.25)</td></tr>
+      <tr><td class="mono">rich</td><td>同一行混合字級／顏色</td>
+        <td class="mono">(slide, x, y, w, h, parts, ...)<br>parts=[(文字, 級數, 色碼, 粗體)]</td></tr>
+      <tr><td class="mono">shape</td><td>矩形／圓角矩形／橢圓</td>
+        <td class="mono">(slide, x, y, w, h, fill=None, line=None, lw=0.75,<br>&nbsp;kind=MSO_SHAPE.RECTANGLE, radius=None)</td></tr>
+      <tr><td class="mono">card</td><td>帶色標頭的白卡，<b>回傳內容區起始 y</b></td>
+        <td class="mono">(slide, x, y, w, h, title=None, hue=PRIMARY, right=None,<br>&nbsp;head_h=0.42, title_size=12.5)</td></tr>
+      <tr><td class="mono">chip</td><td>圓角標籤</td>
+        <td class="mono">(slide, x, y, w, h, s, size=9, fill=LIGHT, color=PRIMARY, bold=True)</td></tr>
+      <tr><td class="mono">badge</td><td>圓形序號／勾記（d 為直徑）</td>
+        <td class="mono">(slide, x, y, d, s, fill=PRIMARY, color=WHITE, size=9.5, bold=True)</td></tr>
+      <tr><td class="mono">rule</td><td>水平細線</td>
+        <td class="mono">(slide, x, y, w, color=BORDER, thickness=0.008)</td></tr>
+      <tr><td class="mono">head</td><td>頁首：小標 + 主標 + 藍色短線</td>
+        <td class="mono">(slide, eyebrow, title, right=None)</td></tr>
+      <tr><td class="mono">note_strip</td><td>頁尾註記條（label 留空則單行置中）</td>
+        <td class="mono">(slide, x, y, w, h, label, body, accent=AMBER)</td></tr>
+      <tr><td class="mono">stats_strip</td><td>等分數據列 + 分隔線</td>
+        <td class="mono">(slide, x, y, w, h, stats)　stats=[(值, 標籤)]</td></tr>
+      <tr><td class="mono">In</td><td>英吋 → EMU</td><td class="mono">(v) → Inches(v)</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section id="tools">
+  <h2>工具腳本</h2>
+
+  <h3>render.py — 驗版</h3>
+  <pre><code>python scripts/render.py &lt;deck.pptx&gt; &lt;outdir&gt;</code></pre>
+  <p>
+    用 Pillow 近似重繪成 <code>slide01.png</code>…，並在 stdout 列出溢版清單
+    （格式：<code>S 7 溢版 88pt / 容器 62pt @(0.42,3.10) 文字開頭…</code>）。
+    字型換成系統黑體，字寬與 PowerPoint 有幾個百分點誤差，
+    <b>抓的是版面問題不是最終外觀</b>：文字溢出容器、卡片大量留白、左右欄失衡、元素重疊。
+  </p>
+  <div class="note">
+    這台機器上 PowerPoint 的 AppleScript 匯出被 sandbox 擋住、也沒裝 LibreOffice，
+    <code>render.py</code> 是<b>唯一可用的驗版途徑</b>。最終外觀仍以 PowerPoint 開啟為準。
+  </div>
+
+  <h3>dump_layout.py — 拆解既有簡報</h3>
+  <pre><code>python scripts/dump_layout.py &lt;deck.pptx&gt; [起始頁] [結束頁]</code></pre>
+  <p>印出每個形狀的座標、尺寸、字級、色碼、文字。用途是把 <code>assets/</code> 裡的舊簡報當版型來源——找到適合的頁，照它的座標與層次重建，而不是憑空發明新版面。</p>
+
+  <h3>setup.sh — 環境</h3>
+  <pre><code>bash scripts/setup.sh   <span class="c-com"># 印出 venv python 路徑；已存在則直接回傳</span></code></pre>
+</section>
+
+<section id="design">
+  <h2>設計系統</h2>
+  <p><code>deck.py</code> 已把這些寫死成常數，只有自繪版面或新增版型時才需要查。</p>
+
+  <h3>版面基準線</h3>
+  <ul>
+    <li>10 × 5.625 in（16:9）</li>
+    <li>左右安全邊界 <code>MARGIN = 0.38</code></li>
+    <li>頁首佔 0–1.06，內容區 <code>BODY_TOP = 1.22</code> 到 <code>BODY_BOTTOM = 5.38</code></li>
+    <li>卡片間距 0.15–0.16；卡片內縮 0.18–0.22</li>
+  </ul>
+
+  <h3>色票</h3>
+  <div class="swatches">
+    <div class="sw"><div class="chipbar" style="background:#1C5FA5"></div><div class="meta"><b>PRIMARY · 1C5FA5</b><span>卡片標頭、第一類別、強調文字</span></div></div>
+    <div class="sw"><div class="chipbar" style="background:#3B82C4"></div><div class="meta"><b>ACCENT · 3B82C4</b><span>頁首短線、第二類別、封面第二行標題</span></div></div>
+    <div class="sw"><div class="chipbar" style="background:#1A1F2E"></div><div class="meta"><b>DARK · 1A1F2E</b><span>深底頁、主標題文字</span></div></div>
+    <div class="sw"><div class="chipbar" style="background:#4A5268"></div><div class="meta"><b>BODY · 4A5268</b><span>內文</span></div></div>
+    <div class="sw"><div class="chipbar" style="background:#8A90A2"></div><div class="meta"><b>MUTED · 8A90A2</b><span>標籤、註腳、深底頁小字</span></div></div>
+    <div class="sw"><div class="chipbar" style="background:#D97706"></div><div class="meta"><b>AMBER · D97706</b><span>金額、付款、待確認議題頂線</span></div></div>
+    <div class="sw"><div class="chipbar" style="background:#2E8B57"></div><div class="meta"><b>GREEN · 2E8B57</b><span>第三類別、資安</span></div></div>
+    <div class="sw"><div class="chipbar" style="background:#E8F1FA"></div><div class="meta"><b>LIGHT · E8F1FA</b><span>badge 底色</span></div></div>
+    <div class="sw"><div class="chipbar" style="background:#F5F8FC"></div><div class="meta"><b>PALE · F5F8FC</b><span>面板、註記條底色</span></div></div>
+    <div class="sw"><div class="chipbar" style="background:#D8E3F0"></div><div class="meta"><b>BORDER · D8E3F0</b><span>卡片外框、分隔線</span></div></div>
+    <div class="sw"><div class="chipbar" style="background:#C5D9F0"></div><div class="meta"><b>LINE2 · C5D9F0</b><span>流程線、箭頭、序號浮水印</span></div></div>
+  </div>
+  <div class="note blue">
+    分類用色固定按 <b>PRIMARY → ACCENT → GREEN</b> 的順序，跨頁保持同一類別同一色。
+    例：用戶端永遠 PRIMARY、供應商端永遠 ACCENT、平台端永遠 GREEN。
+  </div>
+
+  <h3>字型與字級</h3>
+  <p>中文 <code>Microsoft JhengHei</code>、西文與數字 <code>Calibri</code>，由 <code>_style_run()</code> 同時寫入 <code>a:latin</code> 與 <code>a:ea</code>，Mac 與 Windows 的 Office 都內建。</p>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th class="mono">級數</th><th>用途</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">50 / 40</td><td>封面、封底標題</td></tr>
+      <tr><td class="mono">26</td><td>頁標題</td></tr>
+      <tr><td class="mono">15</td><td>數據值、卡片內大字</td></tr>
+      <tr><td class="mono">12.5–13.5</td><td>卡片標頭、項目名</td></tr>
+      <tr><td class="mono">10.5–11.5</td><td>內文、條列</td></tr>
+      <tr><td class="mono">9–9.5</td><td>說明句、標籤</td></tr>
+      <tr><td class="mono">8–8.5</td><td>註腳、序號</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="note">
+    <b>估行數的比例：</b>中文字寬約等於字級 —— 11 pt 的字在 4.0 in 寬的框裡<b>一行約 25 字</b>。
+    用這個算，不要靠感覺。
+  </div>
+</section>
+
+<section id="writing">
+  <h2>寫作顆粒度</h2>
+  <p>規範書條文是法律語言，投影片是口語。轉換時：</p>
+  <ul>
+    <li>條列<b>項目名保留規範書原詞</b>（委員會照條文對），說明句改寫成白話</li>
+    <li>一句說明講「做什麼」，<b>不講「怎麼做」</b>——技術方案是廠商的事，不是需求方的事</li>
+    <li>金額、日期、數量、等級<b>一律照抄原文</b>，不換算、不四捨五入</li>
+    <li>規範書寫「基礎版」「基礎功能」「基礎流程」的地方<b>保留「基礎」二字</b>，那是範圍界線</li>
+  </ul>
+</section>
+
+<section id="pitfalls">
+  <h2>注意事項</h2>
+  <div class="cards">
+    <div class="card">
+      <h4>qgrid 頁不可省</h4>
+      <p>「提請委員指導事項」是必出頁。每題要寫成委員可以當場回答是或否的問句，不是開放式感想。</p>
+    </div>
+    <div class="card">
+      <h4>不要壓字級來塞內容</h4>
+      <p>超過骨架表的上限就拆頁或砍內容。字級是設計系統的一部分，改了整份簡報會失衡。</p>
+    </div>
+    <div class="card">
+      <h4>驗版沒過不算完成</h4>
+      <p>溢版清單必須為空，且每一頁 PNG 都要實際看過。中文斷行估不準，這步每輪都會抓到東西。</p>
+    </div>
+    <div class="card">
+      <h4>寧可少一項也不要編造</h4>
+      <p>對帳落差不足 3 項時據實記錄。捏造落差比漏掉落差更糟——委員會拿它當需求方的正式立場。</p>
+    </div>
+    <div class="card">
+      <h4>回報要標示依據</h4>
+      <p>哪些取自規範書原文、哪些是對帳推論，逐項講清楚。推論被誤認成定案會出事。</p>
+    </div>
+    <div class="card">
+      <h4>需手動呼叫</h4>
+      <p><code>disable-model-invocation: true</code>，模型不會自動用它。要打 <code>/procurement-deck</code>。</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  本文件依 <code>SKILL.md</code>、<code>content-playbook.md</code>、<code>design-system.md</code>
+  與 <code>scripts/deck.py</code>（508 行）整理　·　skill 建立於 2026-08-11
+</footer>
+
+</main>
+</div>
+</body>
+</html>
