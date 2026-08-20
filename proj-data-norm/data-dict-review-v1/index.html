@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>資料字典初版檢視意見 — 國家運動科學中心</title>
+<style>
+  :root{
+    --ink:#1a1d21; --ink-2:#4a5058; --ink-3:#767d87;
+    --line:#e2e5ea; --line-2:#eef0f4;
+    --bg:#f7f8fa; --card:#ffffff;
+    --p0:#c0392b; --p0-bg:#fdf1ef;
+    --p1:#b7791f; --p1-bg:#fdf7ec;
+    --p2:#4a6fa5; --p2-bg:#f0f4fa;
+    --ok:#2d7d5a; --ok-bg:#eef7f2;
+    --accent:#2c3e50;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:"Noto Sans TC","PingFang TC","Helvetica Neue",Arial,sans-serif;
+    font-size:15px; line-height:1.75; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px 80px}
+
+  header{background:var(--accent);color:#fff;padding:36px 0 30px;margin-bottom:28px}
+  header .wrap{padding-bottom:0}
+  header h1{margin:0 0 10px;font-size:26px;font-weight:700;letter-spacing:.3px}
+  header .meta{font-size:13px;line-height:2;color:#c3cdd8}
+  header .meta b{color:#fff;font-weight:500}
+  header a{color:#9fc4e8}
+  .tag-draft{display:inline-block;background:#e8b339;color:#3a2c00;font-size:12px;
+    font-weight:700;padding:2px 10px;border-radius:3px;margin-left:10px;vertical-align:3px}
+
+  .callout{background:#fff;border-left:4px solid var(--accent);padding:20px 24px;
+    margin:0 0 28px;border-radius:0 4px 4px 0;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+  .callout h2{margin:0 0 12px;font-size:17px}
+  .callout p{margin:0 0 12px}
+  .callout p:last-child{margin-bottom:0}
+
+  .toolbar{position:sticky;top:0;z-index:20;background:var(--bg);
+    padding:14px 0 12px;border-bottom:1px solid var(--line);margin-bottom:22px}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+  .chip{border:1px solid var(--line);background:#fff;color:var(--ink-2);
+    padding:6px 14px;border-radius:20px;font-size:13px;cursor:pointer;
+    font-family:inherit;transition:.12s}
+  .chip:hover{border-color:var(--ink-3)}
+  .chip.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .chip .n{opacity:.65;margin-left:5px;font-size:12px}
+  .spacer{flex:1}
+  .btn{border:1px solid var(--accent);background:#fff;color:var(--accent);
+    padding:6px 16px;border-radius:4px;font-size:13px;cursor:pointer;
+    font-family:inherit;font-weight:500}
+  .btn:hover{background:var(--accent);color:#fff}
+  .btn.primary{background:var(--accent);color:#fff}
+  .btn.primary:hover{opacity:.85}
+
+  h2.sec{font-size:19px;margin:34px 0 6px;padding-bottom:8px;border-bottom:2px solid var(--line)}
+  h2.sec .sub{font-size:13px;font-weight:400;color:var(--ink-3);margin-left:10px}
+  p.secnote{color:var(--ink-2);font-size:14px;margin:8px 0 18px}
+
+  .item{background:var(--card);border:1px solid var(--line);border-radius:6px;
+    margin-bottom:14px;overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+  .item.hide{display:none}
+  .ihead{display:flex;align-items:flex-start;gap:12px;padding:16px 20px;cursor:pointer;
+    border-left:4px solid transparent}
+  .ihead:hover{background:#fbfcfd}
+  .item[data-pri="P0"] .ihead{border-left-color:var(--p0)}
+  .item[data-pri="P1"] .ihead{border-left-color:var(--p1)}
+  .item[data-pri="P2"] .ihead{border-left-color:var(--p2)}
+  .id{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:13px;font-weight:700;
+    color:var(--ink-3);min-width:38px;padding-top:2px}
+  .ttl{flex:1;font-weight:500;line-height:1.6}
+  .badges{display:flex;gap:6px;flex-wrap:wrap;align-items:center;padding-top:2px}
+  .b{font-size:11px;font-weight:700;padding:2px 8px;border-radius:3px;white-space:nowrap;letter-spacing:.3px}
+  .b.P0{background:var(--p0-bg);color:var(--p0)}
+  .b.P1{background:var(--p1-bg);color:var(--p1)}
+  .b.P2{background:var(--p2-bg);color:var(--p2)}
+  .b.src-team{background:#eef0f4;color:var(--ink-2)}
+  .b.src-new{background:#e8f0e9;color:var(--ok)}
+  .b.src-us{background:#f3edf8;color:#6b4a99}
+  .b.dis{background:#fff4e5;color:#a35d00;border:1px solid #f0d9b5}
+  .caret{color:var(--ink-3);font-size:12px;padding-top:4px;transition:.15s}
+  .item.open .caret{transform:rotate(90deg)}
+
+  .ibody{display:none;padding:4px 20px 20px 74px;border-top:1px solid var(--line-2)}
+  .item.open .ibody{display:block}
+  .fld{margin:14px 0 0}
+  .fld .lbl{font-size:12px;font-weight:700;color:var(--ink-3);letter-spacing:.5px;
+    text-transform:uppercase;margin-bottom:4px}
+  .fld .val{font-size:14.5px;line-height:1.8;color:var(--ink)}
+  .val code{background:#f2f4f7;padding:1px 6px;border-radius:3px;font-size:13px;
+    font-family:ui-monospace,"SF Mono",Menlo,monospace;color:#2c3e50}
+  .val b{font-weight:600}
+  .amend{display:inline-block;background:#eef7f2;color:var(--ok);font-size:11.5px;
+    font-weight:700;padding:1px 8px;border-radius:3px;margin-right:6px;
+    border:1px solid #cfe6da;vertical-align:1px}
+
+  .decide{margin-top:18px;padding:14px 16px;background:#fafbfc;border:1px solid var(--line-2);border-radius:5px}
+  .decide .lbl{font-size:12px;font-weight:700;color:var(--ink-3);letter-spacing:.5px;margin-bottom:8px}
+  .opts{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+  .opt{font-size:13px;border:1px solid var(--line);background:#fff;padding:5px 13px;
+    border-radius:4px;cursor:pointer;font-family:inherit;color:var(--ink-2)}
+  .opt:hover{border-color:var(--ink-3)}
+  .opt.on{background:var(--ok);border-color:var(--ok);color:#fff;font-weight:500}
+  .opt.on[data-v="不送出"]{background:#8a9099;border-color:#8a9099}
+  .opt.on[data-v="待內部討論"]{background:var(--p1);border-color:var(--p1)}
+  textarea{width:100%;border:1px solid var(--line);border-radius:4px;padding:8px 10px;
+    font-family:inherit;font-size:14px;line-height:1.6;resize:vertical;min-height:52px;color:var(--ink)}
+  textarea:focus{outline:none;border-color:var(--accent)}
+
+  table.cmp{width:100%;border-collapse:collapse;margin:10px 0 0;font-size:14px}
+  table.cmp th{background:#f2f4f7;text-align:left;padding:8px 10px;font-size:12.5px;
+    color:var(--ink-2);border:1px solid var(--line);font-weight:700}
+  table.cmp td{padding:8px 10px;border:1px solid var(--line);vertical-align:top;line-height:1.7}
+  table.cmp code{background:#f2f4f7;padding:1px 5px;border-radius:3px;font-size:12.5px;
+    font-family:ui-monospace,Menlo,monospace}
+  .st-ok{color:var(--ok);font-weight:600}
+  .st-warn{color:var(--p1);font-weight:600}
+  .st-bad{color:var(--p0);font-weight:600}
+
+  ol.qs{padding-left:22px}
+  ol.qs li{margin-bottom:12px;line-height:1.8}
+  ol.qs li.key{background:#fdf7ec;padding:10px 12px;border-radius:4px;
+    border-left:3px solid var(--p1);list-style-position:inside;margin-left:-22px}
+
+  .todo{background:#fff;border:1px solid var(--line);border-radius:6px;padding:8px 20px}
+  .todo label{display:flex;gap:10px;align-items:flex-start;padding:10px 0;
+    border-bottom:1px solid var(--line-2);cursor:pointer;line-height:1.7}
+  .todo label:last-child{border-bottom:none}
+  .todo input{margin-top:6px;flex-shrink:0;width:15px;height:15px;accent-color:var(--accent)}
+  .todo input:checked + span{color:var(--ink-3);text-decoration:line-through}
+
+  footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);
+    font-size:12.5px;color:var(--ink-3);line-height:1.9}
+
+  #out{position:fixed;inset:0;background:rgba(26,29,33,.55);display:none;
+    z-index:100;padding:40px 20px;overflow:auto}
+  #out.show{display:block}
+  #out .box{max-width:820px;margin:0 auto;background:#fff;border-radius:8px;padding:24px}
+  #out h3{margin:0 0 6px;font-size:17px}
+  #out p{margin:0 0 14px;font-size:13.5px;color:var(--ink-2)}
+  #out textarea{min-height:440px;font-family:ui-monospace,Menlo,monospace;font-size:12.5px;line-height:1.65}
+  #out .row{display:flex;gap:8px;margin-top:12px}
+
+  @media print{
+    body{background:#fff;font-size:11.5pt}
+    .toolbar,.decide .opts,#out,.caret{display:none}
+    header{background:#fff;color:var(--ink);border-bottom:3px solid var(--accent);padding-top:0}
+    header .meta{color:var(--ink-2)} header .meta b{color:var(--ink)} header a{color:var(--ink)}
+    .ibody{display:block!important;padding-left:20px}
+    .item{break-inside:avoid;box-shadow:none}
+    .item.hide{display:block}
+  }
+  @media(max-width:700px){
+    .wrap{padding:0 14px 60px}
+    .ibody{padding-left:20px}
+    .badges{width:100%}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <h1>資料字典初版檢視意見<span class="tag-draft">共 33 項 · 請以 P0 為調整重點</span></h1>
+    <div class="meta">
+      <b>提出單位</b>　國家運動科學中心　<b>日期</b>　2026-08-20<br>
+      <b>檢視標的</b>　資料標準線上文件 · <a href="https://y24886.github.io/sports-data-demo/" target="_blank" rel="noopener">y24886.github.io/sports-data-demo</a>（棒球 v0.3.0-draft／羽球 v0.3.0-draft，2026-08 版）<br>
+      <b>對照文件</b>　本中心《資料標準調整建議》、API 棒球 V1.0.1、棒球-1、棒球-2、羽球智慧場域串接規範書、羽球智慧場域數據紀錄規格 v2
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="callout">
+    <h2>前言</h2>
+    <p>本次檢視肯定貴公司於 v0.3.0-draft 之整體品質——Standards-as-Code 架構、ISO/IEC 11179 對齊、以及各欄位「標準來源」之權威分級標註（尤其羽球端誠實標示「Hawk-Eye 規格未公開、暫予預留」），均為本中心樂見之作法；前兩輪意見亦確實反映於文件中。</p>
+    <p>本文件彙整檢視結果共 <b>33 項</b>，其中 21 項為本中心先前建議表已列、12 項為本次檢視新增。<b>請先行閱覽全部項目，後續由雙方共同討論各項採納與否</b>；本文件不預設結論。</p>
+    <p><b>惟考量 9/16 資料字典定版之時程，敬請以標示為 P0 之 9 項為本輪調整重點</b>——該 9 項多屬結構性缺口或定版後即無法回頭之破壞性變更（如欄位更名）。P1（17 項）、P2（7 項）請於回覆中先行表達立場即可，細節留待討論。</p>
+    <p>各項均已附「現況核對」與「建議作法」，以利直接評估施工可行性。若本中心對現行文件之理解有誤，亦請不吝指正。</p>
+  </div>
+
+  <div class="toolbar">
+    <div class="chips">
+      <button class="chip on" data-f="all">全部<span class="n">33</span></button>
+      <button class="chip" data-f="P0">P0 本輪調整重點<span class="n">9</span></button>
+      <button class="chip" data-f="P1">P1 請表達立場<span class="n">17</span></button>
+      <button class="chip" data-f="P2">P2 可留待後續<span class="n">7</span></button>
+      <button class="chip" data-f="team">建議表已列<span class="n">21</span></button>
+      <button class="chip" data-f="new">本次新增<span class="n">12</span></button>
+      <span class="spacer"></span>
+      <button class="btn" id="expand">全部展開</button>
+    </div>
+  </div>
+
+  <h2 class="sec">一、逐項檢視意見<span class="sub">33 項 · 點擊標題展開</span></h2>
+  <p class="secnote">「現況核對」為對照線上文件之查核結果；「建議作法」為本中心建議之具體寫法，供評估參考，非指定作法。</p>
+
+  <div id="list"></div>
+
+  <h2 class="sec">二、羽球場域規格 v2 逐欄比對<span class="sub">13 欄 · 4 欄未落入現行標準</span></h2>
+  <p class="secnote">以《羽球智慧場域數據紀錄規格 v2》13 個欄位，逐項比對現行羽球標準。</p>
+  <table class="cmp">
+    <thead><tr><th style="width:22%">v2 規格欄位</th><th style="width:34%">現行標準對應</th><th style="width:44%">狀態與說明</th></tr></thead>
+    <tbody>
+      <tr><td><code>email</code> / <code>phone</code></td><td>Player.email／phone</td><td><span class="st-ok">✓ 已納入</span></td></tr>
+      <tr><td><code>data_id</code></td><td>各實體 PK</td><td><span class="st-ok">✓ 概念對應</span></td></tr>
+      <tr><td><code>provider_name</code> / <code>site_name</code></td><td>DataProvider.provider_name／site_name</td><td><span class="st-ok">✓ 已納入</span></td></tr>
+      <tr><td><code>is_consent</code></td><td>標準將同意流程排除於範圍外</td><td><span class="st-warn">⚠ 範圍界定合理，惟 ETL 缺授權追溯路徑</span>，見 A7</td></tr>
+      <tr><td><code>gender</code></td><td>Player.gender</td><td><span class="st-ok">✓ 已納入</span>（型別建議調整，見 B1）</td></tr>
+      <tr><td><code>ball_speed</code></td><td>Shot.shot_speed_kmh</td><td><span class="st-ok">✓ 已納入</span>，單位已轉公制</td></tr>
+      <tr><td><code>landing_coordinate</code> (x,y,z)</td><td>Shot.landing_x／landing_y ＋ landing_height (enum)</td><td><span class="st-warn">⚠ 資訊降級</span>：z 軸由連續值變為 <code>ABOVE_NET</code>／<code>BELOW_NET</code> 二元 enum。敬請確認是否為刻意取捨</td></tr>
+      <tr><td><code>datetime</code></td><td>—</td><td><span class="st-bad">✗ 缺</span>。Shot 無時間戳；棒球 Pitch 有 <code>pitch_timestamp</code>，跨運動不一致</td></tr>
+      <tr><td><code>court_name</code></td><td>—</td><td><span class="st-bad">✗ 缺</span>。Venue 有 <code>court_count</code> 但無法指出係哪一面場地，多場地場館之資料無法區分</td></tr>
+      <tr><td><code>video_uri</code></td><td>—</td><td><span class="st-bad">✗ 缺</span>。棒球 Pitch 有 <code>video_ref</code>／<code>video_timestamp</code>。且 changelog 已將 video_uri 列為「三份文件皆獨立提出之通用需求」，棒球已實作、羽球未實作</td></tr>
+      <tr><td><code>ball_trajectory</code></td><td>—</td><td><span class="st-bad">✗ 缺</span>。見 M9</td></tr>
+    </tbody>
+  </table>
+
+  <footer>
+    國家運動科學中心 · 115 年度「運動數據資料標準制定與示範推動計畫」<br>
+    資料字典初版檢視意見 · 2026-08-20 · 共 33 項（P0 9／P1 17／P2 7）
+  </footer>
+</div>
+
+<script>
+const ITEMS = [
+ // ---------- 棒球分頁 ----------
+ {id:"B1",src:"team",sec:"棒球",pri:"P1",
+  t:"Player 新增 gender（生理性別）",
+  now:"成立。棒球 Player 14 欄無 gender；<b>但羽球 Player 有 gender</b>——跨運動不一致。",
+  fix:"必補。但建議<b>一併修正型別</b>：羽球現行 gender 為 <code>integer</code>、值域「1為男性／2為女性」，此為沿用羽球場域規格慣例，既不符本標準自訂的 enum 風格，也不符 ISO/IEC 5218。建議兩邊統一為 enum（<code>MALE</code>／<code>FEMALE</code>／<code>OTHER</code>／<code>UNKNOWN</code>），並於附註標明對映既有系統 1／2 的轉換規則。"},
+ {id:"B2",src:"team",sec:"棒球",pri:"P1",
+  t:"裁判若共用 Player.player_id，守備位置／投打慣用手是否改選填",
+  now:"成立。Game 有 <code>umpire_hp_id</code>／<code>umpire_1b/2b/3b_id</code>，值域皆指向 Player.player_id；而 Player 的 <code>primary_position</code>、<code>bat_side</code>、<code>pitch_hand</code> 目前為必填。",
+  fix:"<b>本項建議不宜以放寬必填解決</b>——該作法會使全體球員資料的品質約束一併降級。較適切的作法為新增 <code>Person</code> 上位實體（或於 Player 加 <code>person_role</code> enum：PLAYER／UMPIRE／COACH／STAFF），裁判走 Person 而非 Player。若考量工期不允許，方退而改為選填，惟須於資料契約載明「role=PLAYER 時此三欄為必填」。"},
+ {id:"B3",src:"team",sec:"棒球",pri:"P2",
+  t:"AthleteMetric 新增 br_event_id（FK → BaserunningEvent）",
+  now:"成立，AthleteMetric 16 欄確無此關聯。原提出目的為連結比賽中紀錄之衝刺速度、90 英尺分段計時等跑壘進階指標。",
+  fix:"<b>本項建模方向敬請評估後回覆</b>：AthleteMetric 是選手層級的量測主檔（context = Game／Session／Combine），BaserunningEvent 是比賽事件。由主檔指向事件會造成依賴方向倒置，且一位選手一場多次跑壘時 1:1 FK 會不夠用。建議改為在 BaserunningEvent 側新增量測欄位，或建立 <code>BaserunEventMetric</code> 關聯實體。敬請就上述兩種作法之取捨提供專業建議。"},
+ {id:"B4",src:"team",sec:"棒球",pri:"P1",
+  t:"BiomechanicsFrame 的 capture_fps 值域調整為 ≥250Hz",
+  now:"成立。現行值域寫「≥ 100（建議值）」，來源為《棒球-1》「每秒至少 100 筆採樣」。本中心另一棒球相關專案之採樣頻率已改為每秒至少 250 筆。",
+  fix:"請一併釐清<b>這個數字是 Schema 驗證門檻還是品質建議</b>。若寫進 JSON Schema 的 minimum，60／120fps 設備的資料會在 Staging 被擋下，違反本案「寬進嚴整」原則。建議：Schema 僅驗 <code>&gt; 0</code>，把 ≥250 寫入資料契約的品質承諾，並於資料品質回饋服務標示「未達生物力學分析建議採樣率」。"},
+ {id:"B5",src:"team",sec:"棒球",pri:"P1",
+  t:"同一 pitch_id 下有兩組 joint3d_ref（投手、打者），建議拆為各自欄位",
+  now:"成立，需求為真。現行 BiomechanicsFrame 6 欄僅有單一 <code>joint3d_ref</code>。",
+  fix:"<b>建議作法</b>：ERD 已定義 <code>PITCH ||--o{ BIOMECHANICSFRAME</code>（一對多），結構上本來就能存兩筆，缺的是「這筆是誰」。建議新增 <code>subject_role</code>（enum：PITCHER／BATTER／FIELDER）＋ <code>subject_player_id</code>（FK→Player），存成兩筆。若改為 pitcher_joint3d_ref／batter_joint3d_ref 兩個欄位，未來要納入捕手或守備員的動作捕捉就必須再改結構，屬破壞性變更。"},
+ {id:"B6",src:"team",sec:"棒球",pri:"P1",
+  t:"Game 新增開賽時間與完賽時間",
+  now:"成立。Game 22 欄僅有 <code>game_date</code>（date 型別），無時間資訊。",
+  fix:"建議 <code>game_start_time</code>／<code>game_end_time</code>，或直接改用 timestamptz，並明確<b>時區為 UTC+8</b>。本標準目前未見全域時區宣告，這是跨系統交換常見的隱性錯誤來源，建議在 §1 適用範圍增列一條時區規範（見 A12）。"},
+ {id:"B7",src:"team",sec:"棒球",pri:"P2",
+  t:"Game 新增 org_id（FK → Organization）",
+  now:"成立。現行 Game 無 org_id，只能透過 Team → org_id 間接推得該場比賽屬於哪個聯盟／組織。",
+  fix:"支持。但要注意跨聯盟交流賽時主客隊 org 不同，建議欄位語意定義為「主辦／登錄之組織」而非「球隊所屬組織」，避免 ETL 誤用 Team.org_id 回填。"},
+ {id:"B8",src:"team",sec:"棒球",pri:"P1",
+  t:"AtBat.is_bunt 是否改放到 Pitch，以記錄打者於特定一球是否具觸擊或偷點意圖",
+  now:"成立且合理。<code>is_bunt</code> 現位於 AtBat（打席層級）。",
+  fix:"建議<b>新增 <code>Pitch.is_bunt_attempt</code></b>（該球打者是否擺出觸擊姿勢，逐球意圖），<b>並移除 AtBat.is_bunt</b>。「該打席結果是否為犧牲觸擊」之情境<b>已可透過 <code>AtBat.event</code> = <code>sac_bunt</code>（CL-005 打席結果代碼表）判斷，不須額外增加 <code>AtBat.is_sacrifice_bunt</code></b>。逐球意圖與打席結果本為兩件事——第一球擺短未成、第二球改揮擊的情況，現行模型無法表達；Statcast 亦將此資訊放在 pitch level 的 description。"},
+ {id:"B9",src:"team",sec:"棒球",pri:"P1",
+  t:"FieldingPlay.error_position — 同一打席可能多人失誤",
+  now:"成立。<code>error_position</code> 為單一 integer（值域 1–9 或 null），無法表達一次打擊事件中多人接續失誤。",
+  fix:"結構上 <code>ATBAT ||--o{ FIELDINGPLAY</code> 已是一對多，可存多筆。真正缺的是<b>粒度定義</b>：文件未寫明一筆 FieldingPlay 代表「一次守備動作」還是「一個打席的守備結果」。敬請於實體說明中明確定義粒度，並補上 <code>fielding_seq</code>（同一打席內的守備動作序號）。WBSC Rule 17.3 允許單一打擊事件記錄多次失誤。"},
+ {id:"B10",src:"team",sec:"棒球",pri:"P1",
+  t:"Pitch 加入擊球水平方向（direction）",
+  now:"成立。Pitch 55 欄中無 direction／spray_angle，僅有 <code>hc_x</code>／<code>hc_y</code> 落點座標。《棒球-1》明列此欄位：擊球噴發的水平夾角，以本壘為原點，正值偏右、負值偏左。",
+  fix:"建議命名 <code>spray_angle_deg</code>（或 launch_direction_deg），並於附註<b>明確說明與 hc_x／hc_y 的換算關係與優先順序</b>。兩者資訊重疊，若同時由不同來源填入會產生矛盾值，需在資料契約指定何者為權威。"},
+
+ // ---------- 羽球分頁 ----------
+ {id:"M1",src:"team",sec:"羽球",pri:"P2",
+  t:"Tournament 可加入賽事主辦單位",
+  now:"成立。Tournament 僅 5 欄：tournament_id／tournament_name／tier／start_date／end_date。",
+  fix:"建議用 <code>host_org_id</code>（FK→Organization）而非自由文字欄位，才能與 Organization 實體對齊，避免同一協會在不同賽事出現多種寫法。"},
+ {id:"M2",src:"team",sec:"羽球",pri:"P2",
+  t:"Tournament 可記錄等級系列之下的細部分級（level）",
+  now:"成立。現行 <code>tier</code> 為單層 enum。例如 BWF World Tour 可細分為 Super 300／500／750／1000。",
+  fix:"建議拆為 <code>tier</code>（系列）＋ <code>tier_sublevel</code>（細部分級）兩層，並建代碼表。單一欄位塞「SUPER_750」會讓「查詢所有 World Tour 賽事」這類需求必須做字串比對。"},
+ {id:"M3",src:"team",sec:"羽球",pri:"P1",
+  t:"Ranking 可加入該筆排名紀錄對應的積分",
+  now:"成立。Ranking 5 欄（ranking_id／player_id／ranking_type／rank_position／ranking_date）無積分欄位。",
+  fix:"建議 <code>ranking_points</code>（decimal）＋ <code>points_system</code>（enum：BWF／CTBA）。BWF 世界排名與中華民國羽協國內排名積分制度不同，混存會無法比較。現行已有 ranking_type 雙軌設計，此欄位應與其對齊。"},
+ {id:"M4",src:"team",sec:"羽球",pri:"P0",
+  t:"Match 缺少和選手資訊的關聯，無法辨認參賽選手",
+  now:"成立，<b>為本次檢視中影響範圍最大之結構缺口</b>。Match 9 欄：match_id／tournament_id／match_date／round_name／venue_id／discipline／games_won_a／games_won_b／winner_side。<b>「a 方」「b 方」從未被定義是誰。</b>Player、Pair 兩個實體因此成為孤島，Ranking 也無從對應實績。",
+  fix:"建議新增 <code>side_a_player_id</code>／<code>side_b_player_id</code>（FK→Player，單打用）與 <code>side_a_pair_id</code>／<code>side_b_pair_id</code>（FK→Pair，雙打用），並以 <code>discipline</code> 決定何組欄位必填——條件式必填請寫入 JSON Schema 的 <code>oneOf</code>。"},
+ {id:"M5",src:"team",sec:"羽球",pri:"P1",
+  t:"Match 額外記錄開賽時間、對戰時長",
+  now:"成立。Match 無時間與時長欄位。",
+  fix:"同 B6，請一併處理時區。對戰時長建議存為<b>獨立欄位</b>而非由 end_time 推算——羽球中斷、暫停常見，實際時長與起訖差值不同。<b>單位建議採分鐘（<code>duration_min</code>）</b>：羽球單場多為 20–90 分鐘量級，秒級精度對賽事分析無實益，分鐘較貼近實務記錄慣例；惟若感測端本就輸出秒值，亦可存 <code>duration_sec</code> 而於展示層換算，敬請就資料來源實況提供建議。"},
+ {id:"M6",src:"team",sec:"羽球",pri:"P0",
+  t:"Match 增加 status 欄位（Finished／Walkover／Retired／Disqualification）",
+  now:"成立且必要。棒球 Game 已有 status 欄位，羽球 Match 沒有——跨運動不一致。",
+  fix:"補充一項理由：<b>status 是驗證比分完整性的前提</b>。Walkover 的比賽不會有 Rally／Game 資料，若無 status，資料品質檢核會把這類比賽誤判為「資料缺漏」，回饋給資料源頭單位的品質報告因而失真。"},
+ {id:"M7",src:"team",sec:"羽球",pri:"P0",
+  t:"Rally 缺少 score_b（乙方當前比分）",
+  now:"成立。Rally 6 欄僅有 <code>score_a</code>。",
+  fix:"明顯遺漏。單有一方比分無法還原局勢，也無法與 Game.score_a_final／score_b_final 交叉驗證。"},
+ {id:"M8",src:"team",sec:"羽球",pri:"P0",
+  t:"Shot 缺少和選手資訊的關聯，無法辨認擊球之選手",
+  now:"成立。Shot 12 欄無 player_id。",
+  fix:"建議新增 <code>player_id</code>（FK→Player）。雙打情境下這是唯一能判斷「是誰擊的球」的途徑，否則 Pair 實體形同虛設。"},
+ {id:"M9",src:"team",sec:"羽球",pri:"P1",
+  t:"Shot 考慮加入擊球軌跡",
+  now:"成立。現行 Shot 無軌跡欄位。v2 規格的 <code>ball_trajectory</code> 為 <code>[(t,x,y,z), …]</code> 時序陣列。",
+  fix:"<b>建議比照棒球端既有作法</b>：時序陣列不宜置於關聯式欄位。BiomechanicsFrame 已採「metadata 實體 ＋ 物件儲存 URI 指標」設計，並於啟動會議說明過此原則，惟羽球端尚未套用。建議新增 <code>ShotTrajectory</code> 實體或 <code>trajectory_ref</code>（URI）欄位，維持兩運動架構一致。"},
+ {id:"M10",src:"team",sec:"羽球",pri:"P1",
+  t:"國內賽事常用甲組／乙組／公開組等參賽組別，Tournament 或 Match 是否有適合欄位",
+  now:"成立，現行標準無此概念。",
+  fix:"這與 <code>player_level</code>（選手層級）是<b>不同概念</b>，不可混用——一位選手層級是 AMT，但可報名公開組。建議在 Match 層級新增 <code>event_category</code>，因為同一 Tournament 下會同時進行多個組別。<b>棒球端有相同問題</b>（成棒甲組／乙組），建議兩運動用同一套設計。"},
+ {id:"M11",src:"team",sec:"羽球",pri:"P1",
+  t:"因應另一羽球專案收集數據欄位修改，提供新版羽球欄位參考（v2 規格）",
+  now:"已納入比對。v2 規格共 13 欄。",
+  fix:"逐欄比對結果見本文件第二節。<b>有 4 欄未落入現行羽球標準</b>：datetime、court_name、video_uri、ball_trajectory。"},
+
+ // ---------- 新發現 P0 ----------
+ {id:"A1",src:"new",sec:"羽球",pri:"P0",
+  t:"羽球 Shot 沒有「這是本回合第幾拍」的序號欄位",
+  now:"Shot 的 12 欄中沒有 shot_seq／ball_round 之類的序號。更值得留意的是：文件把 <code>rally_id</code> 的附註標成「ShuttleSet22 ball round 欄位」——但 ShuttleSet22 的 <code>ball round</code> 指的是<b>回合內的擊球序號</b>，不是回合識別碼，這是引用錯置。",
+  fix:"其結果為：逐拍資料寫入後無法還原順序，而示範應用所載之「逐拍序列」戰術分析須仰賴此欄位。建議新增 <code>shot_seq</code>（integer，回合內遞增），並修正 rally_id 該欄附註。"},
+ {id:"A2",src:"new",sec:"跨運動",pri:"P0",
+  t:"同一份標準內混用公制與英制",
+  now:"啟動會議中已說明「命名維持公制」之原則，Pitch 實體亦確實落實（release_speed_kmh、pfx_z_cm、hit_distance_m）。但其他實體大量保留英制：<code>sprint_speed_fps</code>、<code>sprint_60yd_sec</code>、<code>arm_strength_mph</code>、<code>bat_speed_mph</code>、<code>peak_hand_speed_mph</code>、<code>lead_distance_ft</code>、<code>reaction_distance_ft</code>、<code>burst_distance_ft</code>、<code>swing_length_ft</code>、<code>sprint_90ft_splits_json</code>。",
+  fix:"ISO/IEC 11179 對量測單位一致性有明確要求，而補齊此缺口亦為貴公司於啟動會議所提方法論之重點之一。敬請說明：係刻意保留設備原生單位，抑或尚未處理？若為前者，請於 §1 增列單位政策說明；若為後者，請於定版前統一。"},
+ {id:"A3",src:"new",sec:"棒球",pri:"P0",
+  t:"Pitch.bat_speed 文件自己已標註為待補項目，但更名屬破壞性變更",
+  now:"文件在該欄附註中寫明：此欄位尚未依 ISO/IEC 11179 於名稱標註單位，屬已識別之待補項目，後續版本將更名為 bat_speed_mph 或於資料契約中明確聲明單位。",
+  fix:"<b>定版後即鎖定 Schema，而欄位更名屬破壞性變更（MAJOR），敬請務必於 9/16 之前完成</b>，勿留至定版之後。同一問題也適用 <code>swing_length</code>（無單位後綴）。"},
+ {id:"A4",src:"new",sec:"跨運動",pri:"P0",
+  t:"示範應用與資料字典不一致，直接牴觸 Standards-as-Code 的宣稱",
+  now:"示範應用頁的「擊球初速分布」圖表標示為 <code>Pitch.launch_speed_mph</code>、以 95 mph 為門檻；但資料字典定義的是 <code>launch_speed_kmh</code>。而文件主張 YAML 為唯一真相來源、HTML 與 OpenAPI 由 CI/CD 自動生成、「不會產生兩處不一致之風險」。",
+  fix:"這裡出現的正是該風險。敬請確認示範應用是否納入同一條 CI/CD 流程，或說明其為手工樣板。<b>本項意義不僅止於單一欄位</b>——「修改 YAML 即全站同步」為本標準後續由本中心自行維運之基礎前提，故需確認其實際涵蓋範圍。"},
+ {id:"A5",src:"new",sec:"跨運動",pri:"P0",
+  t:"sport_code 與既有平台 Generic API 的運動代碼沒有對照表",
+  now:"本標準採 ODF 三碼（BSB／BDM），既有平台 Generic API 之 <code>metadata.sport_codes</code> 則為 integer（依羽球串接規範書：羽球＝16、棒球＝40、不適用＝1）。啟動會議已列為待協調事項，惟現行標準文件尚無對照機制。",
+  fix:"本案資料一律先落於既有平台之 Raw Pool，此對照為每一條 ETL 之必經路徑；若硬編於程式中，將成為無法治理之隱性規則。建議新增代碼表（如 CL-000 運動別代碼對照），三欄：ODF 三碼／既有平台數字碼／中文名稱，並納入版本控制。<b>本項涉及既有平台端，由本中心負責協調三方對齊，並非貴公司單方面可決定，特此敘明。</b>"},
+
+ // ---------- 新發現 P1 ----------
+ {id:"A6",src:"new",sec:"羽球",pri:"P1",
+  t:"羽球端遺漏 v2 規格的 4 個欄位",
+  now:"以 v2 規格 13 欄逐項比對，<code>datetime</code>、<code>court_name</code>、<code>video_uri</code>、<code>ball_trajectory</code> 四欄未落入現行羽球標準。詳見本文件第二節對照表。",
+  fix:"其中 <code>video_uri</code> 值得特別提出：貴公司 changelog 已將其列為「三份文件皆獨立提出之通用需求」，棒球做了 Pitch.video_ref，羽球漏了。<code>court_name</code> 則是多場地場館的資料區分關鍵——Venue 只有 court_count，無法指出是哪一面場地。"},
+ {id:"A7",src:"new",sec:"跨運動",pri:"P1",
+  t:"授權狀態（is_consent）在標準內無追溯路徑",
+  now:"標準 §1 載明「同意蒐集流程本身不在本標準規範範圍內」，這個範圍界定沒問題。但 v2 規格中 <code>is_consent</code> 為必填欄位。",
+  fix:"ETL 在 Raw → Staging 階段需要知道每一筆（或每一批）資料的授權狀態，才能決定是否可進入 Mart 層對外服務。建議至少在批次層級保留 <code>consent_batch_ref</code> 或等效欄位，讓授權狀態可回溯至知情同意平台。<b>否則一旦發生違反授權之情形，將無從舉證哪些資料受影響。</b>"},
+ {id:"A8",src:"new",sec:"羽球",pri:"P1",
+  t:"羽球訓練情境的模型明顯較棒球薄",
+  now:"棒球 Session 有 9 欄（player_id／team_id／venue_id／session_type／drill_context／pitch_count_actual／pitch_count_limit…），羽球 Session 只有 5 欄，且無 provider_id、無訓練內容描述。",
+  fix:"本案需求規範書的資料主題範圍包含訓練紀錄，羽球場域規格本身也是訓練場域導向。敬請說明係刻意取捨（因羽球訓練資料來源尚未確定）抑或待補。本中心亦將一併確認羽球訓練資料之取得時程。"},
+ {id:"A9",src:"new",sec:"跨運動",pri:"P1",
+  t:"Player.national_id 納入標準需要法遵確認",
+  now:"棒球與羽球 Player 均含 <code>national_id</code>，已標記 PII 並要求雜湊存放、不得明碼儲存或於報表明碼呈現。",
+  fix:"技術處理並無問題，惟<b>「將身分證字號納入國家級資料標準」一事本身</b>需經本中心法遵確認，非廠商所能決定。<b>本項由本中心確認後另行回覆</b>；併請貴公司評估：是否可改用平台端產生之 person_key 對照，使 national_id 僅存在於知情同意授權平台、不進入本標準資料流。"},
+
+ // ---------- 新發現 P2 ----------
+ {id:"A10",src:"new",sec:"跨運動",pri:"P2",
+  t:"詮釋資料表日期有誤",
+  now:"§2 詮釋資料表寫「草案日期：2025-06（115年6月）」——民國 115 年為西元 2026 年；且 changelog 記載 v0.1.0-draft 為 2026-07。前後矛盾。",
+  fix:"請修正為 2026-06 或依實際日期調整。"},
+ {id:"A11",src:"new",sec:"跨運動",pri:"P2",
+  t:"資料標準授權條款尚待確認",
+  now:"現行標為「CC BY 4.0（草案階段預設值，正式授權條款待運科中心於平台上線前確認）」。",
+  fix:"<b>此為本中心之決策項，非貴公司疏漏</b>，僅先行敘明。本中心將於期中報告前確認，因其影響開放 API 使用條款與資料契約措辭。"},
+ {id:"A12",src:"new",sec:"跨運動",pri:"P2",
+  t:"全域時區未宣告",
+  now:"文件多處使用 date／timestamp 但未見全域時區規範。羽球場域規格 v2 的 data_id 使用 UTC+8 timestamp，棒球 API V1.0.1 註明 ISO 8601。",
+  fix:"建議於 §1 增列一條：所有時間欄位以 ISO 8601 表示並帶時區位移，預設 <code>+08:00</code>。本項與 B6、M5 連動，建議一併處理。"}
+];
+const list = document.getElementById('list');
+list.innerHTML = ITEMS.map(it=>{
+  const srcLabel = it.src==='team' ? '建議表已列' : '本次新增';
+  const srcCls   = it.src==='team' ? 'src-team' : 'src-new';
+  return `<div class="item" data-id="${it.id}" data-pri="${it.pri}" data-src="${it.src}">
+    <div class="ihead">
+      <span class="caret">▶</span>
+      <span class="id">${it.id}</span>
+      <span class="ttl">${it.t}</span>
+      <span class="badges">
+        <span class="b ${it.pri}">${it.pri}</span>
+        <span class="b ${srcCls}">${srcLabel}</span>
+        <span class="b src-us">${it.sec}</span>
+      </span>
+    </div>
+    <div class="ibody">
+      <div class="fld"><div class="lbl">現況核對</div><div class="val">${it.now}</div></div>
+      <div class="fld"><div class="lbl">建議作法</div><div class="val">${it.fix}</div></div>
+    </div>
+  </div>`;
+}).join('');
+
+list.addEventListener('click', e=>{
+  const head = e.target.closest('.ihead');
+  if(head) head.parentElement.classList.toggle('open');
+});
+
+document.querySelectorAll('.chip').forEach(c=>{
+  c.addEventListener('click',()=>{
+    document.querySelectorAll('.chip').forEach(x=>x.classList.remove('on'));
+    c.classList.add('on');
+    const f = c.dataset.f;
+    document.querySelectorAll('.item').forEach(it=>{
+      const show = f==='all' || it.dataset.pri===f || it.dataset.src===f;
+      it.classList.toggle('hide', !show);
+    });
+  });
+});
+
+let expanded=false;
+document.getElementById('expand').addEventListener('click',e=>{
+  expanded=!expanded;
+  document.querySelectorAll('.item').forEach(i=>i.classList.toggle('open',expanded));
+  e.target.textContent = expanded ? '全部收合' : '全部展開';
+});
+</script>
+</body>
+</html>
