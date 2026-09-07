@@ -1,0 +1,703 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="TISS ISMS 程式修改與上線紀錄單預填 Skill 的 Claude、Codex、Antigravity 專案內安裝及使用說明。">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <title>TISS ISMS 表單預填 Skill 使用說明</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #17233a;
+      --muted: #5e6b7e;
+      --line: #dce2ea;
+      --paper: #ffffff;
+      --canvas: #f2f5f9;
+      --blue: #1f5da8;
+      --blue-strong: #17477f;
+      --blue-soft: #eaf2fb;
+      --teal: #167f7a;
+      --teal-soft: #e8f6f4;
+      --amber: #9b5d00;
+      --amber-soft: #fff6df;
+      --danger: #9b2f36;
+      --danger-soft: #fff0f1;
+      --shadow: 0 20px 55px rgba(23, 35, 58, 0.10);
+      --radius: 20px;
+      --mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 12% -8%, rgba(31, 93, 168, 0.15), transparent 27rem),
+        linear-gradient(180deg, #f7f9fc 0, var(--canvas) 38rem);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+      font-size: 16px;
+      line-height: 1.75;
+    }
+
+    a { color: var(--blue); text-underline-offset: 0.18em; }
+    a:hover { color: var(--blue-strong); }
+
+    code, pre { font-family: var(--mono); }
+    code { overflow-wrap: anywhere; }
+
+    .shell {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .hero {
+      padding: 72px 0 38px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 18px;
+      color: var(--blue-strong);
+      font-size: 0.82rem;
+      font-weight: 750;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      width: 26px;
+      height: 3px;
+      border-radius: 99px;
+      background: var(--teal);
+      content: "";
+    }
+
+    h1, h2, h3 { margin: 0; line-height: 1.26; }
+
+    h1 {
+      max-width: 840px;
+      font-size: clamp(2.2rem, 6vw, 4.55rem);
+      letter-spacing: -0.045em;
+    }
+
+    .lead {
+      max-width: 760px;
+      margin: 24px 0 0;
+      color: var(--muted);
+      font-size: clamp(1.05rem, 2.2vw, 1.25rem);
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 26px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 5px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.72);
+      color: #445168;
+      font-size: 0.88rem;
+      font-weight: 650;
+    }
+
+    .quick-start {
+      display: grid;
+      grid-template-columns: 1.25fr 0.75fr;
+      gap: 24px;
+      margin: 28px 0 62px;
+      padding: 28px;
+      border: 1px solid rgba(31, 93, 168, 0.18);
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, #173f70, #1f5da8 62%, #237b86);
+      box-shadow: var(--shadow);
+      color: #fff;
+    }
+
+    .quick-start h2 { font-size: 1.45rem; }
+
+    .quick-start p {
+      margin: 10px 0 0;
+      color: rgba(255, 255, 255, 0.82);
+    }
+
+    .quick-start .result {
+      align-self: center;
+      padding: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 14px;
+      background: rgba(8, 31, 57, 0.28);
+    }
+
+    .quick-start .result small {
+      display: block;
+      margin-bottom: 6px;
+      color: rgba(255, 255, 255, 0.68);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .quick-start code { color: #fff; }
+
+    .section {
+      margin: 0 0 66px;
+      scroll-margin-top: 24px;
+    }
+
+    .section-heading {
+      display: grid;
+      grid-template-columns: 52px minmax(0, 1fr);
+      gap: 16px;
+      align-items: start;
+      margin-bottom: 24px;
+    }
+
+    .step-no {
+      display: grid;
+      width: 52px;
+      height: 52px;
+      place-items: center;
+      border-radius: 16px;
+      background: var(--ink);
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: 800;
+    }
+
+    .section-heading h2 { font-size: clamp(1.55rem, 3vw, 2.25rem); }
+
+    .section-heading p {
+      margin: 5px 0 0;
+      color: var(--muted);
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--paper);
+      box-shadow: 0 10px 28px rgba(23, 35, 58, 0.055);
+    }
+
+    .package-map {
+      display: grid;
+      grid-template-columns: 0.78fr 1.22fr;
+      gap: 0;
+      overflow: hidden;
+    }
+
+    .package-map > div { padding: 28px; }
+    .package-map > div + div { border-left: 1px solid var(--line); }
+
+    .package-map h3, .agent-card h3 { font-size: 1.15rem; }
+
+    .package-map p {
+      margin: 10px 0 0;
+      color: var(--muted);
+    }
+
+    pre {
+      margin: 16px 0 0;
+      padding: 18px;
+      overflow-x: auto;
+      border: 1px solid #263954;
+      border-radius: 14px;
+      background: #101b2b;
+      color: #e8eef7;
+      font-size: 0.88rem;
+      line-height: 1.65;
+      white-space: pre;
+    }
+
+    .tree .folder { color: #78c7ff; }
+    .tree .file { color: #d8e3f1; }
+    .tree .secret { color: #ffd579; }
+
+    .agent-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .agent-card {
+      position: relative;
+      padding: 24px;
+      overflow: hidden;
+    }
+
+    .agent-card::before {
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 5px;
+      background: var(--agent-color, var(--blue));
+      content: "";
+    }
+
+    .agent-name {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .agent-name span {
+      display: grid;
+      width: 34px;
+      height: 34px;
+      place-items: center;
+      border-radius: 10px;
+      background: var(--agent-soft, var(--blue-soft));
+      color: var(--agent-color, var(--blue));
+      font-weight: 850;
+    }
+
+    .agent-card p {
+      min-height: 56px;
+      margin: 10px 0 14px;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .path {
+      display: block;
+      padding: 13px 14px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #f7f9fc;
+      color: var(--ink);
+      font-size: 0.82rem;
+      line-height: 1.55;
+    }
+
+    .agent-card ul {
+      margin: 16px 0 0;
+      padding-left: 20px;
+      color: #3f4c61;
+      font-size: 0.92rem;
+    }
+
+    .agent-card.claude { --agent-color: #b0522e; --agent-soft: #fff1eb; }
+    .agent-card.codex { --agent-color: #176e68; --agent-soft: #e7f7f4; }
+    .agent-card.antigravity { --agent-color: #6656b6; --agent-soft: #f0edff; }
+
+    .callout {
+      margin-top: 18px;
+      padding: 18px 20px;
+      border-left: 4px solid var(--teal);
+      border-radius: 0 14px 14px 0;
+      background: var(--teal-soft);
+      color: #285650;
+    }
+
+    .callout strong { color: #164c48; }
+
+    .env-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+    }
+
+    .env-layout .card { padding: 26px; }
+
+    .env-layout h3 { font-size: 1.12rem; }
+
+    .env-layout p {
+      margin: 9px 0 0;
+      color: var(--muted);
+    }
+
+    .warning-list {
+      display: grid;
+      gap: 12px;
+      margin: 18px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .warning-list li {
+      display: grid;
+      grid-template-columns: 26px 1fr;
+      gap: 10px;
+      align-items: start;
+    }
+
+    .check {
+      display: grid;
+      width: 24px;
+      height: 24px;
+      place-items: center;
+      margin-top: 2px;
+      border-radius: 50%;
+      background: var(--teal-soft);
+      color: var(--teal);
+      font-size: 0.83rem;
+      font-weight: 900;
+    }
+
+    .settings-card {
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(320px, 1.1fr);
+      gap: 28px;
+      padding: 28px;
+      align-items: center;
+    }
+
+    .settings-card h3 { font-size: 1.3rem; }
+
+    .settings-card ol {
+      margin: 16px 0 0;
+      padding-left: 22px;
+    }
+
+    .settings-card li + li { margin-top: 7px; }
+
+    figure { margin: 0; }
+
+    figure img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border: 1px solid #e4dccd;
+      border-radius: 14px;
+      background: #fbf5e7;
+    }
+
+    figcaption {
+      margin-top: 9px;
+      color: var(--muted);
+      font-size: 0.82rem;
+      text-align: center;
+    }
+
+    .risk {
+      margin-top: 18px;
+      padding: 14px 16px;
+      border: 1px solid #f0c8cc;
+      border-radius: 12px;
+      background: var(--danger-soft);
+      color: #753238;
+      font-size: 0.91rem;
+    }
+
+    .prompt-card { padding: 28px; }
+
+    .prompt-card h3 { font-size: 1.18rem; }
+
+    .prompt-card p {
+      margin: 9px 0 0;
+      color: var(--muted);
+    }
+
+    .prompt {
+      position: relative;
+      margin-top: 16px;
+      padding: 22px;
+      border: 1px solid #b8cce6;
+      border-radius: 14px;
+      background: var(--blue-soft);
+      color: #193e6b;
+      font-size: 1.02rem;
+    }
+
+    .output-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 20px;
+    }
+
+    .output-item {
+      padding: 17px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fafbfd;
+    }
+
+    .output-item strong { display: block; }
+
+    .output-item span {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .sources {
+      padding: 28px;
+    }
+
+    .sources h2 { font-size: 1.35rem; }
+
+    .sources ul {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px 28px;
+      margin: 16px 0 0;
+      padding-left: 21px;
+    }
+
+    footer {
+      margin-top: 66px;
+      padding: 30px 0 46px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    @media (max-width: 900px) {
+      .agent-grid, .output-grid { grid-template-columns: 1fr; }
+      .agent-card p { min-height: auto; }
+      .quick-start, .package-map, .env-layout, .settings-card { grid-template-columns: 1fr; }
+      .package-map > div + div { border-top: 1px solid var(--line); border-left: 0; }
+      .sources ul { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 580px) {
+      .shell { width: min(100% - 22px, 1120px); }
+      .hero { padding-top: 46px; }
+      .quick-start, .settings-card, .prompt-card, .sources { padding: 21px; }
+      .section-heading { grid-template-columns: 42px 1fr; }
+      .step-no { width: 42px; height: 42px; border-radius: 13px; }
+      .package-map > div, .agent-card, .env-layout .card { padding: 21px; }
+    }
+
+    @media print {
+      body { background: #fff; font-size: 11pt; }
+      .shell { width: 100%; }
+      .hero { padding-top: 0; }
+      .card, .quick-start { box-shadow: none; break-inside: avoid; }
+      .section { margin-bottom: 34px; }
+      a { color: inherit; text-decoration: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero shell">
+    <div class="eyebrow">Local Skill Guide</div>
+    <h1>TISS ISMS 表單預填 Skill 使用說明</h1>
+    <p class="lead">將 ClickUp ticket 轉成預填的 ISMS-02-14-01 DOCX。Skill 可放在單一 workspace 中供 Claude、Codex 或 Antigravity 使用，不需安裝 ClickUp CLI 或額外 Python 套件。</p>
+    <div class="hero-meta" aria-label="執行需求">
+      <span class="pill">Python 3</span>
+      <span class="pill">ClickUp Personal API Token</span>
+      <span class="pill">Project-local</span>
+      <span class="pill">更新日期 2026-09-07</span>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section class="quick-start" aria-labelledby="quick-title">
+      <div>
+        <h2 id="quick-title">使用流程只有四件事</h2>
+        <p>複製完整 Skill 資料夾 → 放到 agent 的專案目錄 → 填寫 <code>.env</code> → 貼上 ClickUp ticket URL 請 agent 產表。</p>
+      </div>
+      <div class="result">
+        <small>預設輸出檔名</small>
+        <code>ISMS表單草稿_YYYYMMDD_taskID.docx</code>
+      </div>
+    </section>
+
+    <section class="section" id="package">
+      <div class="section-heading">
+        <div class="step-no">01</div>
+        <div>
+          <h2>取得並完整複製 Skill</h2>
+          <p>可使用資料夾或 ZIP。不要只複製 <code>SKILL.md</code>，腳本、範本、人名表與隱藏的 <code>.env</code> 都是必要檔案。</p>
+        </div>
+      </div>
+
+      <div class="package-map card">
+        <div>
+          <h3>從公司 NAS 下載</h3>
+          <p>請先連線公司 NAS，再從以下路徑取得 Skill 壓縮檔：</p>
+          <code class="path">/shareall/share/Agent skills/ISMS_系統上線表單預填/tiss-isms-code-update.zip</code>
+          <p>將 ZIP 複製到自己的 workspace 後解壓縮，應得到 <code>tiss-isms-code-update</code> 同名資料夾。</p>
+        </div>
+        <div>
+          <h3>正確資料夾結構</h3>
+          <pre class="tree" aria-label="Skill 資料夾結構"><span class="folder">tiss-isms-code-update/</span>
+├── <span class="file">SKILL.md</span>
+├── <span class="secret">.env</span>
+├── <span class="folder">assets/</span>
+├── <span class="folder">references/</span>
+└── <span class="folder">scripts/</span></pre>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="agents">
+      <div class="section-heading">
+        <div class="step-no">02</div>
+        <div>
+          <h2>放到各 agent 的 local skill 目錄</h2>
+          <p><code>&lt;workspace-root&gt;</code> 是你用 agent 開啟的專案資料夾。完成後，重新開啟專案或建立新對話，讓 agent 重新偵測 Skill。</p>
+        </div>
+      </div>
+
+      <div class="agent-grid">
+        <article class="agent-card claude card">
+          <div class="agent-name">
+            <h3>Claude Code／Desktop</h3>
+            <span aria-hidden="true">C</span>
+          </div>
+          <p>Claude 的 project skill 使用 <code>.claude/skills</code>。</p>
+          <code class="path">&lt;workspace-root&gt;/.claude/skills/tiss-isms-code-update/</code>
+          <ul>
+            <li><code>SKILL.md</code> 必須位於上述資料夾內。</li>
+            <li>若本次 session 啟動時還沒有 <code>.claude/skills</code>，新增後重新啟動 Claude。</li>
+          </ul>
+        </article>
+
+        <article class="agent-card codex card">
+          <div class="agent-name">
+            <h3>Codex</h3>
+            <span aria-hidden="true">X</span>
+          </div>
+          <p>Codex 的 repository-local skill 使用 <code>.agents/skills</code>。</p>
+          <code class="path">&lt;workspace-root&gt;/.agents/skills/tiss-isms-code-update/</code>
+          <ul>
+            <li>從 workspace 或其子目錄啟動 Codex。</li>
+            <li>可直接在 prompt 提及 <code>$tiss-isms-code-update</code>；若未出現，重新啟動 Codex。</li>
+          </ul>
+        </article>
+
+        <article class="agent-card antigravity card">
+          <div class="agent-name">
+            <h3>Antigravity</h3>
+            <span aria-hidden="true">A</span>
+          </div>
+          <p>Antigravity 的 workspace skill 同樣使用 <code>.agents/skills</code>。</p>
+          <code class="path">&lt;workspace-root&gt;/.agents/skills/tiss-isms-code-update/</code>
+          <ul>
+            <li>將 <code>&lt;workspace-root&gt;</code> 加入 Antigravity Project 的 Folders。</li>
+            <li>建立新對話；也可用 Skills 畫面確認 Skill 已被載入。</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="callout">
+        <strong>Codex 與 Antigravity 可以共用同一份 local skill。</strong>
+        兩者都讀取 <code>.agents/skills/tiss-isms-code-update/</code>，不必在同一 workspace 內放兩份。Claude 則需另外放在 <code>.claude/skills/</code>。
+      </div>
+    </section>
+
+    <section class="section" id="token">
+      <div class="section-heading">
+        <div class="step-no">03</div>
+        <div>
+          <h2>在 Skill 的 .env 填入 ClickUp token</h2>
+          <p>每一份 local skill 都有自己的 <code>.env</code>。開啟該檔案，把範例 token 改成使用者自己的 ClickUp Personal API Token。</p>
+        </div>
+      </div>
+
+      <div class="env-layout">
+        <div class="card">
+          <h3>.env 內容</h3>
+          <pre>CU_API_TOKEN=pk_your_personal_token
+CU_TEAM_ID=90181438893</pre>
+          <p><code>CU_TEAM_ID</code> 已填入本公司 ClickUp Workspace ID，一般不需更改。</p>
+        </div>
+
+        <div class="card">
+          <h3>憑證處理原則</h3>
+          <ul class="warning-list">
+            <li><span class="check">✓</span><span>只在自己的 local workspace 副本填入 token。</span></li>
+            <li><span class="check">✓</span><span>分享 Skill 或重新壓縮前，把 token 改回 placeholder。</span></li>
+            <li><span class="check">✓</span><span>不要把含真實 token 的 <code>.env</code> 提交到 Git。</span></li>
+            <li><span class="check">✓</span><span>不要把 token 貼進 prompt、產出文件或聊天訊息。</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="antigravity-settings">
+      <div class="section-heading">
+        <div class="step-no">04</div>
+        <div>
+          <h2>Antigravity 建議設定</h2>
+          <p>這個 Skill 會連續執行讀取 ticket、產生 DOCX、檢查 DOCX 三個 Python 指令。若希望過程不中斷，可讓該 Project 的 terminal commands 自動執行。</p>
+        </div>
+      </div>
+
+      <div class="settings-card card">
+        <div>
+          <h3>設定 Terminal Command 為 Always Proceed</h3>
+          <ol>
+            <li>開啟 Antigravity Settings。</li>
+            <li>在左側選取目前的 Project。</li>
+            <li>將 <strong>Security Preset</strong> 設為 <strong>Custom</strong>。</li>
+            <li>將 <strong>Terminal Command Auto Execution</strong> 設為 <strong>Always Proceed</strong>。</li>
+            <li>目前實測設定為 <strong>Sandbox Mode：Disabled</strong>。</li>
+          </ol>
+          <div class="risk"><strong>注意：</strong>Always Proceed 代表該 Project 中未被 Deny 的終端機指令可直接執行。只建議用於內容可信、用途單純的專用 workspace；不要對來源不明的專案使用。</div>
+        </div>
+        <figure>
+          <img src="./isms-skill-guide-assets/antigravity-always-proceed.png" width="744" height="285" alt="Antigravity Project Agent Settings，Terminal Command Auto Execution 設為 Always Proceed，Sandbox Mode 為 Disabled。">
+          <figcaption>Antigravity Project 設定範例</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section" id="use">
+      <div class="section-heading">
+        <div class="step-no">05</div>
+        <div>
+          <h2>貼上 ticket URL 請 agent 產表</h2>
+          <p>Claude、Codex 與 Antigravity 都可使用相同的自然語言指令。Skill 會透過 ClickUp API 取得 ticket 的 title、主要描述、Assignees 與 parent task。</p>
+        </div>
+      </div>
+
+      <div class="prompt-card card">
+        <h3>建議 prompt</h3>
+        <p>如果 agent 沒有自動選用 Skill，直接寫出 Skill 名稱。</p>
+        <div class="prompt">請使用 <code>tiss-isms-code-update</code> skill，根據這張 ClickUp ticket 預填 ISMS 表單：<br><code>https://app.clickup.com/t/90181438893/86eynzknt</code></div>
+
+        <div class="output-grid" aria-label="Skill 執行結果">
+          <div class="output-item">
+            <strong>讀取資料</strong>
+            <span>標題、描述、Assignees、parent task。</span>
+          </div>
+          <div class="output-item">
+            <strong>必要時詢問</strong>
+            <span>系統名稱不明、人名未對應或可能涉及資料庫增修。</span>
+          </div>
+          <div class="output-item">
+            <strong>輸出 DOCX</strong>
+            <span>預填表單並自動檢查關鍵欄位與測試日期。</span>
+          </div>
+        </div>
+
+        <div class="callout">
+          <strong>未指定檔名時：</strong>
+          輸出至目前 workspace，命名為 <code>ISMS表單草稿_YYYYMMDD_taskID.docx</code>。例如 <code>ISMS表單草稿_20260907_86eynzknt.docx</code>。
+        </div>
+      </div>
+    </section>
+
+    <section class="sources card" aria-labelledby="sources-title">
+      <h2 id="sources-title">官方參考資料</h2>
+      <ul>
+        <li><a href="https://code.claude.com/docs/en/skills">Claude Code Skills</a></li>
+        <li><a href="https://developers.openai.com/codex/skills/">OpenAI Codex Skills</a></li>
+        <li><a href="https://antigravity.google/docs/skills">Antigravity Agent Skills</a></li>
+        <li><a href="https://www.antigravity.google/docs/agent-settings">Antigravity Agent Settings</a></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <div class="shell">TISS ISMS 表單預填 Skill · 專案內使用說明</div>
+  </footer>
+</body>
+</html>
