@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
+<meta name="robots" content="noindex, nofollow, noarchive">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="noindex, nofollow, noarchive">
 <title>資料字典初版檢視意見 v1 — 運動數據資料標準制定案</title>
 <style>
   :root{
@@ -93,6 +93,9 @@
   .val code{background:#f2f4f7;padding:1px 6px;border-radius:3px;font-size:13px;
     font-family:ui-monospace,"SF Mono",Menlo,monospace;color:#2c3e50}
   .val b{font-weight:600}
+  .amend{display:inline-block;background:#eef7f2;color:var(--ok);font-size:11.5px;
+    font-weight:700;padding:1px 8px;border-radius:3px;margin-right:6px;
+    border:1px solid #cfe6da;vertical-align:1px}
 
   .decide{margin-top:18px;padding:14px 16px;background:#fafbfc;border:1px solid var(--line-2);border-radius:5px}
   .decide .lbl{font-size:12px;font-weight:700;color:var(--ink-3);letter-spacing:.5px;margin-bottom:8px}
@@ -165,7 +168,8 @@
     <div class="meta">
       <b>檢視標的</b>　創代科技線上資料標準文件 · <a href="https://y24886.github.io/sports-data-demo/" target="_blank" rel="noopener">y24886.github.io/sports-data-demo</a>（棒球 v0.3.0-draft／羽球 v0.3.0-draft，2026-08 版）<br>
       <b>對照文件</b>　《資料標準調整建議》試算表（棒球／羽球／羽球智慧場域數據紀錄規格 v2）、API 棒球 V1.0.1、棒球-1、棒球-2、羽球智慧場域串接規範書<br>
-      <b>彙整</b>　陳青妤（Data Scientist）　<b>製表日期</b>　2026-08-20　<b>對創代回覆期限</b>　2026-08-21
+      <b>彙整</b>　陳青妤（Data Scientist）　<b>製表日期</b>　2026-08-20　<b>對創代回覆期限</b>　2026-08-21<br>
+      <b>內部共識</b>　2026-08-20 青妤 review 完成 · 33 項全數提出給創代先行閱覽，再共同討論決策；請創代以 <b>P0 為調整重點</b>
     </div>
   </div>
 </header>
@@ -176,7 +180,8 @@
     <h2>給我方的摘要（彙整前請先讀）</h2>
     <p>創代這版做得比預期完整——Standards-as-Code、ISO/IEC 11179 對齊、來源權威分級標註（尤其羽球誠實標示「Hawk-Eye 規格未公開、暫予預留」）都是加分項，前兩輪意見也確實吸收了。<b>我方兩張建議分頁的 21 項（棒球 10、羽球 11），逐項比對現行文件後全部成立，沒有一項是誤判。</b></p>
     <p>檢視過程另外發現 <b>12 項分頁沒列到的問題</b>，其中 5 項建議擋在 9/16 定版之前。最嚴重的是 <b>羽球 Match 完全無法連到選手</b>——現行 Match 只記錄「A 方贏幾局、B 方贏幾局」，卻沒有任何欄位定義 A 方、B 方是誰。這條路徑一斷，Player、Pair、Ranking 全部成為孤島。</p>
-    <p><b>送出策略建議：</b>分三級送（P0 定版前必改／P1 定版前請回覆採納與否／P2 可留待 v0.4），不要把 33 項平鋪過去，否則創代會平均分配注意力，P0 反而被稀釋。三項我提出與同仁不同的解法（B2、B3、B5），建議先內部對齊再決定是否送出。</p>
+    <p><b>內部共識（2026-08-20 青妤 review 後）：</b>33 項<b>全數提出</b>給創代先行閱覽，不預先篩選；後續再與創代共同討論各項採納與否。分級的作用改為<b>指示調整順序</b>——明確請創代以 <b>P0 九項</b>為本輪調整重點，P1／P2 可於回覆中先表達立場、留待討論。</p>
+    <p><b>本頁性質：</b>內部留底。下方「我方決策」欄位保留供記錄討論結果，非送出前的篩選閘門。對外送交創代之版本已另行產出（已移除決策欄位、內部研判段落與人員資訊）。</p>
   </div>
 
   <div class="toolbar">
@@ -247,7 +252,8 @@
 
   <h2 class="sec">五、送出前待辦</h2>
   <div class="todo">
-    <label><input type="checkbox"><span>與青妤確認 <b>B2、B3、B5</b> 三項不同見解是否一併送出，或先內部討論定案</span></label>
+    <label><input type="checkbox" checked><span><s>與青妤確認 B2、B3、B5 三項不同見解是否一併送出</s>　→ <b>2026-08-20 已 review：33 項全數提出</b>，三項見解不同者以「並陳兩案、請創代就建模合理性表示意見」方式送出</span></label>
+    <label><input type="checkbox" checked><span><s>B8、M5 依青妤意見修正</s>　→ B8 改為僅新增 <code style="font-size:12px">Pitch.is_bunt_attempt</code>、移除 <code style="font-size:12px">AtBat.is_bunt</code>（打席結果由 <code style="font-size:12px">AtBat.event=sac_bunt</code> 判定）；M5 時長單位建議採分鐘</span></label>
     <label><input type="checkbox"><span>第四節七項我方決策事項取得結論</span></label>
     <label><input type="checkbox"><span>確認創代 v0.3.0 修訂說明所稱之「01～05 分頁」<b>是否即為我方現行建議表</b>——若是，部分意見創代已回應過，須先更新表格避免重複提出</span></label>
     <label><input type="checkbox"><span>確認創代手上的羽球參考文件是哪一版（08/07 提供者為「羽球-1.docx」，資料夾內串接規範書修改日為 08/18，另有 v2 規格分頁）</span></label>
@@ -306,9 +312,11 @@ const ITEMS = [
   now:"成立。現行 Game 無 org_id，只能透過 Team → org_id 間接推得該場比賽屬於哪個聯盟／組織。",
   fix:"支持。但要注意跨聯盟交流賽時主客隊 org 不同，建議欄位語意定義為「主辦／登錄之組織」而非「球隊所屬組織」，避免 ETL 誤用 Team.org_id 回填。"},
  {id:"B8",src:"team",sec:"棒球",pri:"P1",dis:false,
+  dec:"修改後送出",
+  note:"\"該打席結果是否為犧牲觸擊\"之情境可透過 AtBat.event = sac_bunt 判斷，不須額外增加 AtBat.is_sacrifice_bunt",
   t:"AtBat.is_bunt 是否改放到 Pitch，以記錄打者於特定一球是否具觸擊或偷點意圖",
   now:"成立且合理。<code>is_bunt</code> 現位於 AtBat（打席層級）。",
-  fix:"建議<b>兩者並存但語意分離</b>：<code>Pitch.is_bunt_attempt</code>（該球打者是否擺出觸擊姿勢，逐球意圖）＋ <code>AtBat.is_sacrifice_bunt</code>（該打席結果是否為犧牲觸擊，計分規則判定）。兩者不是同一件事——第一球擺短未成、第二球改揮擊的情況，現行模型無法表達。Statcast 亦將此資訊放在 pitch level 的 description。"},
+  fix:"<span class=\"amend\">【依青妤 review 修正】</span>建議<b>新增 <code>Pitch.is_bunt_attempt</code></b>（該球打者是否擺出觸擊姿勢，逐球意圖），<b>並移除 AtBat.is_bunt</b>。「該打席結果是否為犧牲觸擊」之情境<b>已可透過 <code>AtBat.event</code> = <code>sac_bunt</code>（CL-005 打席結果代碼表）判斷，不須額外增加 <code>AtBat.is_sacrifice_bunt</code></b>。逐球意圖與打席結果本為兩件事——第一球擺短未成、第二球改揮擊的情況，現行模型無法表達；Statcast 亦將此資訊放在 pitch level 的 description。"},
  {id:"B9",src:"team",sec:"棒球",pri:"P1",dis:false,
   t:"FieldingPlay.error_position — 同一打席可能多人失誤",
   now:"成立。<code>error_position</code> 為單一 integer（值域 1–9 或 null），無法表達一次打擊事件中多人接續失誤。",
@@ -336,9 +344,11 @@ const ITEMS = [
   now:"成立，<b>而且我認為是本次最嚴重的一項</b>。Match 9 欄：match_id／tournament_id／match_date／round_name／venue_id／discipline／games_won_a／games_won_b／winner_side。<b>「a 方」「b 方」從未被定義是誰。</b>Player、Pair 兩個實體因此成為孤島，Ranking 也無從對應實績。",
   fix:"建議新增 <code>side_a_player_id</code>／<code>side_b_player_id</code>（FK→Player，單打用）與 <code>side_a_pair_id</code>／<code>side_b_pair_id</code>（FK→Pair，雙打用），並以 <code>discipline</code> 決定何組欄位必填——條件式必填請寫入 JSON Schema 的 <code>oneOf</code>。"},
  {id:"M5",src:"team",sec:"羽球",pri:"P1",dis:false,
+  dec:"採納，照送",
+  note:"duration 可考慮是否用分鐘",
   t:"Match 額外記錄開賽時間、對戰時長",
   now:"成立。Match 無時間與時長欄位。",
-  fix:"同 B6，請一併處理時區。對戰時長建議存 <code>duration_sec</code>（integer）而非 end_time——羽球中斷、暫停常見，實際時長與起訖差值不同。"},
+  fix:"同 B6，請一併處理時區。對戰時長建議存為<b>獨立欄位</b>而非由 end_time 推算——羽球中斷、暫停常見，實際時長與起訖差值不同。<span class=\"amend\">【依青妤 review 補充】</span><b>單位建議採分鐘（<code>duration_min</code>）</b>：羽球單場多為 20–90 分鐘量級，秒級精度對賽事分析無實益，分鐘較貼近實務記錄慣例；惟若感測端本就輸出秒值，亦可存 <code>duration_sec</code> 而於展示層換算，請創代就資料來源實況建議。"},
  {id:"M6",src:"team",sec:"羽球",pri:"P0",dis:false,
   t:"Match 增加 status 欄位（Finished／Walkover／Retired／Disqualification）",
   now:"成立且必要。棒球 Game 已有 status 欄位，羽球 Match 沒有——跨運動不一致。",
@@ -421,6 +431,7 @@ const ITEMS = [
 
 const DECISIONS = ["採納，照送","修改後送出","不送出","待內部討論"];
 const state = {};
+ITEMS.forEach(i=>{ if(i.dec) state[i.id]=i.dec; });
 
 const list = document.getElementById('list');
 list.innerHTML = ITEMS.map(it=>{
@@ -443,8 +454,8 @@ list.innerHTML = ITEMS.map(it=>{
       <div class="fld"><div class="lbl">施工建議</div><div class="val">${it.fix}</div></div>
       <div class="decide">
         <div class="lbl">我方決策</div>
-        <div class="opts">${DECISIONS.map(d=>`<button class="opt" data-v="${d}">${d}</button>`).join('')}</div>
-        <textarea placeholder="青妤的補充／修改後的措辭／內部討論結論…" data-note="${it.id}"></textarea>
+        <div class="opts">${DECISIONS.map(d=>`<button class="opt${it.dec===d?' on':''}" data-v="${d}">${d}</button>`).join('')}</div>
+        <textarea placeholder="青妤的補充／修改後的措辭／內部討論結論…" data-note="${it.id}">${it.note?it.note.replace(/</g,'&lt;'):''}</textarea>
       </div>
     </div>
   </div>`;
@@ -492,8 +503,9 @@ document.getElementById('expand').addEventListener('click',e=>{
 const strip = h => h.replace(/<[^>]+>/g,'').replace(/\s+/g,' ').trim();
 document.getElementById('export').addEventListener('click',()=>{
   const L=[];
-  L.push('資料字典初版檢視意見 — 彙整結果');
+  L.push('資料字典初版檢視意見 — 內部彙整留底');
   L.push('產出日期：2026-08-20　彙整：陳青妤');
+  L.push('共識：33 項全數提出給創代閱覽，請其以 P0 為調整重點，後續共同討論決策');
   L.push('檢視標的：https://y24886.github.io/sports-data-demo/');
   L.push(''.padEnd(64,'='));
   ['P0','P1','P2'].forEach(pri=>{
